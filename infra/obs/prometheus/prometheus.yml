@@ -1,0 +1,93 @@
+# Coast Academy — Prometheus (SPEC-001 / OBS-T01, T02, T03)
+
+global:
+
+  scrape_interval: 15s
+
+  evaluation_interval: 15s
+
+
+
+scrape_configs:
+
+  - job_name: prometheus
+
+    static_configs:
+
+      - targets: ["localhost:9090"]
+
+
+
+  # OBS-T02: Traefik expõe /metrics (porta 8082 no host)
+
+  - job_name: traefik
+
+    static_configs:
+
+      - targets: ["coast-academy-traefik:8082"]
+
+    metrics_path: /metrics
+
+
+
+  # OBS-T03: microserviços NestJS (habilitar quando /metrics existir)
+
+  - job_name: certificate-service
+
+    static_configs:
+
+      - targets: ["coast-academy-certificate:3000"]
+
+    metrics_path: /metrics
+
+
+
+  - job_name: assessment-service
+
+    static_configs:
+
+      - targets: ["coast-academy-assessment:3000"]
+
+    metrics_path: /metrics
+
+
+
+  - job_name: course-service
+
+    static_configs:
+
+      - targets: ["coast-academy-course:3000"]
+
+    metrics_path: /metrics
+
+
+
+  - job_name: ranking-service
+
+    static_configs:
+
+      - targets: ["coast-academy-ranking:3000"]
+
+    metrics_path: /metrics
+
+
+
+  - job_name: rag-service
+
+    static_configs:
+
+      - targets: ["coast-academy-rag:3000"]
+
+    metrics_path: /metrics
+
+
+
+  - job_name: notification-service
+
+    static_configs:
+
+      - targets: ["coast-academy-notification:3000"]
+
+    metrics_path: /metrics
+
+

@@ -1,0 +1,21 @@
+{
+  "welcome": {
+    "title": "Bem-vindo, {{name}}!",
+    "subtitle": "Continue de onde parou no curso de Tape Reading.",
+    "noProgress": "Você ainda não iniciou o curso. Comece agora!"
+  },
+  "stats": {
+    "progress": "Progresso geral",
+    "modulesCompleted": "Módulos concluídos",
+    "simulationsPassed": "Simulados aprovados",
+    "bestScore": "Melhor nota"
+  },
+  "quickActions": {
+    "continueCourse": "Continuar curso",
+    "viewRanking": "Ver ranking",
+    "viewCertificates": "Meus certificados",
+    "askTutor": "Perguntar ao Tutor"
+  },
+  "recentActivity": "Atividade recente",
+  "noActivity": "Nenhuma atividade ainda."
+}

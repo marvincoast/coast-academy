@@ -1,0 +1,29 @@
+{
+  "name": "@coast-academy/eslint-config",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Configuracao ESLint + Prettier compartilhada do monorepo Coast Academy",
+  "main": "index.cjs",
+  "exports": {
+    ".": "./index.cjs",
+    "./node": "./node.cjs",
+    "./react": "./react.cjs"
+  },
+  "files": ["index.cjs", "react.cjs", "node.cjs"],
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.8.0",
+    "@typescript-eslint/parser": "^8.8.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-react": "^7.37.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-unicorn": "^55.0.0"
+  },
+  "peerDependencies": {
+    "eslint": "^8.57.1",
+    "typescript": "^5.5.0"
+  }
+}

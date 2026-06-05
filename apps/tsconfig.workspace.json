@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@coast-academy/observability": ["../packages/observability/dist/index"],
+      "@coast-academy/shared-types": ["../packages/shared-types/dist/index"]
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "@coast-academy/shared-types",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tipos e schemas Zod compartilhados entre frontend e microservicos Coast Academy",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./domain/*": {
+      "types": "./dist/domain/*.d.ts",
+      "import": "./dist/domain/*.js"
+    }
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "lint": "eslint \"src/**/*.ts\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "rimraf dist .tsbuildinfo"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@coast-academy/eslint-config": "workspace:*",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.5.4"
+  }
+}

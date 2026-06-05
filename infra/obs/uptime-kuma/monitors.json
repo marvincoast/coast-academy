@@ -1,0 +1,59 @@
+{
+  "description": "Coast Academy OBS-T11 — monitores RF-06. Use kumaUrl na UI (recomendado no WSL/Docker).",
+  "notes": [
+    "kumaUrl usa host.docker.internal — mesmo caminho que o verify no host (porta 80 do Traefik).",
+    "Evite http://traefik/ no WSL se aparecer getaddrinfo EAI_AGAIN.",
+    "Certificate /me: aceitar HTTP 401 como UP.",
+    "Supabase: opcional; Supabase CLI no host."
+  ],
+  "monitors": [
+    {
+      "name": "Web — Home",
+      "type": "http",
+      "method": "GET",
+      "kumaUrl": "http://host.docker.internal:3000/",
+      "kumaUrlAlt": "http://host.docker.internal/ + Header Host: localhost",
+      "hostUrl": "http://localhost/",
+      "acceptedStatusCodes": ["200-299"],
+      "interval": 60,
+      "note": "Porta 3000 evita 404 do Traefik (regra Host=localhost na :80)"
+    },
+    {
+      "name": "Traefik — Ping",
+      "type": "http",
+      "method": "GET",
+      "kumaUrl": "http://host.docker.internal:8081/ping",
+      "hostUrl": "http://localhost:8081/ping",
+      "acceptedStatusCodes": ["200-299"],
+      "interval": 60
+    },
+    {
+      "name": "Certificate API — GET /me (sem auth)",
+      "type": "http",
+      "method": "GET",
+      "kumaUrl": "http://host.docker.internal/api/certificates/me",
+      "hostUrl": "http://localhost/api/certificates/me",
+      "acceptedStatusCodes": ["401"],
+      "interval": 60
+    },
+    {
+      "name": "Grafana — health",
+      "type": "http",
+      "method": "GET",
+      "kumaUrl": "http://host.docker.internal:3001/api/health",
+      "hostUrl": "http://localhost:3001/api/health",
+      "acceptedStatusCodes": ["200-299"],
+      "interval": 120
+    },
+    {
+      "name": "Supabase — API (opcional)",
+      "type": "http",
+      "method": "GET",
+      "kumaUrl": "http://host.docker.internal:54321/rest/v1/",
+      "hostUrl": "http://127.0.0.1:54321/rest/v1/",
+      "acceptedStatusCodes": ["200-299", "401"],
+      "interval": 120,
+      "optional": true
+    }
+  ]
+}

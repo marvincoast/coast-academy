@@ -1,0 +1,118 @@
+// Coast Academy — Grafana Alloy (logs Docker → Loki, OTLP → Tempo + Prometheus)
+// SPEC-001 / OBS-T01, OBS-T06, OBS-T07
+
+logging {
+  level  = "info"
+  format = "logfmt"
+}
+
+// ── Logs (OBS-T06) ───────────────────────────────────────────────────────────
+
+discovery.docker "coast_academy" {
+  host = "unix:///var/run/docker.sock"
+
+  filter {
+    name   = "name"
+    values = ["coast-academy-.*"]
+  }
+}
+
+// Nome do container como label (Loki exige >= 1 label por stream).
+discovery.relabel "coast_academy" {
+  targets = discovery.docker.coast_academy.targets
+
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    regex         = "/(.*)"
+    target_label  = "container"
+  }
+
+  rule {
+    target_label = "job"
+    replacement  = "coast-academy"
+  }
+}
+
+loki.source.docker "coast_academy" {
+  host       = "unix:///var/run/docker.sock"
+  targets    = discovery.relabel.coast_academy.output
+  forward_to = [loki.process.coast_academy.receiver]
+}
+
+loki.process "coast_academy" {
+  forward_to = [loki.write.default.receiver]
+
+  stage.static_labels {
+    values = {
+      job = "coast-academy",
+    }
+  }
+
+  stage.json {
+    expressions = {
+      level   = "level",
+      service = "service",
+    }
+  }
+
+  stage.labels {
+    values = {
+      level   = "level",
+      service = "service",
+    }
+  }
+}
+
+loki.write "default" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}
+
+// ── Traces + métricas OTLP (OBS-T07) ─────────────────────────────────────────
+
+otelcol.receiver.otlp "default" {
+  grpc {
+    endpoint = "0.0.0.0:4317"
+  }
+
+  http {
+    endpoint = "0.0.0.0:4318"
+  }
+
+  output {
+    traces  = [otelcol.processor.batch.default.input]
+    metrics = [otelcol.processor.batch.default.input]
+  }
+}
+
+otelcol.processor.batch "default" {
+  timeout         = "5s"
+  send_batch_size = 1024
+
+  output {
+    traces  = [otelcol.exporter.otlp.tempo.input]
+    metrics = [otelcol.exporter.prometheus.coast_academy.input]
+  }
+}
+
+otelcol.exporter.otlp "tempo" {
+  client {
+    endpoint = "tempo:4317"
+    tls {
+      insecure             = true
+      insecure_skip_verify = true
+    }
+  }
+}
+
+otelcol.exporter.prometheus "coast_academy" {
+  resource_to_telemetry_conversion = true
+  forward_to                       = [prometheus.remote_write.coast_academy.receiver]
+}
+
+prometheus.remote_write "coast_academy" {
+  endpoint {
+    url = "http://prometheus:9090/api/v1/write"
+  }
+}

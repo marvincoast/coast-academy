@@ -1,0 +1,17 @@
+# OBS-T12 — contact points (RF-07: visual no Grafana UI; e-mail/Slack opcional)
+# Sem SMTP: alertas ficam visíveis em Alerting → Alert rules / History (sem contact point custom).
+apiVersion: 1
+
+# --- Slack (opcional) ---
+# Descomente e defina SLACK_WEBHOOK_URL no ambiente do Grafana:
+#
+# contactPoints:
+#   - orgId: 1
+#     name: coast-academy-slack
+#     receivers:
+#       - uid: coast_slack
+#         type: slack
+#         settings:
+#           url: ${SLACK_WEBHOOK_URL}
+#           recipient: "#coast-academy-alerts"
+#         disableResolveMessage: false

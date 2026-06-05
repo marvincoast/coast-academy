@@ -1,0 +1,42 @@
+{
+  "app": {
+    "name": "Coast Academy",
+    "tagline": "Tape Reading • Análise de Fluxo • Dólar BRL"
+  },
+  "nav": {
+    "dashboard": "Início",
+    "course": "Curso",
+    "simulations": "Simulados",
+    "finalExam": "Prova Final",
+    "ranking": "Ranking",
+    "certificates": "Certificados",
+    "tutor": "Tutor IA"
+  },
+  "actions": {
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "finish": "Finalizar",
+    "loading": "Carregando...",
+    "signOut": "Sair da conta"
+  },
+  "status": {
+    "locked": "Bloqueado",
+    "available": "Disponível",
+    "inProgress": "Em andamento",
+    "completed": "Concluído",
+    "passed": "Aprovado",
+    "failed": "Reprovado"
+  },
+  "errors": {
+    "generic": "Algo deu errado. Tente novamente.",
+    "notFound": "Página não encontrada.",
+    "unauthorized": "Você precisa estar logado para acessar esta página."
+  },
+  "market": {
+    "BR": "Mercado Brasileiro (BRL)",
+    "US": "Mercado Americano (USD)"
+  }
+}

@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    font-family: theme('fontFamily.sans');
+    background-color: theme('colors.bg.base');
+    color: theme('colors.white');
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Focus visible global — gold outline */
+  *:focus-visible {
+    outline: 2px solid theme('colors.brand.gold');
+    outline-offset: 2px;
+  }
+
+  /* Scrollbar dark personalizada */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: theme('colors.bg.base');
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+  }
+}
+
+@layer components {
+  /* ── Glassmorphism cards ────────────────────────────────── */
+  .glass-card {
+    border-radius: 1rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(16,23,32,0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.2);
+  }
+
+  .glass-card-hover {
+    border-radius: 1rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(16,23,32,0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+  }
+  .glass-card-hover:hover {
+    border-color: rgba(201,162,39,0.28);
+    background: rgba(22,30,42,0.88);
+    box-shadow: 0 0 0 1px rgba(201,162,39,0.12), 0 8px 40px rgba(0,0,0,0.3), 0 0 30px rgba(201,162,39,0.06);
+  }
+
+  .glass-card-gold {
+    border-radius: 1rem;
+    border: 1px solid rgba(201,162,39,0.25);
+    background: linear-gradient(135deg, rgba(13,20,32,0.95) 0%, rgba(11,16,20,0.98) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 0 0 1px rgba(201,162,39,0.08), 0 8px 40px rgba(0,0,0,0.4);
+  }
+
+  /* ── Skeleton loading ───────────────────────────────────── */
+  .skeleton {
+    @apply relative overflow-hidden rounded-lg bg-white/5;
+  }
+
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 bg-shimmer bg-[length:200%_100%];
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+
+  /* ── Gradient text gold ─────────────────────────────────── */
+  .text-gradient-gold {
+    @apply bg-gradient-gold bg-clip-text text-transparent;
+  }
+
+  /* ── Stat number ────────────────────────────────────────── */
+  .stat-number {
+    @apply font-display text-2xl font-bold tabular-nums;
+  }
+
+  /* ── Section heading ────────────────────────────────────── */
+  .section-heading {
+    @apply text-xs font-semibold uppercase tracking-widest text-white/35;
+  }
+
+  /* ── Progress bar animada ───────────────────────────────── */
+  .progress-bar-track {
+    @apply h-2 w-full overflow-hidden rounded-full bg-white/6;
+  }
+
+  .progress-bar-fill {
+    @apply h-full rounded-full bg-gradient-to-r from-brand-gold to-brand-gold-soft transition-[width] duration-700 ease-out;
+  }
+
+  /* ── Badge de mercado ───────────────────────────────────── */
+  .market-badge {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-brand-gold/20 bg-brand-gold-muted px-3 py-1 text-xs font-semibold text-brand-gold-soft;
+  }
+}
+
+@layer utilities {
+  /* Sidebar active indicator — linha lateral animada */
+  .sidebar-active-indicator {
+    @apply absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-brand-gold;
+    animation: sidebar-active 0.2s ease-out both;
+  }
+
+  /* Glow dourado nos botões */
+  .hover-glow-gold {
+    @apply transition-shadow duration-200 hover:shadow-glow-gold;
+  }
+}

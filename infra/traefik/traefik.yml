@@ -1,0 +1,64 @@
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+api:
+  dashboard: true
+  insecure: true # apenas dev; em prod use auth + TLS
+
+ping:
+  entryPoint: traefik
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+  traefik:
+    address: ":8080"
+  metrics:
+    address: ":8082"
+
+metrics:
+  prometheus:
+    entryPoint: metrics
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
+
+# OBS-T09 — traces OTLP no gateway + propagacao W3C traceparent para backends.
+# Requer stack obs (Alloy em coast-academy-net). Sem Alloy, Traefik ainda roteia; export falha em log.
+tracing:
+  serviceName: traefik-gateway
+  sampleRate: 1.0
+  otlp:
+    http:
+      endpoint: http://alloy:4318/v1/traces
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: coast-academy_coast-academy-net
+    endpoint: "unix:///var/run/docker.sock"
+  file:
+    filename: /etc/traefik/dynamic.yml
+    watch: true
+
+log:
+  level: INFO
+  format: json
+
+accessLog:
+  format: json
+  filters:
+    statusCodes:
+      - "400-599"
+
+# certificatesResolvers descomentar em producao com dominio real
+# certificatesResolvers:
+#   le:
+#     acme:
+#       email: ops@coast-academy.example
+#       storage: /letsencrypt/acme.json
+#       httpChallenge:
+#         entryPoint: web

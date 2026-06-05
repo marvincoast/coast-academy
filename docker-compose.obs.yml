@@ -1,0 +1,329 @@
+# =============================================================================
+
+# Coast Academy — Observabilidade (profile: obs)
+
+# SPEC-001 / OBS-T01
+
+#
+
+# Uso:
+
+#   ./infra/scripts/obs-up.sh
+
+#   ./infra/scripts/obs-down.sh
+
+#
+
+# Requer merge com docker-compose.yml (rede coast-academy-net).
+
+# =============================================================================
+
+
+
+services:
+
+  prometheus:
+
+    image: prom/prometheus:v2.54.1
+
+    container_name: coast-academy-prometheus
+
+    profiles: ["obs"]
+
+    restart: unless-stopped
+
+    command:
+
+      - "--config.file=/etc/prometheus/prometheus.yml"
+
+      - "--storage.tsdb.path=/prometheus"
+
+      - "--web.enable-lifecycle"
+
+      - "--web.enable-remote-write-receiver"
+
+    ports:
+
+      - "9090:9090"
+
+    volumes:
+
+      - ./infra/obs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+      - prometheus_data:/prometheus
+
+    networks:
+
+      - coast-academy-net
+
+    healthcheck:
+
+      test: ["CMD", "wget", "-qO-", "http://localhost:9090/-/healthy"]
+
+      interval: 30s
+
+      timeout: 5s
+
+      retries: 3
+
+
+
+  loki:
+
+    image: grafana/loki:3.0.0
+
+    container_name: coast-academy-loki
+
+    profiles: ["obs"]
+
+    restart: unless-stopped
+
+    command: -config.file=/etc/loki/loki.yml
+
+    ports:
+
+      - "3100:3100"
+
+    volumes:
+
+      - ./infra/obs/loki/loki.yml:/etc/loki/loki.yml:ro
+
+      - loki_data:/loki
+
+    networks:
+
+      - coast-academy-net
+
+    healthcheck:
+
+      test: ["CMD", "wget", "-qO-", "http://localhost:3100/ready"]
+
+      interval: 30s
+
+      timeout: 5s
+
+      retries: 5
+
+
+
+  tempo:
+
+    image: grafana/tempo:2.6.0
+
+    container_name: coast-academy-tempo
+
+    profiles: ["obs"]
+
+    restart: unless-stopped
+
+    command: ["-config.file=/etc/tempo/tempo.yml"]
+
+    ports:
+
+      - "3200:3200"
+
+    volumes:
+
+      - ./infra/obs/tempo/tempo.yml:/etc/tempo/tempo.yml:ro
+
+      - tempo_data:/var/tempo
+
+    networks:
+
+      - coast-academy-net
+
+    healthcheck:
+
+      test: ["CMD", "wget", "-qO-", "http://localhost:3200/ready"]
+
+      interval: 30s
+
+      timeout: 5s
+
+      retries: 5
+
+
+
+  grafana:
+
+    image: grafana/grafana:11.4.0
+
+    container_name: coast-academy-grafana
+
+    profiles: ["obs"]
+
+    restart: unless-stopped
+
+    ports:
+
+      - "3001:3000"
+
+    environment:
+
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
+
+      GF_USERS_ALLOW_SIGN_UP: "false"
+
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+
+      GF_UNIFIED_ALERTING_ENABLED: "true"
+
+    volumes:
+
+      - ./infra/obs/grafana/provisioning:/etc/grafana/provisioning:ro
+
+      - grafana_data:/var/lib/grafana
+
+    networks:
+
+      - coast-academy-net
+
+    depends_on:
+
+      prometheus:
+
+        condition: service_healthy
+
+      loki:
+
+        condition: service_healthy
+
+      tempo:
+
+        condition: service_healthy
+
+    healthcheck:
+
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+
+      interval: 30s
+
+      timeout: 5s
+
+      retries: 5
+
+
+
+  alloy:
+
+    image: grafana/alloy:v1.5.1
+
+    container_name: coast-academy-alloy
+
+    profiles: ["obs"]
+
+    restart: unless-stopped
+
+    command:
+
+      - run
+
+      - /etc/alloy/config.alloy
+
+      - --storage.path=/var/lib/alloy/data
+
+      - --server.http.listen-addr=0.0.0.0:12345
+
+    ports:
+
+      - "4317:4317"
+
+      - "4318:4318"
+
+      - "12345:12345"
+
+    volumes:
+
+      - ./infra/obs/alloy/config.alloy:/etc/alloy/config.alloy:ro
+
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+      - alloy_data:/var/lib/alloy/data
+
+    networks:
+
+      - coast-academy-net
+
+    depends_on:
+
+      loki:
+
+        condition: service_healthy
+
+      tempo:
+
+        condition: service_healthy
+
+      prometheus:
+
+        condition: service_healthy
+
+    healthcheck:
+
+      test: ["CMD", "wget", "-qO-", "http://localhost:12345/-/healthy"]
+
+      interval: 30s
+
+      timeout: 5s
+
+      retries: 5
+
+
+
+  uptime-kuma:
+
+    image: louislam/uptime-kuma:1
+
+    container_name: coast-academy-uptime-kuma
+
+    profiles: ["obs"]
+
+    restart: unless-stopped
+
+    ports:
+
+      - "3002:3001"
+
+    volumes:
+
+      - uptime_kuma_data:/app/data
+
+    extra_hosts:
+
+      - "host.docker.internal:host-gateway"
+
+    networks:
+
+      - coast-academy-net
+
+    healthcheck:
+
+      test: ["CMD", "curl", "-f", "http://localhost:3001"]
+
+      interval: 30s
+
+      timeout: 5s
+
+      retries: 5
+
+      start_period: 30s
+
+
+
+volumes:
+
+  prometheus_data:
+
+  grafana_data:
+
+  loki_data:
+
+  tempo_data:
+
+  alloy_data:
+
+  uptime_kuma_data:
+
+

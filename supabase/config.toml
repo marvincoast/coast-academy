@@ -1,0 +1,62 @@
+# Supabase local config - Coast Academy
+# Gerado manualmente; ajustar com `supabase init` se desejar regenerar.
+
+project_id = "coast-academy"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed/01_course.sql", "./seed/02_questions.sql"]
+
+[db.pooler]
+enabled = false
+port = 54329
+pool_mode = "transaction"
+default_pool_size = 20
+max_client_conn = 100
+
+[studio]
+enabled = true
+port = 54323
+api_url = "http://127.0.0.1"
+
+[inbucket]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+file_size_limit = "200MiB"
+
+[auth]
+enabled = true
+site_url = "http://localhost"
+additional_redirect_urls = ["http://localhost:5173"]
+jwt_expiry = 3600
+enable_signup = true
+enable_anonymous_sign_ins = false
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = true
+max_frequency = "1m"
+
+[auth.sms]
+enable_signup = false
+
+[edge_runtime]
+enabled = false
+
+[analytics]
+enabled = false

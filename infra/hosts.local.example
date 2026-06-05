@@ -1,0 +1,12 @@
+# Hostname local para http://coastacademy (uma vez por máquina).
+#
+# Windows (recomendado — PowerShell como Administrador):
+#   cd Coast-Academy
+#   powershell -ExecutionPolicy Bypass -File infra/scripts/add-coastacademy-hosts.ps1
+#
+# Manual: C:\Windows\System32\drivers\etc\hosts  → adicione a linha abaixo
+# Linux / macOS / WSL: /etc/hosts
+#
+# Depois: ipconfig /flushdns (Windows) ou reinicie o navegador.
+
+127.0.0.1 coastacademy

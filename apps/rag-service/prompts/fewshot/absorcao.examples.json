@@ -1,0 +1,12 @@
+[
+  {
+    "question": "O que caracteriza uma absorção em preço fixo no mini-dólar?",
+    "ideal_answer_keywords": ["agressões", "ofertas passivas", "mesmo nível de preço", "não rompe"],
+    "must_cite": true
+  },
+  {
+    "question": "Como diferenciar uma exaustão de uma absorção no times and trades?",
+    "ideal_answer_keywords": ["sequência de agressões", "diminuição de volume", "rejeição"],
+    "must_cite": true
+  }
+]

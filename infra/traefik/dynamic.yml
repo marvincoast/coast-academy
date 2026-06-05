@@ -1,0 +1,76 @@
+http:
+  middlewares:
+    secureheaders:
+      headers:
+        frameDeny: true
+        contentTypeNosniff: true
+        browserXssFilter: true
+        referrerPolicy: "strict-origin-when-cross-origin"
+        stsSeconds: 63072000
+        stsIncludeSubdomains: true
+        stsPreload: true
+        forceSTSHeader: false # ligar quando entrar TLS de verdade
+        contentSecurityPolicy: "default-src 'self'; img-src 'self' data: blob: https:; media-src 'self' blob: https:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' http://127.0.0.1:54321 ws://127.0.0.1:54321 https://*.supabase.co wss://*.supabase.co; font-src 'self' data:; object-src 'none'; frame-ancestors 'none'; base-uri 'self'"
+        permissionsPolicy: "geolocation=(), microphone=(), camera=(), payment=()"
+        customResponseHeaders:
+          X-Powered-By: ""
+          Server: ""
+
+    ratelimit:
+      rateLimit:
+        average: 120
+        burst: 60
+        period: 1m
+        sourceCriterion:
+          ipStrategy:
+            depth: 1
+
+    ratelimit-strict:
+      rateLimit:
+        average: 20
+        burst: 10
+        period: 1m
+
+    # Rate limit specifically for auth and submit routes (anti-brute-force)
+    ratelimit-auth:
+      rateLimit:
+        average: 10
+        burst: 5
+        period: 1m
+        sourceCriterion:
+          ipStrategy:
+            depth: 1
+
+    cors-api:
+      headers:
+        accessControlAllowMethods:
+          - GET
+          - POST
+          - PATCH
+          - DELETE
+          - OPTIONS
+        accessControlAllowHeaders:
+          - Authorization
+          - Content-Type
+          - X-Request-Id
+          - traceparent
+          - tracestate
+        accessControlAllowOriginListRegex:
+          - "^https?://localhost(:\\d+)?$"
+          - "^https?://127\\.0\\.0\\.1(:\\d+)?$"
+          - "^https?://coastacademy(:\\d+)?$"
+        accessControlMaxAge: 600
+        addVaryHeader: true
+
+tls:
+  options:
+    default:
+      minVersion: VersionTLS13
+      sniStrict: true
+      cipherSuites:
+        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
+        - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256

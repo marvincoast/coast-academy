@@ -1,0 +1,166 @@
+# OBS-T12 — regras Grafana (RF-07) — Prometheus datasource coast-prometheus
+apiVersion: 1
+
+groups:
+  - orgId: 1
+    name: coast-academy-alerts
+    folder: Coast Academy
+    interval: 1m
+    rules:
+      - uid: coast_cert_down
+        title: Certificate service down
+        condition: B
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: coast-prometheus
+            model:
+              datasource:
+                type: prometheus
+                uid: coast-prometheus
+              expr: up{job="certificate-service"}
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: A
+          - refId: B
+            datasourceUid: "-100"
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - A
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: "-100"
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: B
+              type: classic_conditions
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 2m
+        annotations:
+          summary: certificate-service scrape down
+          description: up{job="certificate-service"} < 1 por mais de 2 minutos.
+        labels:
+          severity: critical
+          team: coast-academy
+        isPaused: false
+
+      - uid: coast_traefik_5xx
+        title: HTTP 5xx rate > 5% (Traefik web)
+        condition: B
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: coast-prometheus
+            model:
+              datasource:
+                type: prometheus
+                uid: coast-prometheus
+              expr: 100 * sum(rate(traefik_entrypoint_requests_total{entrypoint="web",code=~"5.."}[5m])) / clamp_min(sum(rate(traefik_entrypoint_requests_total{entrypoint="web"}[5m])), 0.001)
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: A
+          - refId: B
+            datasourceUid: "-100"
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 5
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - A
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: "-100"
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: B
+              type: classic_conditions
+        noDataState: OK
+        execErrState: Alerting
+        for: 5m
+        annotations:
+          summary: Taxa 5xx Traefik acima de 5%
+          description: Mais de 5% das requisições no entrypoint web retornam 5xx por 5 minutos.
+        labels:
+          severity: warning
+          team: coast-academy
+        isPaused: false
+
+      - uid: coast_app_5xx
+        title: HTTP 5xx rate > 5% (certificate-service)
+        condition: B
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: coast-prometheus
+            model:
+              datasource:
+                type: prometheus
+                uid: coast-prometheus
+              expr: 100 * sum(rate(http_requests_total{service="certificate-service",status_code=~"5.."}[5m])) / clamp_min(sum(rate(http_requests_total{service="certificate-service"}[5m])), 0.001)
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: A
+          - refId: B
+            datasourceUid: "-100"
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 5
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - A
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: "-100"
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: B
+              type: classic_conditions
+        noDataState: OK
+        execErrState: Alerting
+        for: 5m
+        annotations:
+          summary: Taxa 5xx certificate-service acima de 5%
+        labels:
+          severity: warning
+          team: coast-academy
+        isPaused: false
