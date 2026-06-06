@@ -35,6 +35,9 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile=false
 
@@ -42,8 +45,8 @@ jobs:
         env:
           GITHUB_PAGES: "true"
           VITE_API_BASE_URL: /api
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://placeholder.supabase.co' }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || 'placeholder-anon-key' }}
+          VITE_SUPABASE_URL: https://placeholder.supabase.co
+          VITE_SUPABASE_ANON_KEY: placeholder-anon-key
           VITE_DEV_LOCAL_LINKS: "false"
         run: pnpm --filter @coast-academy/web run build
 

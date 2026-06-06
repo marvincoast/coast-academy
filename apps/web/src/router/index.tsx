@@ -24,7 +24,7 @@ function wrap(element: React.ReactNode): React.ReactNode {
   return <Suspense fallback={<FullPageSpinner />}>{element}</Suspense>;
 }
 
-export const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
+const routes = [
   // ------- Rotas publicas -------
   {
     path: '/',
@@ -75,6 +75,11 @@ export const router: ReturnType<typeof createBrowserRouter> = createBrowserRoute
 
   // ------- Fallback -------
   { path: '*', element: wrap(<NotFoundPage />) },
-], {
-  basename: getRouterBasename(),
-});
+] as const;
+
+const routerBasename = getRouterBasename();
+
+export const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter(
+  [...routes],
+  routerBasename ? { basename: routerBasename } : {},
+);
