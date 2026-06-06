@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/Button.js';
 import { Input } from '@/components/ui/Input.js';
 import { Logo } from '@/components/ui/Logo.js';
 import { useAuth } from '@/hooks/use-auth.js';
+import { appOriginPath } from '@/lib/base-path.js';
 import { MOCK_TICKER_ITEMS } from '@/lib/mock-market-data.js';
 import { isLocalMailInboxEnabled, LOCAL_MAIL_INBOX_URL } from '@/lib/local-dev.js';
 import { supabase } from '@/lib/supabase.js';
@@ -44,7 +45,7 @@ export default function LoginPage(): JSX.Element {
     }
 
     setLoginState('submitting');
-    const redirectUrl = `${window.location.origin}/auth/callback`;
+    const redirectUrl = appOriginPath('/auth/callback');
     const { error } = await supabase.auth.signInWithOtp({
       email: parsed.data,
       options: { emailRedirectTo: redirectUrl },

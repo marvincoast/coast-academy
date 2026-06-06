@@ -1,7 +1,7 @@
 import { AlertCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { FullPageSpinner } from '@/components/ui/Spinner.js';
 import { supabase } from '@/lib/supabase.js';
@@ -51,12 +51,12 @@ export default function AuthCallbackPage(): JSX.Element {
       <div>
         <p className="font-semibold text-white">{t('callback.error')}</p>
       </div>
-      <a
-        href="/"
+      <Link
+        to="/"
         className="text-sm text-brand-gold underline hover:text-brand-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold rounded"
       >
         {t('callback.backToLogin')}
-      </a>
+      </Link>
     </div>
   );
 }

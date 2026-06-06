@@ -1,5 +1,6 @@
 import { Award } from 'lucide-react';
 
+import { appOriginPath, appPath } from '@/lib/base-path.js';
 import { cn } from '@/lib/cn.js';
 
 export interface CertificatePreviewProps {
@@ -39,8 +40,8 @@ export function CertificatePreviewCard({
   const verifyUrl =
     verifyBaseUrl ??
     (typeof window !== 'undefined'
-      ? `${window.location.origin}/verify/${verificationHash}`
-      : `/verify/${verificationHash}`);
+      ? appOriginPath(`/verify/${verificationHash}`)
+      : appPath(`/verify/${verificationHash}`));
 
   return (
     <div

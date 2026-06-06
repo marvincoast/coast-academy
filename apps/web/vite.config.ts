@@ -3,7 +3,20 @@ import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
+function resolveBase(): string {
+  const explicit = process.env.VITE_BASE_PATH;
+  if (explicit) {
+    return explicit.endsWith('/') ? explicit : `${explicit}/`;
+  }
+  if (process.env.GITHUB_PAGES === 'true') {
+    const repo = process.env.GITHUB_REPOSITORY?.split('/')[1];
+    if (repo) return `/${repo}/`;
+  }
+  return '/';
+}
+
 export default defineConfig({
+  base: resolveBase(),
   plugins: [react()],
   resolve: {
     alias: {

@@ -3,6 +3,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import { AppShell } from '@/components/layout/AppShell.js';
 import { FullPageSpinner } from '@/components/ui/Spinner.js';
+import { getRouterBasename } from '@/lib/base-path.js';
 import LoginPage from '@/pages/auth/LoginPage.js';
 import { ProtectedRoute } from './ProtectedRoute.js';
 
@@ -74,4 +75,6 @@ export const router: ReturnType<typeof createBrowserRouter> = createBrowserRoute
 
   // ------- Fallback -------
   { path: '*', element: wrap(<NotFoundPage />) },
-]);
+], {
+  basename: getRouterBasename(),
+});
