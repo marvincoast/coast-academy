@@ -1,4 +1,4 @@
-# Arquitetura — Felix Empire Trading
+# Arquitetura — Coast Academy
 
 Este documento descreve a arquitetura, bounded contexts e os fluxos críticos da plataforma.
 
