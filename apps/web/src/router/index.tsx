@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom';
 
 import { AppShell } from '@/components/layout/AppShell.js';
 import { FullPageSpinner } from '@/components/ui/Spinner.js';
@@ -24,7 +24,7 @@ function wrap(element: React.ReactNode): React.ReactNode {
   return <Suspense fallback={<FullPageSpinner />}>{element}</Suspense>;
 }
 
-const routes = [
+const routes: RouteObject[] = [
   // ------- Rotas publicas -------
   {
     path: '/',
@@ -75,11 +75,11 @@ const routes = [
 
   // ------- Fallback -------
   { path: '*', element: wrap(<NotFoundPage />) },
-] as const;
+];
 
 const routerBasename = getRouterBasename();
 
 export const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter(
-  [...routes],
+  routes,
   routerBasename ? { basename: routerBasename } : {},
 );
