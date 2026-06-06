@@ -310,7 +310,19 @@ services:
 
       start_period: 30s
 
-
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    container_name: coast-academy-postgres-exporter
+    profiles: ["obs"]
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "postgresql://postgres:postgres@db:5432/postgres?sslmode=disable"
+    networks:
+      - coast-academy-net
+      - supabase
+    depends_on:
+      prometheus:
+        condition: service_healthy
 
 volumes:
 
@@ -325,5 +337,6 @@ volumes:
   alloy_data:
 
   uptime_kuma_data:
+
 
 

@@ -18,7 +18,7 @@ test.describe('Dashboard (authenticated)', () => {
   test.beforeEach(async ({ page }) => {
     // Magic link auth is not testable in E2E; use stored session via localStorage
     // In a real environment, set up auth state via page.evaluate or Playwright fixtures
-    await page.goto('/login');
+    await page.goto('/');
   });
 
   test('shows dashboard stats after login', async ({ page }) => {
@@ -30,8 +30,8 @@ test.describe('Dashboard (authenticated)', () => {
 
 test.describe('Dashboard UI (unauthenticated smoke)', () => {
   test('app shell not accessible without auth', async ({ page }) => {
-    await page.goto('/');
-    await page.waitForURL(/\/login/);
-    expect(page.url()).toContain('/login');
+    await page.goto('/dashboard');
+    await page.waitForURL((url) => new URL(url).pathname === '/');
+    expect(new URL(page.url()).pathname).toBe('/');
   });
 });

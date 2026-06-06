@@ -1,41 +1,24 @@
-import { CheckCircle, Mail, TrendingUp, Shield, BarChart2, Activity, Zap } from 'lucide-react';
+import { CheckCircle, ExternalLink, Mail, TrendingUp, Shield, BarChart2, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
 import { z } from 'zod';
 
+import { LoginVideoBackground } from '@/components/auth/LoginVideoBackground.js';
 import { DevLocalLinksPanel } from '@/components/dev/DevLocalLinksPanel.js';
+import { LiveOrderFlowTape } from '@/components/market/LiveOrderFlowTape.js';
+import { LivePriceGrid } from '@/components/market/LivePriceGrid.js';
 import { MarketTicker } from '@/components/market/MarketTicker.js';
 import { Button } from '@/components/ui/Button.js';
 import { Input } from '@/components/ui/Input.js';
 import { Logo } from '@/components/ui/Logo.js';
 import { useAuth } from '@/hooks/use-auth.js';
 import { MOCK_TICKER_ITEMS } from '@/lib/mock-market-data.js';
+import { isLocalMailInboxEnabled, LOCAL_MAIL_INBOX_URL } from '@/lib/local-dev.js';
 import { supabase } from '@/lib/supabase.js';
-import { cn } from '@/lib/cn.js';
 
 const EmailSchema = z.string().email();
 type LoginState = 'idle' | 'submitting' | 'success' | 'error';
-
-const PRICE_GRID = [
-  { label: 'BID', value: '5.2458', color: 'text-flow-bid', change: '+0.48%' },
-  { label: 'ASK', value: '5.2460', color: 'text-flow-ask', change: '-0.12%' },
-  { label: 'MÁX', value: '5.2820', color: 'text-white/70', change: '' },
-  { label: 'MÍN', value: '5.1890', color: 'text-white/70', change: '' },
-  { label: 'VOL', value: '142.3K', color: 'text-brand-gold', change: '' },
-  { label: 'VAR', value: '+0.82%', color: 'text-flow-bid', change: '' },
-] as const;
-
-const TAPE_DECOR = [
-  { price: '5.2458', vol: '1.500', side: 'bid' },
-  { price: '5.2455', vol: '800', side: 'ask' },
-  { price: '5.2460', vol: '2.200', side: 'bid' },
-  { price: '5.2452', vol: '450', side: 'ask' },
-  { price: '5.2465', vol: '3.100', side: 'bid' },
-  { price: '5.2448', vol: '620', side: 'ask' },
-  { price: '5.2470', vol: '900', side: 'bid' },
-  { price: '5.2445', vol: '1.800', side: 'ask' },
-] as const;
 
 export default function LoginPage(): JSX.Element {
   const { t } = useTranslation('auth');
@@ -69,7 +52,11 @@ export default function LoginPage(): JSX.Element {
 
     if (error) {
       setLoginState('error');
-      setErrorMessage(t('login.errorGeneric'));
+      const isRateLimit =
+        error.status === 429 ||
+        error.message.toLowerCase().includes('rate limit') ||
+        error.message.toLowerCase().includes('security purposes');
+      setErrorMessage(isRateLimit ? t('login.errorRateLimit') : t('login.errorGeneric'));
     } else {
       setLoginState('success');
     }
@@ -78,8 +65,8 @@ export default function LoginPage(): JSX.Element {
   return (
     <div className="flex min-h-screen overflow-hidden bg-bg-base">
       <DevLocalLinksPanel />
-      {/* ── Painel esquerdo — decorativo ─────────────────────────────── */}
-      <div className="relative hidden lg:flex lg:w-[55%] flex-col overflow-hidden">
+      {/* ── Painel esquerdo — decorativo (menor) ─────────────────────── */}
+      <div className="relative hidden lg:flex lg:w-[36%] lg:max-w-[440px] lg:shrink-0 flex-col overflow-hidden">
         {/* Gradiente de fundo vibrante */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0B0F14] via-[#0d1a26] to-[#0B0F14]" />
 
@@ -113,66 +100,36 @@ export default function LoginPage(): JSX.Element {
         />
 
         {/* Conteúdo do painel esquerdo */}
-        <div className="relative z-10 flex flex-col h-full p-10">
+        <div className="relative z-10 flex flex-col h-full p-6 xl:p-8">
           {/* Logo no topo */}
           <div className="mb-auto">
             <Logo size="md" />
           </div>
 
           {/* Bloco central de dados */}
-          <div className="flex flex-col gap-8 mb-auto">
+          <div className="flex flex-col gap-5 mb-auto">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/10 px-3 py-1 text-xs font-semibold text-brand-gold mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/10 px-3 py-1 text-xs font-semibold text-brand-gold mb-3">
                 <Zap size={10} aria-hidden="true" />
                 DÓLAR FUTURO · B3
               </div>
-              <h2 className="text-3xl font-display font-bold text-white leading-tight">
+              <h2 className="text-2xl xl:text-[1.65rem] font-display font-bold text-white leading-tight">
                 Tape Reading<br />
                 <span className="text-brand-gold">profissional</span> do<br />
                 mercado brasileiro
               </h2>
-              <p className="mt-3 text-sm text-white/45 max-w-xs leading-relaxed">
+              <p className="mt-2 text-xs xl:text-sm text-white/45 max-w-xs leading-relaxed">
                 Domine a análise de fluxo de ordens no Dólar Futuro da B3 com metodologia institucional.
               </p>
             </div>
 
-            {/* Grade de preços */}
-            <div className="grid grid-cols-3 gap-3">
-              {PRICE_GRID.map((p) => (
-                <div
-                  key={p.label}
-                  className="rounded-xl border border-white/8 bg-white/4 p-3 backdrop-blur-sm"
-                >
-                  <p className="text-[9px] uppercase tracking-widest text-white/35 mb-1">{p.label}</p>
-                  <p className={cn('font-mono text-sm font-bold tabular-nums', p.color)}>{p.value}</p>
-                </div>
-              ))}
-            </div>
+            <LivePriceGrid />
 
-            {/* Mini tape decorativo */}
-            <div className="rounded-xl border border-white/8 bg-black/30 backdrop-blur-sm overflow-hidden">
-              <div className="flex items-center gap-2 px-3 py-2 border-b border-white/8">
-                <Activity size={11} className="text-brand-gold" aria-hidden="true" />
-                <span className="text-[10px] uppercase tracking-widest text-white/40 font-semibold">Fluxo de ordens</span>
-              </div>
-              <div className="divide-y divide-white/5">
-                {TAPE_DECOR.map((row, i) => (
-                  <div key={i} className="flex items-center gap-3 px-3 py-2 font-mono text-xs">
-                    <span className={cn('font-bold tabular-nums', row.side === 'bid' ? 'text-flow-bid' : 'text-flow-ask')}>
-                      {row.price}
-                    </span>
-                    <span className="flex-1 text-right text-white/40 tabular-nums">{row.vol}</span>
-                    <span className={cn('text-[10px] font-bold uppercase w-5 text-center', row.side === 'bid' ? 'text-flow-bid' : 'text-flow-ask')}>
-                      {row.side === 'bid' ? 'C' : 'V'}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <LiveOrderFlowTape />
           </div>
 
           {/* Stats rodapé */}
-          <div className="flex items-center gap-6 pt-6 border-t border-white/8">
+          <div className="flex flex-wrap items-center gap-4 xl:gap-5 pt-5 border-t border-white/8">
             {[
               { icon: BarChart2, value: '8 módulos', label: 'de conteúdo' },
               { icon: TrendingUp, value: '48 aulas', label: 'tape reading' },
@@ -190,17 +147,13 @@ export default function LoginPage(): JSX.Element {
         </div>
       </div>
 
-      {/* ── Painel direito — formulário ───────────────────────────── */}
-      <div className="relative flex flex-1 flex-col">
+      {/* ── Painel direito — formulário (maior) ─────────────────────── */}
+      <div className="relative flex flex-1 min-w-0 flex-col overflow-hidden">
         {/* Ticker no topo do painel direito */}
-        <MarketTicker items={MOCK_TICKER_ITEMS} speed="slow" variant="compact" />
+        <MarketTicker items={MOCK_TICKER_ITEMS} speed="slow" variant="compact" className="relative z-20 shrink-0" />
 
-        {/* Glow de fundo no painel direito */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(201,162,39,0.10) 0%, transparent 65%)' }}
-        />
+        {/* Vídeo / animação de mercado financeiro */}
+        <LoginVideoBackground className="absolute inset-0" />
 
         {/* Formulário centralizado */}
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-12">
@@ -281,6 +234,8 @@ interface SuccessStateProps {
 }
 
 function SuccessState({ t, email, onBack }: SuccessStateProps): JSX.Element {
+  const showMailpit = isLocalMailInboxEnabled();
+
   return (
     <div className="flex flex-col items-center gap-4 py-4 text-center animate-scale-in">
       <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-flow-bid/15 border border-flow-bid/20"
@@ -292,7 +247,22 @@ function SuccessState({ t, email, onBack }: SuccessStateProps): JSX.Element {
         <p className="mt-1 text-sm text-white/50">{t('login.successDescription')}</p>
       </div>
       <p className="mt-1 text-xs text-white/35 bg-white/5 px-3 py-1 rounded-lg font-mono">{email}</p>
-      <p className="text-xs text-white/35">{t('login.successHint')}</p>
+      {showMailpit ? (
+        <>
+          <p className="text-xs text-white/40 max-w-[280px]">{t('login.successHintLocal')}</p>
+          <a
+            href={LOCAL_MAIL_INBOX_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg border border-brand-gold/25 bg-brand-gold/10 px-4 py-2 text-xs font-semibold text-brand-gold transition-colors hover:bg-brand-gold/15"
+          >
+            <ExternalLink size={14} aria-hidden="true" />
+            {t('login.openMailpit')}
+          </a>
+        </>
+      ) : (
+        <p className="text-xs text-white/35">{t('login.successHint')}</p>
+      )}
       <button
         onClick={onBack}
         className="mt-1 text-xs text-brand-gold/60 hover:text-brand-gold transition-colors underline underline-offset-2"

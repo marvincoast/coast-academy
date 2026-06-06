@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import { Logo } from '@/components/ui/Logo.js';
-import { FELIX_COURSE_ID } from '@/config/constants.js';
+import { COAST_COURSE_ID } from '@/config/constants.js';
 import { useAuth } from '@/hooks/use-auth.js';
 import { useCourse } from '@/hooks/use-course.js';
 import { cn } from '@/lib/cn.js';
@@ -38,7 +38,7 @@ const NAV_ITEMS: NavItem[] = [
 export function Sidebar(): JSX.Element {
   const { t } = useTranslation('common');
   const { user } = useAuth();
-  const { data: course } = useCourse(FELIX_COURSE_ID);
+  const { data: course } = useCourse(COAST_COURSE_ID);
 
   const displayName =
     (user?.user_metadata?.['display_name'] as string | undefined) ??

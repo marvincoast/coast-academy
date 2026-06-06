@@ -138,7 +138,7 @@ if docker ps --format '{{.Names}}' | grep -qx coast-academy-course; then
     "${env_url:-}" \
     "http://kong:8000" \
     "http://api-gw:8000" \
-    "http://supabase_kong_coast-academy-empire-trading:8000" \
+    "http://supabase_kong_coast-academy:8000" \
     "http://host.docker.internal:54321"; do
     [[ -z "$base" ]] && continue
     if try_supabase_url "$base"; then

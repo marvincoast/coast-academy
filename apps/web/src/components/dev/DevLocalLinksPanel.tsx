@@ -7,16 +7,14 @@ import { captureSentryTestError, isSentryEnabled } from '@/lib/sentry.js';
 
 const STORAGE_KEY = 'coast-academy-dev-links-hidden';
 
-const DEV_APP_HOST = 'coastacademy';
-
 const DEV_LINKS = [
-  { label: 'App', href: `http://${DEV_APP_HOST}` },
-  { label: 'App (:3000)', href: `http://${DEV_APP_HOST}:3000` },
-  { label: 'Login', href: `http://${DEV_APP_HOST}/login` },
-  { label: 'App (localhost)', href: 'http://localhost' },
+  { label: 'Login (localhost)', href: 'http://localhost' },
   { label: 'Traefik', href: 'http://localhost:8081' },
-  { label: 'Supabase Studio', href: 'http://127.0.0.1:54323' },
-  { label: 'Mailpit', href: 'http://127.0.0.1:54324' },
+  { label: 'Supabase Studio', href: 'http://localhost:54323' },
+  { label: 'Mailpit', href: 'http://localhost:54324' },
+  { label: 'Grafana', href: 'http://localhost:3001' },
+  { label: 'Prometheus', href: 'http://localhost:9090' },
+  { label: 'Uptime Kuma', href: 'http://localhost:3002' },
 ] as const;
 
 const showDevLocalLinks =

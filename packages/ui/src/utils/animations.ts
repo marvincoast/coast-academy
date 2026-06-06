@@ -1,4 +1,4 @@
-export const ANIMATION_PREF_KEY = 'felix-animations-enabled';
+export const ANIMATION_PREF_KEY = 'coast-academy-animations-enabled';
 export const MAX_STAGGER_DELAY_MS = 1000;
 export const TARGET_FPS = 60;
 export const FRAME_BUDGET_MS = 1000 / TARGET_FPS;

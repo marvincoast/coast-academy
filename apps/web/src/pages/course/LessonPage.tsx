@@ -11,7 +11,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/Button.js';
 import { Spinner } from '@/components/ui/Spinner.js';
-import { FELIX_COURSE_ID } from '@/config/constants.js';
+import { COAST_COURSE_ID } from '@/config/constants.js';
 import { useLesson, useCompleteLesson } from '@/hooks/use-course.js';
 import { cn } from '@/lib/cn.js';
 
@@ -21,7 +21,7 @@ export default function LessonPage() {
 
   const { data: lesson, isLoading, isError } = useLesson(lessonId);
   const { mutate: completeLesson, isPending: isCompleting } =
-    useCompleteLesson(FELIX_COURSE_ID);
+    useCompleteLesson(COAST_COURSE_ID);
 
   const handleComplete = () => {
     if (lesson?.completed) return;

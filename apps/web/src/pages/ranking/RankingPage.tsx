@@ -12,9 +12,9 @@ import { cn } from '../../lib/cn';
 
 // ─── Constantes de prêmios (customizável pelo admin) ─────────────────────────
 const PRIZES = [
-  { position: 1, label: 'Notebook Empire Trading', icon: '💻' },
+  { position: 1, label: 'Notebook Coast Academy', icon: '💻' },
   { position: 2, label: 'Kit Café Premium',         icon: '☕' },
-  { position: 3, label: 'Copo Empire Trading',      icon: '🏆' },
+  { position: 3, label: 'Copo Coast Academy',      icon: '🏆' },
 ];
 
 const MESA_PROP_MIN_SCORE = 80; // % mínimo para candidatura à mesa proprietária
@@ -53,7 +53,7 @@ export default function RankingPage() {
           ))}
         </div>
         <p className="mt-4 border-t border-white/8 pt-3 text-xs text-white/40">
-          Score ≥ {MESA_PROP_MIN_SCORE}% na Prova Final — candidatura à mesa proprietária Empire Trading
+          Score ≥ {MESA_PROP_MIN_SCORE}% na Prova Final — candidatura à mesa proprietária Coast Academy
         </p>
       </GlassCard>
 
@@ -194,7 +194,7 @@ function MyStatsCard({
             <Crown className="h-5 w-5 shrink-0 text-brand-gold" />
             <p className="text-sm text-brand-gold-soft">
               Parabéns! Você se qualificou para candidatura à{' '}
-              <strong>Mesa Proprietária Empire Trading</strong>.
+              <strong>Mesa Proprietária Coast Academy</strong>.
             </p>
           </div>
         )}

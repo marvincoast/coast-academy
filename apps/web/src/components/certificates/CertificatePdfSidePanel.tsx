@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { certificateApi, saveCertificatePdfBlob } from '@/api/certificate.api.js';
 import { CertificateDownloadButton } from '@/components/certificates/CertificateDownloadButton.js';
 import { CertificatePreviewCard } from '@/components/certificates/CertificatePreviewCard.js';
-import { FELIX_COURSE_ID } from '@/config/constants.js';
+import { COAST_COURSE_ID } from '@/config/constants.js';
 import { useCourse } from '@/hooks/use-course.js';
 import { useMyCertificates } from '@/hooks/use-certificate.js';
 import { cn } from '@/lib/cn.js';
@@ -17,7 +17,7 @@ const STORAGE_KEY = 'coast-academy-cert-pdf-panel-hidden';
  */
 export function CertificatePdfSidePanel(): JSX.Element | null {
   const { data: certs } = useMyCertificates();
-  const { data: course } = useCourse(FELIX_COURSE_ID);
+  const { data: course } = useCourse(COAST_COURSE_ID);
 
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(

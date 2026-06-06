@@ -52,7 +52,7 @@ export default function AuthCallbackPage(): JSX.Element {
         <p className="font-semibold text-white">{t('callback.error')}</p>
       </div>
       <a
-        href="/login"
+        href="/"
         className="text-sm text-brand-gold underline hover:text-brand-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold rounded"
       >
         {t('callback.backToLogin')}

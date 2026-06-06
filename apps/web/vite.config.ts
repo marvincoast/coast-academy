@@ -14,6 +14,19 @@ export default defineConfig({
   server: {
     port: 5173,
     strictPort: true,
+    fs: {
+      allow: ['../..'],
+    },
+    proxy: {
+      '/auth/v1': {
+        target: 'http://127.0.0.1:54321',
+        changeOrigin: true,
+      },
+      '/rest/v1': {
+        target: 'http://127.0.0.1:54321',
+        changeOrigin: true,
+      },
+    },
   },
   build: {
     target: 'es2022',

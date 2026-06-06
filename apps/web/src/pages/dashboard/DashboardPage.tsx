@@ -15,7 +15,7 @@ import { GlassCard } from '@/components/ui/GlassCard.js';
 import { MarketBadge } from '@/components/ui/MarketBadge.js';
 import { ProgressBar } from '@/components/ui/ProgressBar.js';
 import { StatCard } from '@/components/ui/StatCard.js';
-import { FELIX_COURSE_ID, MESA_PROPRIETARIA_MIN_SCORE } from '@/config/constants.js';
+import { COAST_COURSE_ID, MESA_PROPRIETARIA_MIN_SCORE } from '@/config/constants.js';
 import { useStaggeredAnimation } from '@/hooks/use-staggered-animation.js';
 import { useAuth } from '@/hooks/use-auth.js';
 import { useCourse } from '@/hooks/use-course.js';
@@ -25,7 +25,7 @@ import { cn } from '@/lib/cn.js';
 export default function DashboardPage(): JSX.Element {
   const { t } = useTranslation('dashboard');
   const { user } = useAuth();
-  const { data: course, isLoading: loadingCourse } = useCourse(FELIX_COURSE_ID);
+  const { data: course, isLoading: loadingCourse } = useCourse(COAST_COURSE_ID);
   const { data: myRanking, isLoading: loadingRanking } = useMyRanking();
   const staggerRef = useStaggeredAnimation({ selector: '[data-stagger]' });
 
@@ -248,7 +248,7 @@ export default function DashboardPage(): JSX.Element {
               <Crown className="h-5 w-5 shrink-0 text-brand-gold" />
               <p className="text-sm text-brand-gold-soft">
                 Você se qualificou para candidatura à{' '}
-                <strong className="text-brand-gold">Mesa Proprietária Empire Trading!</strong>
+                <strong className="text-brand-gold">Mesa Proprietária Coast Academy!</strong>
               </p>
             </div>
           )}

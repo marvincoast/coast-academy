@@ -32,7 +32,7 @@ export function CertificatePreviewCard({
   courseTitle,
   issuedAt,
   verificationHash,
-  issuerName = 'Empire Trading',
+  issuerName = 'Coast Academy',
   verifyBaseUrl,
   className,
 }: CertificatePreviewProps): JSX.Element {

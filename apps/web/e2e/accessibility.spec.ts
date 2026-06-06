@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 test.describe('Accessibility (WCAG AA)', () => {
   test('login page has no critical a11y violations', async ({ page }) => {
-    await page.goto('/login');
+    await page.goto('/');
     await page.waitForLoadState('networkidle');
 
     const results = await new AxeBuilder({ page })

@@ -7,14 +7,14 @@ import { assessmentApi } from '@/api/assessment.api';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Spinner } from '@/components/ui/Spinner';
-import { FELIX_COURSE_ID } from '@/config/constants';
+import { COAST_COURSE_ID } from '@/config/constants';
 import { useCourse } from '@/hooks/use-course';
 import { cn } from '@/lib/cn';
 
 export default function ProvaFinalPage(): JSX.Element {
   const { t } = useTranslation('course');
   const navigate = useNavigate();
-  const { data: course, isLoading: courseLoading, isError: courseError } = useCourse(FELIX_COURSE_ID);
+  const { data: course, isLoading: courseLoading, isError: courseError } = useCourse(COAST_COURSE_ID);
 
   const progressPct = course?.progressPct ?? 0;
   const courseComplete = progressPct >= 100;
@@ -24,8 +24,8 @@ export default function ProvaFinalPage(): JSX.Element {
     isLoading: assessmentLoading,
     isError: assessmentError,
   } = useQuery({
-    queryKey: ['assessments', 'prova-final', FELIX_COURSE_ID],
-    queryFn: () => assessmentApi.getProvaFinal(FELIX_COURSE_ID),
+    queryKey: ['assessments', 'prova-final', COAST_COURSE_ID],
+    queryFn: () => assessmentApi.getProvaFinal(COAST_COURSE_ID),
     enabled: courseComplete,
     retry: false,
   });

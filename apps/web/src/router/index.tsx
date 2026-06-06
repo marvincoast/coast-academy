@@ -3,10 +3,10 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import { AppShell } from '@/components/layout/AppShell.js';
 import { FullPageSpinner } from '@/components/ui/Spinner.js';
+import LoginPage from '@/pages/auth/LoginPage.js';
 import { ProtectedRoute } from './ProtectedRoute.js';
 
-// Lazy imports — cada rota e um chunk separado (code split por rota)
-const LoginPage = lazy(() => import('@/pages/auth/LoginPage.js'));
+// Lazy imports — rotas secundárias (login é eager: entrada principal em /)
 const AuthCallbackPage = lazy(() => import('@/pages/auth/AuthCallbackPage.js'));
 const DashboardPage = lazy(() => import('@/pages/dashboard/DashboardPage.js'));
 const CoursePage = lazy(() => import('@/pages/course/CoursePage.js'));
@@ -26,8 +26,12 @@ function wrap(element: React.ReactNode): React.ReactNode {
 export const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   // ------- Rotas publicas -------
   {
+    path: '/',
+    element: <LoginPage />,
+  },
+  {
     path: '/login',
-    element: wrap(<LoginPage />),
+    element: <Navigate to="/" replace />,
   },
   {
     path: '/auth/callback',
@@ -45,7 +49,6 @@ export const router: ReturnType<typeof createBrowserRouter> = createBrowserRoute
       {
         element: <AppShell />,
         children: [
-          { index: true, element: <Navigate to="/dashboard" replace /> },
           { path: '/dashboard', element: wrap(<DashboardPage />) },
           { path: '/curso', element: wrap(<CoursePage />) },
           { path: '/curso/:courseId', element: wrap(<CoursePage />) },

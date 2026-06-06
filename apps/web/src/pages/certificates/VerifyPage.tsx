@@ -100,7 +100,7 @@ export default function VerifyPage(): JSX.Element {
       </div>
 
       <p className="mt-6 text-xs text-white/20">
-        <Link to="/login" className="underline hover:text-white/40">
+        <Link to="/" className="underline hover:text-white/40">
           Coast Academy
         </Link>{' '}
         — Tape Reading &amp; Análise de Fluxo

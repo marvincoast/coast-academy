@@ -1,6 +1,6 @@
 # notification-service
 
-Envio de e-mails transacionais via [Resend](https://resend.com) com templates Empire Trading.
+Envio de e-mails transacionais via [Resend](https://resend.com) com templates Coast Academy.
 
 Implementação completa na **Etapa 6** do plano.
 
@@ -13,4 +13,4 @@ Implementação completa na **Etapa 6** do plano.
 ## Notas
 
 - Templates em `templates/*.hbs` (Etapa 6).
-- Não é exposto pelo gateway — recebe apenas chamadas internas (somente rede `felix-net`).
+- Não é exposto pelo gateway — recebe apenas chamadas internas (somente rede `coast-academy-net`).

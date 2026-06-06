@@ -8,7 +8,7 @@ import type { ModuleDto } from '@/api/course.api';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Spinner } from '@/components/ui/Spinner';
-import { FELIX_COURSE_ID } from '@/config/constants';
+import { COAST_COURSE_ID } from '@/config/constants';
 import { useCourse } from '@/hooks/use-course';
 import { cn } from '@/lib/cn';
 
@@ -129,7 +129,7 @@ function ModuleSimuladoRow({
 
 export default function SimuladosPage(): JSX.Element {
   const { t } = useTranslation('course');
-  const { data: course, isLoading, isError } = useCourse(FELIX_COURSE_ID);
+  const { data: course, isLoading, isError } = useCourse(COAST_COURSE_ID);
 
   const assessmentQueries = useQueries({
     queries:

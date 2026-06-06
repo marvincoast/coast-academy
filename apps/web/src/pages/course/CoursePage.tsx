@@ -9,12 +9,12 @@ import { GlassCard } from '@/components/ui/GlassCard.js';
 import { MarketBadge } from '@/components/ui/MarketBadge.js';
 import { ProgressBar } from '@/components/ui/ProgressBar.js';
 import { MOCK_TAPE_ENTRIES } from '@/lib/mock-market-data.js';
-import { FELIX_COURSE_ID } from '@/config/constants.js';
+import { COAST_COURSE_ID } from '@/config/constants.js';
 import { useCourse } from '@/hooks/use-course.js';
 import { cn } from '@/lib/cn.js';
 
 export default function CoursePage() {
-  const { courseId = FELIX_COURSE_ID } = useParams<{ courseId?: string }>();
+  const { courseId = COAST_COURSE_ID } = useParams<{ courseId?: string }>();
   const { data: course, isLoading, isError, error } = useCourse(courseId);
 
   if (isLoading) {
@@ -48,7 +48,7 @@ export default function CoursePage() {
         </p>
         <div className="flex flex-wrap justify-center gap-3 pt-2">
           {needsAuth ? (
-            <Button variant="secondary" onClick={() => window.location.assign('/login')}>
+            <Button variant="secondary" onClick={() => window.location.assign('/')}>
               Ir para login
             </Button>
           ) : (

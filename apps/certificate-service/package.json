@@ -2,7 +2,7 @@
   "name": "@coast-academy/certificate-service",
   "version": "0.1.0",
   "private": true,
-  "description": "Geração e verificação pública de certificados PDF Empire Trading",
+  "description": "Geração e verificação pública de certificados PDF Coast Academy",
   "main": "dist/main.js",
   "scripts": {
     "build": "nest build",

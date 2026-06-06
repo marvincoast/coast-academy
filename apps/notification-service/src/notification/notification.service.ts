@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Resend } from 'resend';
+import * as nodemailer from 'nodemailer';
 import type {
   SendCertificateEmailDto,
   SendWelcomeEmailDto,
@@ -10,6 +11,7 @@ import type {
 export class NotificationService {
   private readonly logger = new Logger(NotificationService.name);
   private readonly resend: Resend | null;
+  private readonly transporter: nodemailer.Transporter | null = null;
   private readonly fromAddress: string;
   private readonly baseUrl: string;
 
@@ -24,7 +26,21 @@ export class NotificationService {
       this.logger.log('Resend client initialized');
     } else {
       this.resend = null;
-      this.logger.warn('RESEND_API_KEY not set — emails will be logged only');
+      this.logger.warn('RESEND_API_KEY not set — falling back to local SMTP');
+      try {
+        this.transporter = nodemailer.createTransport({
+          host: process.env['SMTP_HOST'] ?? 'host.docker.internal',
+          port: parseInt(process.env['SMTP_PORT'] ?? '54325', 10),
+          secure: false,
+          tls: {
+            rejectUnauthorized: false,
+          },
+        });
+        this.logger.log('Local SMTP transporter initialized (Mailpit/Inbucket)');
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : 'Unknown error';
+        this.logger.error('Failed to initialize local SMTP fallback', msg);
+      }
     }
   }
 
@@ -72,6 +88,22 @@ export class NotificationService {
     html: string;
   }): Promise<EmailResultDto> {
     if (!this.resend) {
+      if (this.transporter) {
+        this.logger.log(`Sending email to ${opts.to} via local SMTP: ${opts.subject}`);
+        try {
+          const info = await this.transporter.sendMail({
+            from: this.fromAddress,
+            to: opts.to,
+            subject: opts.subject,
+            html: opts.html,
+          });
+          return { success: true, messageId: info.messageId };
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'Unknown SMTP error';
+          this.logger.error(`Failed to send email to ${opts.to} via local SMTP`, message);
+          return { success: false, error: message };
+        }
+      }
       this.logger.log(`[DRY-RUN] Would send email to ${opts.to}: ${opts.subject}`);
       return { success: true, messageId: 'dry-run' };
     }
@@ -116,7 +148,7 @@ export class NotificationService {
           <!-- Header -->
           <tr>
             <td style="background:linear-gradient(135deg,#92400E,#D97706);padding:32px;text-align:center;">
-              <span style="font-size:28px;font-weight:700;color:#FFF;">FE</span>
+              <span style="font-size:28px;font-weight:700;color:#FFF;">CA</span>
               <p style="margin:8px 0 0;color:#FEF3C7;font-size:14px;letter-spacing:2px;text-transform:uppercase;">Coast Academy</p>
             </td>
           </tr>
@@ -162,7 +194,7 @@ export class NotificationService {
         <table width="600" cellpadding="0" cellspacing="0" style="background:#111827;border-radius:12px;border:1px solid #1F2937;overflow:hidden;">
           <tr>
             <td style="background:linear-gradient(135deg,#92400E,#D97706);padding:32px;text-align:center;">
-              <span style="font-size:28px;font-weight:700;color:#FFF;">FE</span>
+              <span style="font-size:28px;font-weight:700;color:#FFF;">CA</span>
               <p style="margin:8px 0 0;color:#FEF3C7;font-size:14px;letter-spacing:2px;text-transform:uppercase;">Coast Academy</p>
             </td>
           </tr>

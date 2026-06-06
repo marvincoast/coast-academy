@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Authentication', () => {
   test('login page renders and shows magic link form', async ({ page }) => {
-    await page.goto('/login');
+    await page.goto('/');
 
     await expect(page).toHaveTitle(/Coast Academy/i);
     await expect(page.getByText(/Coast/i).first()).toBeVisible();
@@ -15,7 +15,7 @@ test.describe('Authentication', () => {
   });
 
   test('shows validation error for invalid email', async ({ page }) => {
-    await page.goto('/login');
+    await page.goto('/');
 
     await page.getByRole('textbox', { name: /e-mail/i }).fill('not-an-email');
     await page.getByRole('button', { name: /enviar/i }).click();
@@ -25,8 +25,8 @@ test.describe('Authentication', () => {
 
   test('unauthenticated user is redirected from dashboard to login', async ({ page }) => {
     await page.goto('/dashboard');
-    await page.waitForURL(/\/login/);
-    expect(page.url()).toContain('/login');
+    await page.waitForURL((url) => new URL(url).pathname === '/');
+    expect(new URL(page.url()).pathname).toBe('/');
   });
 
   test('public certificate verify page is accessible without auth', async ({ page }) => {

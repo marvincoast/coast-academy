@@ -263,7 +263,7 @@ export class CertificateService {
         issuedAt: row.issued_at,
         verificationHash: row.verification_hash,
         verifyUrl,
-        issuerName: process.env['CERTIFICATE_ISSUER_NAME'] ?? 'Empire Trading',
+        issuerName: process.env['CERTIFICATE_ISSUER_NAME'] ?? 'Coast Academy',
         qrPngBuffer,
       });
     });

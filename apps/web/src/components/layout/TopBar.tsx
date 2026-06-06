@@ -40,7 +40,7 @@ export function TopBar(): JSX.Element {
 
   const handleSignOut = async (): Promise<void> => {
     await supabase.auth.signOut();
-    navigate('/login');
+    navigate('/');
   };
 
   const displayEmail = user?.email ?? '';
