@@ -2,7 +2,7 @@
 
 ## Overview
 
-This design document outlines a comprehensive visual redesign of the Felix Empire Trading course platform, transforming it into a premium financial market interface with professional dollar analysis and tape reading aesthetics. The redesign maintains the existing React 19 + TypeScript + Vite + TailwindCSS stack while introducing enhanced visual hierarchy, financial market-inspired UI components, improved glassmorphism patterns, and premium micro-interactions. The goal is to create an extremely functional, high-quality interface that reflects the professional standards of financial trading platforms while maintaining accessibility and responsive design principles.
+This design document outlines a comprehensive visual redesign of the Coast Academy course platform, transforming it into a premium financial market interface with professional dollar analysis and tape reading aesthetics. The redesign maintains the existing React 19 + TypeScript + Vite + TailwindCSS stack while introducing enhanced visual hierarchy, financial market-inspired UI components, improved glassmorphism patterns, and premium micro-interactions. The goal is to create an extremely functional, high-quality interface that reflects the professional standards of financial trading platforms while maintaining accessibility and responsive design principles.
 
 The redesign leverages the existing dark theme (#0B0F14 base, #101720 surface) and gold branding (#C9A227), introducing new component patterns, enhanced typography systems, real-time market data visualizations, and sophisticated depth layering that elevates the platform to institutional-grade quality.
 
@@ -933,7 +933,7 @@ function CourseProgressCard() {
     <GlassCard variant="gold" depth="surface">
       <div className="p-6">
         <h3 className="font-semibold text-white mb-4">
-          Felix Empire Trading Course
+          Coast Academy Course
         </h3>
         <ProgressBar
           value={progress}

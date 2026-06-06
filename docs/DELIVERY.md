@@ -1,4 +1,4 @@
-# Registro de entregas — Felix Empire Trading
+# Registro de entregas — Coast Academy
 
 > Este documento registra **o que foi criado, por quê e como funciona** em cada etapa concluída.
 > Serve como referência histórica, onboarding e ponto de partida para revisões.
@@ -29,7 +29,7 @@
 
 ### O que foi criado
 
-#### Raiz do monorepo (`c:\Projetos\Felix\`)
+#### Raiz do monorepo (`coast-academy/`)
 
 | Arquivo | Finalidade |
 |---------|-----------|
@@ -45,8 +45,8 @@
 | `.env.example` | Todas as variáveis de ambiente documentadas e agrupadas por serviço — **sem segredos reais**. Copiar para `.env.local`. |
 | `.prettierrc` | `printWidth: 100`, `singleQuote: true`, `trailingComma: 'all'`, `endOfLine: 'lf'`. |
 | `.prettierignore` | Ignora `pnpm-lock.yaml`, `dist`, `build`, artefatos de test. |
-| `.eslintrc.cjs` | Raiz aponta para `@felix/eslint-config`; ignora artefatos de build. |
-| `commitlint.config.cjs` | Conventional Commits (tipos válidos + escopos do projeto Felix). |
+| `.eslintrc.cjs` | Raiz aponta para `@coast-academy/eslint-config`; ignora artefatos de build. |
+| `commitlint.config.cjs` | Conventional Commits (tipos válidos + escopos do projeto Coast Academy). |
 | `.husky/pre-commit` | Roda `lint-staged` em cada commit. |
 | `.husky/commit-msg` | Valida formato Conventional Commits via `commitlint`. |
 
@@ -99,12 +99,12 @@ Tipos e schemas Zod — **única fonte de verdade entre frontend e backend**. Ne
 
 ##### `packages/ui`
 
-Design tokens e Tailwind preset do tema Empire Trading.
+Design tokens e Tailwind preset do tema Coast Academy.
 
 | Arquivo | Conteúdo |
 |---------|---------|
 | `src/tokens.ts` | `colors` (bg, text, flow bid/ask, brand gold, state, border), `fonts` (sans Inter, mono JetBrains Mono, display Sora), `radii`, `space`, `shadows` (card, glowGold), `motion` (duração e easing), `layout` (sidebar, topbar, maxWidth do simulado). |
-| `tailwind-preset.cjs` | Reexporta os tokens em formato Tailwind (`colors.flow.bid`, `colors.brand.gold`, `fontFamily.mono`, `boxShadow.glow-gold`, etc.). Em `apps/web/tailwind.config.cjs` basta `presets: [require('@felix/ui/tailwind-preset')]`. |
+| `tailwind-preset.cjs` | Reexporta os tokens em formato Tailwind (`colors.flow.bid`, `colors.brand.gold`, `fontFamily.mono`, `boxShadow.glow-gold`, etc.). Em `apps/web/tailwind.config.cjs` basta `presets: [require('@coast-academy/ui/tailwind-preset')]`. |
 
 #### Apps — esqueletos
 
@@ -114,7 +114,7 @@ Design tokens e Tailwind preset do tema Empire Trading.
 |---------|---------|
 | `package.json` | React 19, Vite 5, Tailwind, TanStack Query, react-router-dom, Zustand, i18next/react-i18next, Supabase JS. Dev: Vitest, Testing Library, Playwright, axe-core. |
 | `vite.config.ts` | Plugin React, alias `@/` para `src/`, environment jsdom para Vitest. |
-| `tailwind.config.cjs` | Aplica o preset `@felix/ui/tailwind-preset`. |
+| `tailwind.config.cjs` | Aplica o preset `@coast-academy/ui/tailwind-preset`. |
 | `index.html` | `lang="pt-BR"`, `theme-color #0B0F14`, sem scripts inline. |
 | `src/main.tsx` | Ponto de entrada com `React.StrictMode`, carrega `global.css`. |
 | `src/App.tsx` | Placeholder da Etapa 1; substituído na Etapa 2 pelo shell real do dashboard. |
@@ -127,7 +127,7 @@ Todos com o mesmo padrão:
 
 | Arquivo | Conteúdo |
 |---------|---------|
-| `package.json` | Dependências NestJS 10 + `@felix/shared-types` + `nestjs-pino` + `helmet` + dependências específicas por serviço. |
+| `package.json` | Dependências NestJS 10 + `@coast-academy/shared-types` + `nestjs-pino` + `helmet` + dependências específicas por serviço. |
 | `tsconfig.json` | Extends `tsconfig.base.json` com `experimentalDecorators`, `emitDecoratorMetadata`, `module: CommonJS` (NestJS exige). |
 | `nest-cli.json` | `sourceRoot: src`, `deleteOutDir: true`. |
 | `src/main.ts` | Bootstrap NestJS com `helmet`, prefixo global do serviço, escuta em `0.0.0.0:3000`. |
@@ -230,7 +230,7 @@ Ver `docs/adr/` para texto completo. Resumo:
 |--------|--------|
 | `lucide-react` | Ícones SVG tree-shakeable para sidebar e topbar |
 | `clsx` + `tailwind-merge` | Composição segura de classes Tailwind (`cn()`) |
-| `react-hot-toast` | Notificações (toast) com tema Empire |
+| `react-hot-toast` | Notificações (toast) com tema Coast Academy |
 | `i18next-browser-languagedetector` | Detecção de idioma via `localStorage`/`navigator` |
 
 #### Web — arquivos criados
@@ -258,7 +258,7 @@ Ver `docs/adr/` para texto completo. Resumo:
 | `src/pages/auth/AuthCallbackPage.tsx` | Detecta sessão após click no magic link; redireciona ao dashboard ou mostra erro. |
 | `src/pages/dashboard/DashboardPage.tsx` | Boas-vindas, 4 quick-action cards, progress bar com `role="progressbar"`, atividade recente. Placeholder com dados reais na Etapa 3. |
 | `src/pages/**/...Page.tsx` | Placeholders para: `CoursePage`, `RankingPage`, `CertificatesPage`, `VerifyPage`, `TutorPage`, `SimuladoPage`, `ProvaFinalPage`, `NotFoundPage`. Cada um indica a etapa de implementação. |
-| `src/App.tsx` | `QueryClientProvider` + `AuthGate` (listener) + `RouterProvider` + `<Toaster>` com tema dark Empire. |
+| `src/App.tsx` | `QueryClientProvider` + `AuthGate` (listener) + `RouterProvider` + `<Toaster>` com tema dark Coast Academy. |
 | `src/styles/global.css` | Keyframes `slideLeft` (tape strip), `fadeIn`, `slideInFromTop` (dropdown). `color-scheme: dark`, `focus-visible` dourado global. |
 
 #### Fluxo de autenticação entregue
@@ -282,7 +282,7 @@ Ver `docs/adr/` para texto completo. Resumo:
 ### Etapa 3 — Domínio do curso
 
 **Data de conclusão**: 2026-05-17
-**Critério de aceite**: migration com tabelas do curso, seed com 8 módulos e 48 aulas do Felix Empire Trading, course-service NestJS funcional (REST), UI de curso completa com desbloqueio sequencial e marcação de progresso.
+**Critério de aceite**: migration com tabelas do curso, seed com 8 módulos e 48 aulas do Coast Academy, course-service NestJS funcional (REST), UI de curso completa com desbloqueio sequencial e marcação de progresso.
 
 #### O que foi criado
 
@@ -291,7 +291,7 @@ Ver `docs/adr/` para texto completo. Resumo:
 | Arquivo | Finalidade |
 |---------|-----------|
 | `supabase/migrations/0003_course_domain.sql` | Cria `courses`, `modules`, `chapters`, `lessons` (com `content_type`, `content_markdown`, `content_url`) e `lesson_progress`. RLS: leitura pública para conteúdo publicado; cada usuário só lê/escreve seu próprio progresso. Views `module_progress_summary` e `course_progress_summary` com `security_invoker`. Triggers `set_updated_at` em todas as tabelas. |
-| `supabase/seed/01_course.sql` | Seed com o curso **Felix Empire Trading** completo: 8 módulos · 18 capítulos · 48 aulas. Todo o conteúdo é texto markdown real com fundamentos de tape reading, book de ofertas, Times & Trades, absorção, exaustão, escora, iceberg, zonas de variação e macroeconomia. UUIDs fixos para idempotência (`ON CONFLICT DO NOTHING`). |
+| `supabase/seed/01_course.sql` | Seed com o curso **Coast Academy** completo: 8 módulos · 18 capítulos · 48 aulas. Todo o conteúdo é texto markdown real com fundamentos de tape reading, book de ofertas, Times & Trades, absorção, exaustão, escora, iceberg, zonas de variação e macroeconomia. UUIDs fixos para idempotência (`ON CONFLICT DO NOTHING`). |
 
 ##### apps/course-service — NestJS completo
 
@@ -451,7 +451,7 @@ Microserviço NestJS leve, dois endpoints:
 
 Página completa `/ranking` com:
 
-- **Banner de prêmios** — 1º Notebook, 2º Kit Café, 3º Copo Empire Trading
+- **Banner de prêmios** — 1º Notebook, 2º Kit Café, 3º Copo Coast Academy
 - **Painel "Meu desempenho"** — aulas concluídas, simulados aprovados, score da Prova Final, posição, barra de progresso geral, mini-grid de scores por módulo
 - **Badge Mesa Proprietária** — aparece quando `scorePercent ≥ 80%` e aprovado
 - **Pódio** (top 3) — colunas de alturas escalonadas, medalhas emoji, ordenadas 2-1-3
@@ -510,7 +510,7 @@ Supabase views (0005)
 
 | Arquivo | Finalidade |
 |---------|-----------|
-| `notification/notification.service.ts` | `sendCertificateEmail` e `sendWelcomeEmail` via Resend. Templates HTML inline com tema Empire Trading. Fallback dry-run quando `RESEND_API_KEY` não está configurado. |
+| `notification/notification.service.ts` | `sendCertificateEmail` e `sendWelcomeEmail` via Resend. Templates HTML inline com tema Coast Academy. Fallback dry-run quando `RESEND_API_KEY` não está configurado. |
 | `notification/notification.controller.ts` | `POST /api/notifications/certificate`, `POST /api/notifications/welcome`. Endpoint interno (não exposto pelo Traefik para o público). |
 
 ##### `apps/web/src/`

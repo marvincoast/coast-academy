@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This requirements document specifies the functional and non-functional requirements for a comprehensive visual redesign of the Felix Empire Trading course platform. The redesign transforms the platform into a premium financial market interface with professional dollar analysis and tape reading aesthetics, while maintaining the existing React 19 + TypeScript + Vite + TailwindCSS technology stack. The requirements ensure the platform delivers institutional-grade visual quality, maintains WCAG AA accessibility standards, and provides smooth 60fps animations across all supported devices.
+This requirements document specifies the functional and non-functional requirements for a comprehensive visual redesign of the Coast Academy course platform. The redesign transforms the platform into a premium financial market interface with professional dollar analysis and tape reading aesthetics, while maintaining the existing React 19 + TypeScript + Vite + TailwindCSS technology stack. The requirements ensure the platform delivers institutional-grade visual quality, maintains WCAG AA accessibility standards, and provides smooth 60fps animations across all supported devices.
 
 ## Glossary
 
-- **System**: The Felix Empire Trading course platform web application
+- **System**: The Coast Academy course platform web application
 - **GlassCard**: A UI component implementing glassmorphism visual effects with backdrop blur and semi-transparent backgrounds
 - **MarketTicker**: A scrolling component displaying real-time market data with price, volume, and change information
 - **PriceDisplay**: A component for rendering financial prices with proper formatting and color coding

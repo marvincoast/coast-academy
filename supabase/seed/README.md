@@ -4,7 +4,7 @@ Seeds versionados em JSON, validados por script em `apps/assessment-service/scri
 
 ## Arquivos previstos (Etapas 3 e 4)
 
-- `course.json` — estrutura do curso Felix (módulos / capítulos / aulas placeholder).
+- `course.json` — estrutura do curso Coast Academy (módulos / capítulos / aulas placeholder).
 - `questions.json` — banco de ~100 questões com tags, mídia e gabarito (não exposto ao cliente).
 - `glossary.md` — glossário canônico de termos de tape reading (ingerido pelo RAG).
 

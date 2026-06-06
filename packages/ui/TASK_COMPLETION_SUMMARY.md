@@ -1,7 +1,7 @@
 # Task 1 Completion Summary: Design Token System and TailwindCSS Configuration
 
 ## Task Overview
-Set up design token system and TailwindCSS configuration for the Felix Empire Trading visual redesign.
+Set up design token system and TailwindCSS configuration for the Coast Academy visual redesign.
 
 ## Requirements Validated
 - Requirements 1.1-1.6 (Design Token System)

@@ -1,4 +1,4 @@
-# Runbook operacional — Felix Empire Trading
+# Runbook operacional — Coast Academy
 
 > Procedimentos de operação, troubleshooting e disaster recovery.
 
@@ -23,10 +23,10 @@ Para melhor performance de I/O, mantenha os arquivos **dentro** do filesystem Li
 ```bash
 # No terminal WSL (Ubuntu)
 cd ~
-git clone <repo> Felix
+git clone <repo> coast-academy
 # OU, se já existir em Windows e quiser copiar:
-cp -r /mnt/c/Projetos/Felix ~/Felix
-cd ~/Felix
+cp -r /mnt/c/Projetos/coast-academy ~/coast-academy
+cd ~/coast-academy
 ```
 
 > Evite rodar `docker compose` apontando para `/mnt/c/...` — o I/O cruzado Windows↔WSL degrada a performance.
@@ -89,7 +89,7 @@ Acessos após subir:
 
 | URL | O quê |
 |-----|-------|
-| http://localhost | Frontend Felix Empire Trading |
+| http://localhost | Frontend Coast Academy |
 | http://localhost:8081 | Traefik dashboard (dev only) |
 | http://localhost:54323 | Supabase Studio (se `supabase start`) |
 | http://localhost:54321 | Supabase API local |
@@ -97,7 +97,7 @@ Acessos após subir:
 ### 7 — Supabase local (banco de desenvolvimento)
 
 ```bash
-cd ~/Felix
+cd ~/coast-academy
 supabase start                 # sobe Postgres, Auth, Studio, etc.
 supabase db reset              # aplica todas as migrations e seeds
 supabase migration list        # verifica status das migrations
@@ -123,7 +123,7 @@ curl http://localhost/api/rag/health
 
 ## Deploy em VPS (produção / staging)
 
-> Guia para subir o Felix Empire Trading em uma VPS Linux (Ubuntu 22.04+ recomendado).
+> Guia para subir o Coast Academy em uma VPS Linux (Ubuntu 22.04+ recomendado).
 
 ### Pré-requisitos na VPS
 
@@ -142,19 +142,19 @@ npm install -g supabase
 ### Estrutura recomendada na VPS
 
 ```
-/opt/felix/                   # raiz do deploy
+/opt/coast-academy/                   # raiz do deploy
 ├── .env.prod                 # segredos reais (chmod 600, fora do Git)
 ├── docker-compose.prod.yml   # override de produção (a criar na Etapa 8)
-└── Felix/                    # clone do repositório
+└── coast-academy/            # clone do repositório
 ```
 
 ### Clonar e configurar
 
 ```bash
-mkdir -p /opt/felix
-cd /opt/felix
-git clone <repo> Felix
-cd Felix
+mkdir -p /opt/coast-academy
+cd /opt/coast-academy
+git clone <repo> coast-academy
+cd coast-academy
 
 # Criar arquivo de segredos de produção (chmod 600)
 cp .env.example .env.prod
@@ -165,7 +165,7 @@ nano .env.prod    # preencher SUPABASE_*, RESEND_API_KEY, LLM_*, etc.
 ### Build e subida inicial
 
 ```bash
-cd /opt/felix/Felix
+cd /opt/coast-academy/coast-academy
 
 # Passar o arquivo de env correto
 docker compose --env-file ../.env.prod up -d --build
@@ -173,7 +173,7 @@ docker compose --env-file ../.env.prod up -d --build
 
 ### TLS com Let's Encrypt (Etapa 8)
 
-Quando tiver domínio configurado (ex.: `felix-empire.com`):
+Quando tiver domínio configurado (ex.: `coast-academy.com`):
 
 1. Aponte o DNS A/AAAA para o IP da VPS.
 2. No `infra/traefik/traefik.yml`, descomente o bloco `certificatesResolvers`.
@@ -184,7 +184,7 @@ Quando tiver domínio configurado (ex.: `felix-empire.com`):
 ### Atualizar para nova versão
 
 ```bash
-cd /opt/felix/Felix
+cd /opt/coast-academy/coast-academy
 git pull origin main
 docker compose --env-file ../.env.prod up -d --build
 ```
@@ -216,14 +216,14 @@ curl http://localhost/api/courses/health || echo "course-service down"
 
 ```bash
 pg_dump -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER -d $POSTGRES_DB \
-  -F c -f infra/backups/felix-$(date +%Y%m%d).dump
+  -F c -f infra/backups/coast-academy-$(date +%Y%m%d).dump
 ```
 
 ## Restore
 
 ```bash
 pg_restore -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER -d $POSTGRES_DB -c \
-  infra/backups/felix-YYYYMMDD.dump
+  infra/backups/coast-academy-YYYYMMDD.dump
 ```
 
 ## RTO / RPO

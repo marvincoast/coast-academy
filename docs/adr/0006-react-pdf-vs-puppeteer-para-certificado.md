@@ -5,7 +5,7 @@
 
 ## Contexto
 
-O certificado Empire Trading é um PDF gerado server-side com nome do aluno, nome do curso, data, QR de verificação e identidade visual da Empire (dourado, dark).
+O certificado Coast Academy é um PDF gerado server-side com nome do aluno, nome do curso, data, QR de verificação e identidade visual da Coast Academy (dourado, dark).
 
 ## Decisão
 

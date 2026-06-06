@@ -7,7 +7,7 @@ Este documento estabelece as diretrizes de engenharia e controle de qualidade pa
 ## 1. Padrões de Branding Dinâmico (Configuração Centralizada)
 
 ### Problema Identificado
-A presença de strings como "Felix Empire" ou "Empire Trading" espalhadas em arquivos estáticos (como códigos React e serviços NestJS) gera inconsistência visual e aumenta a probabilidade de erros durante rebrandings futuros.
+A presença de strings de marca hardcoded espalhadas em arquivos estáticos (como códigos React e serviços NestJS) gera inconsistência visual e aumenta a probabilidade de erros durante rebrandings futuros.
 
 ### Ações Corretivas e Boas Práticas
 - **Uso de Variáveis de Ambiente:** Todas as referências textuais a nomes de marca, emissores de certificado, e assinaturas de e-mail devem ser lidas a partir de variáveis de ambiente configuradas no `.env.local` (ex: `CERTIFICATE_ISSUER_NAME`, `EMAIL_FROM`, `PUBLIC_APP_NAME`).

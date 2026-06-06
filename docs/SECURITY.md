@@ -1,4 +1,4 @@
-# Segurança — Felix Empire Trading
+# Segurança — Coast Academy
 
 > Versão viva. Atualize a cada nova superfície ou ameaça identificada.
 
@@ -42,4 +42,4 @@
 
 ## Política de divulgação
 
-E-mails para `security@felix-empire.example` (TBD). Janela de resposta: 5 dias úteis.
+E-mails para `security@coast-academy.example` (TBD). Janela de resposta: 5 dias úteis.

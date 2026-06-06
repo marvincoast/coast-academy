@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Data: 2026-05-16
-- Decisores: Equipe Felix Empire Trading
+- Decisores: Equipe Coast Academy
 
 ## Contexto
 
@@ -14,7 +14,7 @@ Usar **pnpm workspaces** (instalação rápida, deduplicação eficiente, `works
 
 ## Consequências
 
-- ✅ Compartilhamento natural via `@felix/shared-types`, `@felix/ui`, `@felix/eslint-config`.
+- ✅ Compartilhamento natural via `@coast-academy/shared-types`, `@coast-academy/ui`, `@coast-academy/eslint-config`.
 - ✅ Build incremental e paralelo via Turbo.
 - ✅ CI executa só o que mudou (`turbo run ... --filter=...[origin/main]`).
 - ⚠️ Curva de aprendizado para quem nunca usou pnpm/turbo.

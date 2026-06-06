@@ -1,4 +1,4 @@
-# Contribuindo — Felix Empire Trading
+# Contribuindo — Coast Academy
 
 Bem-vindo. Este guia mostra como rodar o projeto, padrões de código e como abrir PR.
 
@@ -13,7 +13,7 @@ Bem-vindo. Este guia mostra como rodar o projeto, padrões de código e como abr
 
 ```bash
 git clone <repo>
-cd Felix
+cd coast-academy
 cp .env.example .env.local            # preencha conforme necessário
 pnpm install
 pnpm -w lint && pnpm -w typecheck      # sanity check
@@ -64,7 +64,7 @@ Escopos sugeridos: `web`, `gateway`, `course`, `assessment`, `certificate`, `ran
 ### Código
 
 - TypeScript estrito; zero `any` em código novo.
-- DTOs sempre via Zod em `@felix/shared-types`.
+- DTOs sempre via Zod em `@coast-academy/shared-types`.
 - Server: nunca exponha `is_correct` em rota pública.
 - Frontend: respeite WCAG AA; teste com axe.
 

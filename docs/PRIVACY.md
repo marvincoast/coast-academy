@@ -1,4 +1,4 @@
-# Privacidade e LGPD — Felix Empire Trading
+# Privacidade e LGPD — Coast Academy
 
 > Documento operacional para conformidade com a LGPD (Lei 13.709/2018).
 > A versão final juridicamente revisada vai para a página `/privacidade` do produto.
@@ -38,4 +38,4 @@ Implementados ou planejados:
 
 ## Encarregado (DPO)
 
-A definir antes do go-live. Contato: `dpo@felix-empire.example` (TBD).
+A definir antes do go-live. Contato: `dpo@coast-academy.example` (TBD).

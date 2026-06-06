@@ -1,4 +1,4 @@
-# Roadmap ? Felix Empire Trading
+# Roadmap — Coast Academy
 
 ## MVP (Etapas 1?8 do plano)
 

@@ -1,4 +1,4 @@
-# Guia de conteúdo — Felix Empire Trading
+# Guia de conteúdo — Coast Academy
 
 > Esta é a **rubrica oficial** para criar e revisar questões e materiais didáticos do curso.
 
