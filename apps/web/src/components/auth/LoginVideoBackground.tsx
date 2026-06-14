@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-import backgroundVideo from '../../../../../packages/background.mp4?url';
-
 import { cn } from '@/lib/cn.js';
+
+const backgroundVideo = '/videos/background.mp4';
 
 interface LoginVideoBackgroundProps {
   className?: string;
@@ -43,7 +43,10 @@ export function LoginVideoBackground({ className }: LoginVideoBackgroundProps): 
   }, [prefersReducedMotion]);
 
   return (
-    <div className={cn('absolute inset-0 overflow-hidden bg-bg-base', className)} aria-hidden="true">
+    <div
+      className={cn('absolute inset-0 overflow-hidden bg-bg-base', className)}
+      aria-hidden="true"
+    >
       {!prefersReducedMotion && (
         <video
           ref={videoRef}

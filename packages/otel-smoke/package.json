@@ -1,0 +1,19 @@
+{
+  "name": "@coast-academy/otel-smoke",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Smoke OTLP para verify-obs-t07.sh (OBS-T07) — Coast Academy",
+  "scripts": {
+    "build": "echo '@coast-academy/otel-smoke: build noop'",
+    "lint": "echo '@coast-academy/otel-smoke: lint noop'",
+    "typecheck": "echo '@coast-academy/otel-smoke: typecheck noop'",
+    "clean": "echo '@coast-academy/otel-smoke: clean noop'",
+    "smoke": "node smoke.cjs"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.57.2",
+    "@opentelemetry/resources": "^1.28.0",
+    "@opentelemetry/sdk-node": "^0.57.2"
+  }
+}

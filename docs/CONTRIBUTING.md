@@ -19,6 +19,24 @@ pnpm install
 pnpm -w lint && pnpm -w typecheck      # sanity check
 ```
 
+## Estrutura do monorepo
+
+| Pasta       | Papel                                                     |
+| ----------- | --------------------------------------------------------- |
+| `apps/`     | 1 frontend (`web`) + 6 microserviços NestJS               |
+| `packages/` | Tipos Zod, UI, ESLint, observabilidade, otel-smoke        |
+| `infra/`    | Docker, Traefik, scripts operacionais                     |
+| `supabase/` | Migrations e seeds (CLI Supabase, fora do workspace PNPM) |
+| `specs/`    | Spec Kit — fonte de verdade para features novas           |
+
+**Lockfile**: use apenas `pnpm-lock.yaml`. Nunca commite `package-lock.json`.
+
+**TypeScript paths**: `tsconfig.paths.json` na raiz centraliza aliases workspace.
+NestJS resolve `packages/*/dist/`; o frontend resolve `packages/*/src/` para HMR.
+
+**Pipeline Turbo**: `pnpm turbo run build lint typecheck test` cobre todos os workspaces.
+A task `test:e2e` existe apenas em `apps/web` (Playwright).
+
 ### Subir o banco local (opcional)
 
 ```bash

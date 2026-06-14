@@ -1,5 +1,5 @@
 {
-  "extends": ["../../tsconfig.base.json", "../tsconfig.workspace.json"],
+  "extends": ["../../tsconfig.base.json", "../../tsconfig.paths.json"],
   "compilerOptions": {
     "module": "CommonJS",
     "moduleResolution": "node",
