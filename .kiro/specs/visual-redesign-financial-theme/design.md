@@ -17,17 +17,17 @@ graph TD
     B --> D[Composite Components]
     D --> E[Page Templates]
     E --> F[Application Pages]
-    
+
     C --> G[Colors]
     C --> H[Typography]
     C --> I[Spacing]
     C --> J[Shadows & Effects]
-    
+
     B --> K[Market Ticker]
     B --> L[Price Display]
     B --> M[Tape Reading Viz]
     B --> N[Glass Card]
-    
+
     D --> O[Market Dashboard Widget]
     D --> P[Trading Stats Panel]
     D --> Q[Course Progress Card]
@@ -52,14 +52,14 @@ sequenceDiagram
     participant S as State Manager
     participant A as Animation Engine
     participant D as DOM
-    
+
     U->>C: Views dashboard
     C->>S: Request market data
     S-->>C: Return cached/live data
     C->>A: Trigger entrance animations
     A->>D: Apply staggered fade-up
     D-->>U: Display with smooth transitions
-    
+
     U->>C: Hovers over stat card
     C->>A: Trigger hover state
     A->>D: Apply glow + scale transform
@@ -74,14 +74,14 @@ sequenceDiagram
     participant G as GlassCard
     participant T as Tailwind Engine
     participant B as Browser
-    
+
     P->>G: Render with props
     G->>T: Apply glass-card classes
     T->>B: Compute backdrop-blur-glass
     T->>B: Apply border-white/8
     T->>B: Apply bg-surface/80
     B-->>G: Rendered with glassmorphism
-    
+
     Note over G,B: On hover interaction
     G->>T: Add hover:border-brand-gold/25
     T->>B: Transition border color (300ms)
@@ -96,25 +96,27 @@ sequenceDiagram
 **Purpose**: Display real-time scrolling market data with financial market aesthetics (price, volume, bid/ask spread)
 
 **Interface**:
+
 ```typescript
 interface MarketTickerProps {
-  items: MarketTickerItem[]
-  speed?: 'slow' | 'normal' | 'fast'
-  variant?: 'default' | 'compact'
-  className?: string
+  items: MarketTickerItem[];
+  speed?: 'slow' | 'normal' | 'fast';
+  variant?: 'default' | 'compact';
+  className?: string;
 }
 
 interface MarketTickerItem {
-  symbol: string
-  price: number
-  change: number
-  changePercent: number
-  volume?: number
-  timestamp: Date
+  symbol: string;
+  price: number;
+  change: number;
+  changePercent: number;
+  volume?: number;
+  timestamp: Date;
 }
 ```
 
 **Responsibilities**:
+
 - Render infinite scrolling ticker with seamless loop
 - Apply bid (green) or ask (red) color based on price change direction
 - Support configurable animation speed (18s default, 12s fast, 24s slow)
@@ -126,20 +128,22 @@ interface MarketTickerItem {
 **Purpose**: Display financial prices with proper formatting, color coding, and change indicators
 
 **Interface**:
+
 ```typescript
 interface PriceDisplayProps {
-  value: number
-  change?: number
-  changePercent?: number
-  currency?: string
-  size?: 'sm' | 'md' | 'lg' | 'xl'
-  showChange?: boolean
-  animate?: boolean
-  className?: string
+  value: number;
+  change?: number;
+  changePercent?: number;
+  currency?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  showChange?: boolean;
+  animate?: boolean;
+  className?: string;
 }
 ```
 
 **Responsibilities**:
+
 - Format numbers with proper decimal places and thousand separators
 - Apply flow.bid (green) for positive changes, flow.ask (red) for negative
 - Animate value changes with counter-up animation
@@ -151,26 +155,28 @@ interface PriceDisplayProps {
 **Purpose**: Visualize order flow and tape reading data with real-time updates
 
 **Interface**:
+
 ```typescript
 interface TapeReadingVisualizationProps {
-  data: TapeEntry[]
-  maxEntries?: number
-  highlightThreshold?: number
-  variant?: 'compact' | 'detailed'
-  className?: string
+  data: TapeEntry[];
+  maxEntries?: number;
+  highlightThreshold?: number;
+  variant?: 'compact' | 'detailed';
+  className?: string;
 }
 
 interface TapeEntry {
-  id: string
-  timestamp: Date
-  price: number
-  volume: number
-  side: 'bid' | 'ask'
-  isAggressive: boolean
+  id: string;
+  timestamp: Date;
+  price: number;
+  volume: number;
+  side: 'bid' | 'ask';
+  isAggressive: boolean;
 }
 ```
 
 **Responsibilities**:
+
 - Display scrolling tape with newest entries at top
 - Highlight large volume trades above threshold
 - Color code by side (bid green, ask red)
@@ -182,18 +188,20 @@ interface TapeEntry {
 **Purpose**: Foundational card component with glassmorphism effect and multiple depth variants
 
 **Interface**:
+
 ```typescript
 interface GlassCardProps {
-  children: React.ReactNode
-  variant?: 'default' | 'elevated' | 'gold' | 'interactive'
-  depth?: 'surface' | 'elevated' | 'overlay'
-  hover?: boolean
-  className?: string
-  as?: React.ElementType
+  children: React.ReactNode;
+  variant?: 'default' | 'elevated' | 'gold' | 'interactive';
+  depth?: 'surface' | 'elevated' | 'overlay';
+  hover?: boolean;
+  className?: string;
+  as?: React.ElementType;
 }
 ```
 
 **Responsibilities**:
+
 - Apply consistent glassmorphism styling (backdrop-blur, borders, shadows)
 - Support depth variants with different background opacity levels
 - Provide hover interactions with gold glow and border transitions
@@ -205,22 +213,24 @@ interface GlassCardProps {
 **Purpose**: Display key metrics with icon, value, label, and optional trend indicator
 
 **Interface**:
+
 ```typescript
 interface StatCardProps {
-  icon: React.ReactNode
-  label: string
-  value: string | number
-  subtitle?: string
-  trend?: 'up' | 'down' | 'neutral'
-  trendValue?: string
-  highlight?: boolean
-  loading?: boolean
-  onClick?: () => void
-  className?: string
+  icon: React.ReactNode;
+  label: string;
+  value: string | number;
+  subtitle?: string;
+  trend?: 'up' | 'down' | 'neutral';
+  trendValue?: string;
+  highlight?: boolean;
+  loading?: boolean;
+  onClick?: () => void;
+  className?: string;
 }
 ```
 
 **Responsibilities**:
+
 - Render metric with large display typography (stat-number class)
 - Show icon with background circle that responds to hover
 - Display optional trend indicator with appropriate color
@@ -233,20 +243,22 @@ interface StatCardProps {
 **Purpose**: Display progress with smooth animations and financial market styling
 
 **Interface**:
+
 ```typescript
 interface ProgressBarProps {
-  value: number
-  max?: number
-  label?: string
-  showPercentage?: boolean
-  variant?: 'default' | 'gold' | 'bid' | 'ask'
-  size?: 'sm' | 'md' | 'lg'
-  animate?: boolean
-  className?: string
+  value: number;
+  max?: number;
+  label?: string;
+  showPercentage?: boolean;
+  variant?: 'default' | 'gold' | 'bid' | 'ask';
+  size?: 'sm' | 'md' | 'lg';
+  animate?: boolean;
+  className?: string;
 }
 ```
 
 **Responsibilities**:
+
 - Calculate percentage from value and max
 - Apply gradient fill with smooth width transition (700ms ease-out)
 - Support color variants (gold gradient, bid green, ask red)
@@ -259,18 +271,20 @@ interface ProgressBarProps {
 **Purpose**: Display market-related labels with financial styling (market status, instrument type, etc.)
 
 **Interface**:
+
 ```typescript
 interface MarketBadgeProps {
-  children: React.ReactNode
-  icon?: React.ReactNode
-  variant?: 'gold' | 'bid' | 'ask' | 'neutral' | 'info'
-  size?: 'sm' | 'md'
-  pulse?: boolean
-  className?: string
+  children: React.ReactNode;
+  icon?: React.ReactNode;
+  variant?: 'gold' | 'bid' | 'ask' | 'neutral' | 'info';
+  size?: 'sm' | 'md';
+  pulse?: boolean;
+  className?: string;
 }
 ```
 
 **Responsibilities**:
+
 - Render compact badge with rounded-full shape
 - Apply variant-specific colors (gold, bid green, ask red, etc.)
 - Support optional icon with proper spacing
@@ -282,29 +296,31 @@ interface MarketBadgeProps {
 **Purpose**: Display tabular financial data with sorting, highlighting, and responsive behavior
 
 **Interface**:
+
 ```typescript
 interface DataGridProps<T> {
-  data: T[]
-  columns: DataGridColumn<T>[]
-  keyExtractor: (item: T) => string
-  onRowClick?: (item: T) => void
-  highlightRow?: (item: T) => boolean
-  loading?: boolean
-  emptyMessage?: string
-  className?: string
+  data: T[];
+  columns: DataGridColumn<T>[];
+  keyExtractor: (item: T) => string;
+  onRowClick?: (item: T) => void;
+  highlightRow?: (item: T) => boolean;
+  loading?: boolean;
+  emptyMessage?: string;
+  className?: string;
 }
 
 interface DataGridColumn<T> {
-  key: string
-  header: string
-  accessor: (item: T) => React.ReactNode
-  align?: 'left' | 'center' | 'right'
-  sortable?: boolean
-  width?: string
+  key: string;
+  header: string;
+  accessor: (item: T) => React.ReactNode;
+  align?: 'left' | 'center' | 'right';
+  sortable?: boolean;
+  width?: string;
 }
 ```
 
 **Responsibilities**:
+
 - Render responsive table with proper semantic HTML
 - Support column sorting with visual indicators
 - Apply row highlighting based on predicate function
@@ -318,14 +334,15 @@ interface DataGridColumn<T> {
 
 ```typescript
 interface DesignToken {
-  colors: ColorTokens
-  typography: TypographyTokens
-  spacing: SpacingTokens
-  effects: EffectTokens
+  colors: ColorTokens;
+  typography: TypographyTokens;
+  spacing: SpacingTokens;
+  effects: EffectTokens;
 }
 ```
 
 **Validation Rules**:
+
 - All color values must be valid hex or rgba strings
 - Typography scale must maintain minimum 1.125 ratio between sizes
 - Spacing values must follow 4px base grid
@@ -336,34 +353,35 @@ interface DesignToken {
 ```typescript
 interface ColorTokens {
   bg: {
-    base: string        // #0B0F14
-    surface: string     // #101720
-    elevated: string    // #162130
-    overlay: string     // #1C2A3A
-  }
+    base: string; // #0B0F14
+    surface: string; // #101720
+    elevated: string; // #162130
+    overlay: string; // #1C2A3A
+  };
   flow: {
-    bid: string         // #00C853
-    ask: string         // #FF5252
-    bidSubtle: string   // rgba(0, 200, 83, 0.16)
-    askSubtle: string   // rgba(255, 82, 82, 0.16)
-  }
+    bid: string; // #00C853
+    ask: string; // #FF5252
+    bidSubtle: string; // rgba(0, 200, 83, 0.16)
+    askSubtle: string; // rgba(255, 82, 82, 0.16)
+  };
   brand: {
-    gold: string        // #C9A227
-    goldSoft: string    // #E5C66B
-    goldDeep: string    // #8E6F12
-    goldMuted: string   // rgba(201, 162, 39, 0.12)
-    goldGlow: string    // rgba(201, 162, 39, 0.25)
-  }
+    gold: string; // #C9A227
+    goldSoft: string; // #E5C66B
+    goldDeep: string; // #8E6F12
+    goldMuted: string; // rgba(201, 162, 39, 0.12)
+    goldGlow: string; // rgba(201, 162, 39, 0.25)
+  };
   state: {
-    success: string     // #22C55E
-    warning: string     // #F59E0B
-    danger: string      // #EF4444
-    info: string        // #38BDF8
-  }
+    success: string; // #22C55E
+    warning: string; // #F59E0B
+    danger: string; // #EF4444
+    info: string; // #38BDF8
+  };
 }
 ```
 
 **Validation Rules**:
+
 - Bid colors must be green spectrum (#00C853 base)
 - Ask colors must be red spectrum (#FF5252 base)
 - Gold brand colors must maintain 4.5:1 contrast on dark backgrounds
@@ -374,41 +392,42 @@ interface ColorTokens {
 ```typescript
 interface TypographyTokens {
   fontFamily: {
-    sans: string[]      // ['Inter', 'system-ui', 'sans-serif']
-    mono: string[]      // ['JetBrains Mono', 'Fira Code', 'monospace']
-    display: string[]   // ['Sora', 'Inter', 'sans-serif']
-  }
+    sans: string[]; // ['Inter', 'system-ui', 'sans-serif']
+    mono: string[]; // ['JetBrains Mono', 'Fira Code', 'monospace']
+    display: string[]; // ['Sora', 'Inter', 'sans-serif']
+  };
   fontSize: {
-    xs: string          // 0.75rem (12px)
-    sm: string          // 0.875rem (14px)
-    base: string        // 1rem (16px)
-    lg: string          // 1.125rem (18px)
-    xl: string          // 1.25rem (20px)
-    '2xl': string       // 1.5rem (24px)
-    '3xl': string       // 1.875rem (30px)
-    '4xl': string       // 2.25rem (36px)
-  }
+    xs: string; // 0.75rem (12px)
+    sm: string; // 0.875rem (14px)
+    base: string; // 1rem (16px)
+    lg: string; // 1.125rem (18px)
+    xl: string; // 1.25rem (20px)
+    '2xl': string; // 1.5rem (24px)
+    '3xl': string; // 1.875rem (30px)
+    '4xl': string; // 2.25rem (36px)
+  };
   fontWeight: {
-    normal: number      // 400
-    medium: number      // 500
-    semibold: number    // 600
-    bold: number        // 700
-  }
+    normal: number; // 400
+    medium: number; // 500
+    semibold: number; // 600
+    bold: number; // 700
+  };
   lineHeight: {
-    tight: number       // 1.25
-    normal: number      // 1.5
-    relaxed: number     // 1.75
-  }
+    tight: number; // 1.25
+    normal: number; // 1.5
+    relaxed: number; // 1.75
+  };
   letterSpacing: {
-    tight: string       // -0.025em
-    normal: string      // 0
-    wide: string        // 0.025em
-    widest: string      // 0.1em
-  }
+    tight: string; // -0.025em
+    normal: string; // 0
+    wide: string; // 0.025em
+    widest: string; // 0.1em
+  };
 }
 ```
 
 **Validation Rules**:
+
 - Font families must include fallback system fonts
 - Font sizes must maintain accessibility (minimum 12px for body text)
 - Display font (Sora) reserved for headings and stat numbers
@@ -420,35 +439,36 @@ interface TypographyTokens {
 ```typescript
 interface EffectTokens {
   boxShadow: {
-    card: string
-    cardHover: string
-    glowGold: string
-    glowGoldStrong: string
-    glowBid: string
-    inner: string
-  }
+    card: string;
+    cardHover: string;
+    glowGold: string;
+    glowGoldStrong: string;
+    glowBid: string;
+    inner: string;
+  };
   backdropBlur: {
-    xs: string          // 2px
-    glass: string       // 12px
-    heavy: string       // 24px
-  }
+    xs: string; // 2px
+    glass: string; // 12px
+    heavy: string; // 24px
+  };
   borderRadius: {
-    lg: string          // 12px
-    xl: string          // 16px
-    '2xl': string       // 24px
-    '3xl': string       // 32px
-    full: string        // 9999px
-  }
+    lg: string; // 12px
+    xl: string; // 16px
+    '2xl': string; // 24px
+    '3xl': string; // 32px
+    full: string; // 9999px
+  };
   transition: {
-    fast: string        // 150ms
-    base: string        // 200ms
-    slow: string        // 300ms
-    slower: string      // 500ms
-  }
+    fast: string; // 150ms
+    base: string; // 200ms
+    slow: string; // 300ms
+    slower: string; // 500ms
+  };
 }
 ```
 
 **Validation Rules**:
+
 - Backdrop blur values must be GPU-accelerated (avoid blur > 24px)
 - Box shadows must use rgba for proper alpha blending
 - Glow effects must be subtle (max 0.3 alpha) to avoid visual noise
@@ -466,23 +486,26 @@ function GlassCard({
   depth = 'surface',
   hover = false,
   className,
-  as: Component = 'div'
-}: GlassCardProps): JSX.Element
+  as: Component = 'div',
+}: GlassCardProps): JSX.Element;
 ```
 
 **Preconditions:**
+
 - `children` is valid React node (not null/undefined)
 - `variant` is one of: 'default', 'elevated', 'gold', 'interactive'
 - `depth` is one of: 'surface', 'elevated', 'overlay'
 - `Component` is valid React element type
 
 **Postconditions:**
+
 - Returns valid JSX.Element with glassmorphism styling
 - All Tailwind classes are properly merged without conflicts
 - Component renders with correct semantic HTML element
 - Hover effects applied only when hover=true
 
 **Algorithm:**
+
 ```typescript
 BEGIN
   // Step 1: Compute base glassmorphism classes
@@ -493,7 +516,7 @@ BEGIN
     'transition-all',
     'duration-300'
   ]
-  
+
   // Step 2: Apply depth-specific background and border
   IF depth = 'surface' THEN
     baseClasses.push('bg-bg-surface/80', 'border-white/8')
@@ -502,14 +525,14 @@ BEGIN
   ELSE IF depth = 'overlay' THEN
     baseClasses.push('bg-bg-overlay/90', 'border-white/12')
   END IF
-  
+
   // Step 3: Apply variant-specific styling
   IF variant = 'gold' THEN
     baseClasses.push('border-brand-gold/20', 'bg-gradient-gold-subtle')
   ELSE IF variant = 'interactive' THEN
     baseClasses.push('cursor-pointer')
   END IF
-  
+
   // Step 4: Apply hover effects if enabled
   IF hover = true THEN
     baseClasses.push(
@@ -519,10 +542,10 @@ BEGIN
       'hover:-translate-y-0.5'
     )
   END IF
-  
+
   // Step 5: Merge with custom className
   finalClasses ← cn(baseClasses, className)
-  
+
   // Step 6: Render component
   RETURN <Component className={finalClasses}>{children}</Component>
 END
@@ -534,48 +557,52 @@ END
 function applyStaggeredAnimation(
   elements: HTMLElement[],
   baseDelay: number = 100,
-  animationClass: string = 'animate-fade-up'
-): void
+  animationClass: string = 'animate-fade-up',
+): void;
 ```
 
 **Preconditions:**
+
 - `elements` is non-empty array of valid HTMLElement instances
 - `baseDelay` is positive number (milliseconds)
 - `animationClass` is valid Tailwind animation class
 
 **Postconditions:**
+
 - Each element has animation class applied with incremental delay
 - Animation delays increase linearly by baseDelay
 - No element has delay exceeding 1000ms (performance constraint)
 
 **Algorithm:**
+
 ```typescript
 BEGIN
   ASSERT elements.length > 0
   ASSERT baseDelay > 0
-  
+
   maxDelay ← 1000  // Performance constraint
-  
+
   FOR i ← 0 TO elements.length - 1 DO
     element ← elements[i]
     delay ← min(i * baseDelay, maxDelay)
-    
+
     // Apply animation class
     element.classList.add(animationClass)
-    
+
     // Set CSS custom property for delay
     element.style.setProperty('animation-delay', `${delay}ms`)
-    
+
     // Ensure element is visible
-    ASSERT element.style.opacity !== '0' OR 
+    ASSERT element.style.opacity !== '0' OR
            element.classList.contains(animationClass)
   END FOR
-  
+
   RETURN
 END
 ```
 
 **Loop Invariants:**
+
 - All previously processed elements have animation classes applied
 - Delay values are monotonically increasing
 - No delay exceeds maxDelay threshold
@@ -583,56 +610,55 @@ END
 ### Price Formatting Algorithm
 
 ```typescript
-function formatPrice(
-  value: number,
-  decimals: number = 2,
-  currency: string = 'USD'
-): string
+function formatPrice(value: number, decimals: number = 2, currency: string = 'USD'): string;
 ```
 
 **Preconditions:**
+
 - `value` is finite number (not NaN, not Infinity)
 - `decimals` is non-negative integer between 0 and 8
 - `currency` is valid ISO 4217 currency code
 
 **Postconditions:**
+
 - Returns formatted string with proper decimal places
 - Includes thousand separators for readability
 - Handles negative values with proper sign placement
 - Returns consistent format for same input values
 
 **Algorithm:**
+
 ```typescript
 BEGIN
   ASSERT isFinite(value)
   ASSERT decimals >= 0 AND decimals <= 8
-  
+
   // Step 1: Handle edge cases
   IF value = 0 THEN
     RETURN '0.' + '0'.repeat(decimals)
   END IF
-  
+
   // Step 2: Determine sign
   sign ← value < 0 ? '-' : ''
   absValue ← abs(value)
-  
+
   // Step 3: Format with fixed decimals
   formatted ← absValue.toFixed(decimals)
-  
+
   // Step 4: Split integer and decimal parts
   [integerPart, decimalPart] ← formatted.split('.')
-  
+
   // Step 5: Add thousand separators
   integerWithSeparators ← integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  
+
   // Step 6: Reconstruct final string
   result ← sign + integerWithSeparators
   IF decimals > 0 THEN
     result ← result + '.' + decimalPart
   END IF
-  
+
   ASSERT result matches /^-?\d{1,3}(,\d{3})*(\.\d+)?$/
-  
+
   RETURN result
 END
 ```
@@ -643,28 +669,31 @@ END
 function getFlowColor(
   value: number,
   previousValue: number,
-  variant: 'solid' | 'subtle' = 'solid'
-): string
+  variant: 'solid' | 'subtle' = 'solid',
+): string;
 ```
 
 **Preconditions:**
+
 - `value` is finite number
 - `previousValue` is finite number
 - `variant` is either 'solid' or 'subtle'
 
 **Postconditions:**
+
 - Returns bid color (green) if value increased
 - Returns ask color (red) if value decreased
 - Returns neutral color if value unchanged
 - Solid variant returns opaque color, subtle returns transparent
 
 **Algorithm:**
+
 ```typescript
 BEGIN
   ASSERT isFinite(value) AND isFinite(previousValue)
-  
+
   delta ← value - previousValue
-  
+
   // Step 1: Determine direction
   IF delta > 0 THEN
     direction ← 'bid'
@@ -673,7 +702,7 @@ BEGIN
   ELSE
     direction ← 'neutral'
   END IF
-  
+
   // Step 2: Select color based on direction and variant
   IF direction = 'bid' THEN
     color ← variant = 'solid' ? '#00C853' : 'rgba(0, 200, 83, 0.16)'
@@ -682,9 +711,9 @@ BEGIN
   ELSE
     color ← variant = 'solid' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(255, 255, 255, 0.05)'
   END IF
-  
+
   ASSERT color matches /^(#[0-9A-F]{6}|rgba\(\d+,\s*\d+,\s*\d+,\s*[\d.]+\))$/i
-  
+
   RETURN color
 END
 ```
@@ -694,25 +723,25 @@ END
 ### Function 1: useStaggeredAnimation()
 
 ```typescript
-function useStaggeredAnimation(
-  ref: React.RefObject<HTMLElement>,
-  options?: StaggerOptions
-): void
+function useStaggeredAnimation(ref: React.RefObject<HTMLElement>, options?: StaggerOptions): void;
 ```
 
 **Preconditions:**
+
 - `ref` is valid React ref pointing to container element
 - `options.selector` is valid CSS selector string
 - `options.baseDelay` is positive number
 - Component is mounted in DOM
 
 **Postconditions:**
+
 - All child elements matching selector have staggered animations applied
 - Animation classes are added after component mount
 - Cleanup function removes animation classes on unmount
 - No memory leaks from event listeners or timers
 
 **Loop Invariants:**
+
 - All processed children have animation delays set
 - Delays increase monotonically
 - No child element is processed twice
@@ -720,19 +749,17 @@ function useStaggeredAnimation(
 ### Function 2: useGlassmorphism()
 
 ```typescript
-function useGlassmorphism(
-  variant: GlassVariant,
-  depth: GlassDepth,
-  hover: boolean
-): string
+function useGlassmorphism(variant: GlassVariant, depth: GlassDepth, hover: boolean): string;
 ```
 
 **Preconditions:**
+
 - `variant` is one of: 'default', 'elevated', 'gold', 'interactive'
 - `depth` is one of: 'surface', 'elevated', 'overlay'
 - `hover` is boolean value
 
 **Postconditions:**
+
 - Returns string of merged Tailwind classes
 - Classes are conflict-free (no duplicate properties)
 - Result includes backdrop-blur, border, and background classes
@@ -741,19 +768,18 @@ function useGlassmorphism(
 ### Function 3: formatCurrency()
 
 ```typescript
-function formatCurrency(
-  value: number,
-  options?: CurrencyFormatOptions
-): string
+function formatCurrency(value: number, options?: CurrencyFormatOptions): string;
 ```
 
 **Preconditions:**
+
 - `value` is finite number
 - `options.decimals` is between 0 and 8
 - `options.currency` is valid ISO 4217 code
 - `options.locale` is valid BCP 47 language tag
 
 **Postconditions:**
+
 - Returns formatted currency string
 - Includes proper thousand separators for locale
 - Decimal places match options.decimals
@@ -762,18 +788,17 @@ function formatCurrency(
 ### Function 4: calculateProgressColor()
 
 ```typescript
-function calculateProgressColor(
-  percentage: number,
-  thresholds?: ProgressThresholds
-): string
+function calculateProgressColor(percentage: number, thresholds?: ProgressThresholds): string;
 ```
 
 **Preconditions:**
+
 - `percentage` is number between 0 and 100 (inclusive)
 - `thresholds.low` < `thresholds.medium` < `thresholds.high`
 - All threshold values are between 0 and 100
 
 **Postconditions:**
+
 - Returns color string based on percentage and thresholds
 - Low percentage returns ask color (red)
 - Medium percentage returns warning color (yellow)
@@ -783,18 +808,17 @@ function calculateProgressColor(
 ### Function 5: applyMarketTheme()
 
 ```typescript
-function applyMarketTheme(
-  element: HTMLElement,
-  theme: MarketTheme
-): void
+function applyMarketTheme(element: HTMLElement, theme: MarketTheme): void;
 ```
 
 **Preconditions:**
+
 - `element` is valid mounted HTMLElement
 - `theme` contains valid color and effect tokens
 - All theme colors are valid CSS color values
 
 **Postconditions:**
+
 - CSS custom properties set on element
 - Theme colors accessible via var(--color-name)
 - No existing custom properties are removed
@@ -1029,7 +1053,9 @@ function DashboardPage() {
 ## Correctness Properties
 
 ### Property 1: Glassmorphism Consistency
+
 **Universal Quantification:**
+
 ```
 ∀ component ∈ GlassComponents:
   component.backdropBlur = 'glass' (12px) ∧
@@ -1043,7 +1069,9 @@ function DashboardPage() {
 **Verification Method:** Visual regression testing with Playwright, CSS property assertions
 
 ### Property 2: Color Contrast Accessibility
+
 **Universal Quantification:**
+
 ```
 ∀ textElement ∈ UIComponents:
   contrastRatio(textElement.color, textElement.background) ≥ 4.5:1 (WCAG AA) ∧
@@ -1056,7 +1084,9 @@ function DashboardPage() {
 **Verification Method:** Automated accessibility testing with @axe-core/playwright
 
 ### Property 3: Animation Performance
+
 **Universal Quantification:**
+
 ```
 ∀ animation ∈ Animations:
   animation.properties ⊆ {transform, opacity} ∧
@@ -1070,7 +1100,9 @@ function DashboardPage() {
 **Verification Method:** Chrome DevTools Performance profiling, frame rate monitoring
 
 ### Property 4: Flow Color Consistency
+
 **Universal Quantification:**
+
 ```
 ∀ priceChange ∈ PriceChanges:
   (priceChange.delta > 0 → priceChange.color = flow.bid) ∧
@@ -1083,7 +1115,9 @@ function DashboardPage() {
 **Verification Method:** Unit tests with property-based testing (fast-check)
 
 ### Property 5: Typography Scale Consistency
+
 **Universal Quantification:**
+
 ```
 ∀ i ∈ [0, n-1] where n = |fontSizes|:
   fontSizes[i+1] / fontSizes[i] ≥ 1.125 ∧
@@ -1095,7 +1129,9 @@ function DashboardPage() {
 **Verification Method:** Design token validation tests
 
 ### Property 6: Responsive Breakpoint Behavior
+
 **Universal Quantification:**
+
 ```
 ∀ component ∈ ResponsiveComponents:
   (viewport.width < 640px → component.layout = 'mobile') ∧
@@ -1109,7 +1145,9 @@ function DashboardPage() {
 **Verification Method:** Responsive design testing with Playwright viewport emulation
 
 ### Property 7: Staggered Animation Timing
+
 **Universal Quantification:**
+
 ```
 ∀ i ∈ [0, n-1] where n = |animatedElements|:
   animatedElements[i].delay = min(i × baseDelay, 1000ms) ∧
@@ -1122,7 +1160,9 @@ function DashboardPage() {
 **Verification Method:** Animation timing tests with Jest fake timers
 
 ### Property 8: Focus State Visibility
+
 **Universal Quantification:**
+
 ```
 ∀ interactiveElement ∈ InteractiveElements:
   interactiveElement.hasFocusState = true ∧
@@ -1136,7 +1176,9 @@ function DashboardPage() {
 **Verification Method:** Keyboard navigation testing, accessibility audits
 
 ### Property 9: Design Token Validation
+
 **Universal Quantification:**
+
 ```
 ∀ colorToken ∈ ColorTokens:
   (colorToken matches /^#[0-9A-F]{6}$/i) ∨ (colorToken matches /^rgba\(\d+,\s*\d+,\s*\d+,\s*[\d.]+\)$/) ∧
@@ -1149,7 +1191,9 @@ function DashboardPage() {
 **Verification Method:** Design token validation tests with regex pattern matching
 
 ### Property 10: Price Formatting Correctness
+
 **Universal Quantification:**
+
 ```
 ∀ price ∈ FiniteNumbers, decimals ∈ [0, 8]:
   formatted = formatPrice(price, decimals) →
@@ -1163,7 +1207,9 @@ function DashboardPage() {
 **Verification Method:** Property-based testing with fast-check generating random price values
 
 ### Property 11: Component Class Merge Consistency
+
 **Universal Quantification:**
+
 ```
 ∀ component ∈ StyledComponents, customClassName ∈ Strings:
   mergedClasses = cn(component.baseClasses, customClassName) →
@@ -1176,7 +1222,9 @@ function DashboardPage() {
 **Verification Method:** Property-based testing with fast-check generating random className combinations
 
 ### Property 12: Tabular Nums Application
+
 **Universal Quantification:**
+
 ```
 ∀ component ∈ NumericDisplayComponents:
   component.fontFeatureSettings includes 'tnum' ∨
@@ -1188,7 +1236,9 @@ function DashboardPage() {
 **Verification Method:** Component rendering tests verifying CSS font-feature-settings or font-variant-numeric
 
 ### Property 13: Progress Percentage Calculation
+
 **Universal Quantification:**
+
 ```
 ∀ value ∈ Numbers, max ∈ PositiveNumbers:
   percentage = calculatePercentage(value, max) →
@@ -1201,7 +1251,9 @@ function DashboardPage() {
 **Verification Method:** Property-based testing with fast-check generating random value/max pairs
 
 ### Property 14: Animation Delay Monotonicity
+
 **Universal Quantification:**
+
 ```
 ∀ elements ∈ AnimatedElementArrays, baseDelay ∈ [50ms, 200ms]:
   delays = calculateStaggeredDelays(elements, baseDelay) →
@@ -1214,7 +1266,9 @@ function DashboardPage() {
 **Verification Method:** Property-based testing with fast-check generating random element arrays
 
 ### Property 15: Accessibility ARIA Attributes
+
 **Universal Quantification:**
+
 ```
 ∀ component ∈ {ProgressBar, DataGrid, MarketTicker}:
   component.hasRequiredARIA = true ∧
@@ -1228,7 +1282,9 @@ function DashboardPage() {
 **Verification Method:** Component rendering tests with @testing-library/react checking ARIA attributes
 
 ### Property 16: Glassmorphism Depth Ordering
+
 **Universal Quantification:**
+
 ```
 ∀ card1, card2 ∈ GlassCards:
   (card1.depth = 'surface' ∧ card2.depth = 'elevated' → card1.zIndex < card2.zIndex) ∧
@@ -1241,7 +1297,9 @@ function DashboardPage() {
 **Verification Method:** Visual regression testing and z-index computation tests
 
 ### Property 17: Ticker Animation Continuity
+
 **Universal Quantification:**
+
 ```
 ∀ ticker ∈ MarketTickers, speed ∈ {'slow', 'normal', 'fast'}:
   (speed = 'slow' → ticker.animationDuration = 24s) ∧
@@ -1256,7 +1314,9 @@ function DashboardPage() {
 **Verification Method:** Animation performance testing and CSS property assertions
 
 ### Property 18: Theme CSS Custom Properties
+
 **Universal Quantification:**
+
 ```
 ∀ element ∈ ThemedElements, theme ∈ MarketThemes:
   applyMarketTheme(element, theme) →
@@ -1273,11 +1333,12 @@ function DashboardPage() {
 ### Error Scenario 1: Invalid Color Token
 
 **Condition:** Component receives invalid color value (malformed hex, invalid rgba)
-**Response:** 
+**Response:**
+
 - Log warning to console with component name and invalid value
 - Fall back to default color from design tokens
 - Continue rendering with fallback color
-**Recovery:** 
+  **Recovery:**
 - Component remains functional with default styling
 - Error boundary does not trigger
 - User sees visual feedback but no crash
@@ -1286,10 +1347,11 @@ function DashboardPage() {
 
 **Condition:** Device cannot maintain 60fps during animations (low-end hardware, heavy CPU load)
 **Response:**
+
 - Detect frame rate drops using requestAnimationFrame timing
 - Automatically disable non-critical animations (entrance effects, hover glows)
 - Maintain critical animations (progress bars, loading states)
-**Recovery:**
+  **Recovery:**
 - Store preference in localStorage to skip animations on future visits
 - Provide user setting to manually re-enable animations
 - Monitor performance and re-enable if conditions improve
@@ -1298,10 +1360,11 @@ function DashboardPage() {
 
 **Condition:** Custom fonts (Sora, JetBrains Mono) fail to load from CDN or local files
 **Response:**
+
 - CSS font-display: swap ensures text remains visible
 - System font fallbacks (Inter → system-ui, JetBrains Mono → ui-monospace) activate immediately
 - No layout shift due to consistent font metrics
-**Recovery:**
+  **Recovery:**
 - Retry font loading after 5 seconds
 - Log font loading failure for monitoring
 - Application remains fully functional with system fonts
@@ -1310,10 +1373,11 @@ function DashboardPage() {
 
 **Condition:** Browser does not support backdrop-filter CSS property (older browsers)
 **Response:**
+
 - CSS @supports rule detects backdrop-filter support
 - Fallback to solid background colors with reduced opacity
 - Maintain border and shadow effects for depth perception
-**Recovery:**
+  **Recovery:**
 - Progressive enhancement ensures visual hierarchy remains clear
 - No functionality is lost
 - User experience degrades gracefully
@@ -1322,10 +1386,11 @@ function DashboardPage() {
 
 **Condition:** Content exceeds container width on small viewports (< 320px)
 **Response:**
+
 - Apply overflow-x-auto to container
 - Enable horizontal scrolling with visible scrollbar
 - Maintain minimum touch target sizes (44x44px)
-**Recovery:**
+  **Recovery:**
 - Log viewport size for analytics
 - Suggest landscape orientation for very small screens
 - Ensure all interactive elements remain accessible
@@ -1337,6 +1402,7 @@ function DashboardPage() {
 **Objective:** Verify individual component behavior, prop handling, and rendering logic
 
 **Key Test Cases:**
+
 1. **GlassCard Component**
    - Renders with correct variant classes
    - Applies depth-specific background opacity
@@ -1366,6 +1432,7 @@ function DashboardPage() {
    - Provides accessibility labels
 
 **Coverage Goals:**
+
 - Line coverage: ≥ 90%
 - Branch coverage: ≥ 85%
 - Function coverage: ≥ 95%
@@ -1381,46 +1448,45 @@ function DashboardPage() {
 **Key Properties:**
 
 1. **Color Contrast Property**
+
    ```typescript
    fc.assert(
-     fc.property(
-       fc.hexaColor(),
-       fc.hexaColor(),
-       (textColor, bgColor) => {
-         const ratio = calculateContrastRatio(textColor, bgColor)
-         return ratio >= 4.5 || shouldSkipContrast(textColor, bgColor)
-       }
-     )
-   )
+     fc.property(fc.hexaColor(), fc.hexaColor(), (textColor, bgColor) => {
+       const ratio = calculateContrastRatio(textColor, bgColor);
+       return ratio >= 4.5 || shouldSkipContrast(textColor, bgColor);
+     }),
+   );
    ```
 
 2. **Price Formatting Property**
+
    ```typescript
    fc.assert(
      fc.property(
        fc.float({ min: -1000000, max: 1000000 }),
        fc.integer({ min: 0, max: 8 }),
        (value, decimals) => {
-         const formatted = formatPrice(value, decimals)
-         const parsed = parseFloat(formatted.replace(/,/g, ''))
-         return Math.abs(parsed - value) < Math.pow(10, -decimals)
-       }
-     )
-   )
+         const formatted = formatPrice(value, decimals);
+         const parsed = parseFloat(formatted.replace(/,/g, ''));
+         return Math.abs(parsed - value) < Math.pow(10, -decimals);
+       },
+     ),
+   );
    ```
 
 3. **Animation Stagger Property**
+
    ```typescript
    fc.assert(
      fc.property(
        fc.array(fc.anything(), { minLength: 1, maxLength: 20 }),
        fc.integer({ min: 50, max: 200 }),
        (elements, baseDelay) => {
-         const delays = elements.map((_, i) => Math.min(i * baseDelay, 1000))
-         return delays.every((d, i) => i === 0 || d > delays[i - 1])
-       }
-     )
-   )
+         const delays = elements.map((_, i) => Math.min(i * baseDelay, 1000));
+         return delays.every((d, i) => i === 0 || d > delays[i - 1]);
+       },
+     ),
+   );
    ```
 
 4. **Glassmorphism Class Merge Property**
@@ -1432,12 +1498,12 @@ function DashboardPage() {
        fc.boolean(),
        fc.string(),
        (variant, depth, hover, className) => {
-         const classes = useGlassmorphism(variant, depth, hover)
-         const merged = cn(classes, className)
-         return !hasDuplicateProperties(merged)
-       }
-     )
-   )
+         const classes = useGlassmorphism(variant, depth, hover);
+         const merged = cn(classes, className);
+         return !hasDuplicateProperties(merged);
+       },
+     ),
+   );
    ```
 
 ### Integration Testing Approach
@@ -1479,12 +1545,14 @@ function DashboardPage() {
 **Objective:** Detect unintended visual changes across component library
 
 **Approach:**
+
 - Capture baseline screenshots of all components in Storybook
 - Run visual diff on every PR using Playwright
 - Flag differences exceeding 0.1% pixel threshold
 - Manual review for intentional design changes
 
 **Key Scenarios:**
+
 - Component variants (default, gold, elevated, etc.)
 - Responsive breakpoints (mobile, tablet, desktop)
 - Interactive states (hover, focus, active, disabled)
@@ -1498,6 +1566,7 @@ function DashboardPage() {
 **Requirement:** All animations must maintain 60fps (16.67ms per frame)
 
 **Optimization Strategies:**
+
 1. **GPU Acceleration:** Use transform and opacity properties exclusively for animations
 2. **Will-Change Hint:** Apply will-change: transform to elements with frequent animations
 3. **Reduce Paint Area:** Limit backdrop-blur to small regions, avoid full-screen blur
@@ -1505,6 +1574,7 @@ function DashboardPage() {
 5. **Lazy Animation:** Disable entrance animations on low-end devices (< 4GB RAM)
 
 **Monitoring:**
+
 - Chrome DevTools Performance tab to profile frame rates
 - Lighthouse performance score ≥ 90
 - First Contentful Paint (FCP) < 1.5s
@@ -1515,6 +1585,7 @@ function DashboardPage() {
 **Challenge:** Backdrop-filter is computationally expensive
 
 **Optimization Strategies:**
+
 1. **Limit Blur Radius:** Use 12px blur (glass) instead of 24px+ (heavy)
 2. **Reduce Blur Layers:** Maximum 3 overlapping glassmorphism elements
 3. **Static Backgrounds:** Apply backdrop-filter only to elements over dynamic content
@@ -1526,6 +1597,7 @@ function DashboardPage() {
 **Requirement:** Keep component library bundle < 50KB gzipped
 
 **Optimization Strategies:**
+
 1. **Tree Shaking:** Export components individually, avoid barrel exports
 2. **Code Splitting:** Lazy load heavy components (TapeReadingVisualization, DataGrid)
 3. **Icon Optimization:** Import only used Lucide icons, not entire library
@@ -1533,6 +1605,7 @@ function DashboardPage() {
 5. **Compression:** Enable Brotli compression on server (better than gzip)
 
 **Monitoring:**
+
 - Webpack Bundle Analyzer to identify large dependencies
 - Bundle size CI check fails if increase > 5KB
 - Lighthouse performance budget enforcement
@@ -1542,6 +1615,7 @@ function DashboardPage() {
 **Requirement:** Time to Interactive (TTI) < 3.5s on 3G network
 
 **Optimization Strategies:**
+
 1. **Memoization:** Use React.memo for expensive components (DataGrid, TapeReadingVisualization)
 2. **Virtual Scrolling:** Implement virtual scrolling for lists > 50 items
 3. **Debounced Updates:** Debounce real-time market data updates to 100ms
@@ -1555,6 +1629,7 @@ function DashboardPage() {
 **Risk:** User-generated content or API data could contain malicious scripts
 
 **Mitigation:**
+
 1. **React Auto-Escaping:** Rely on React's built-in XSS protection for text content
 2. **DOMPurify:** Sanitize any HTML content before rendering with dangerouslySetInnerHTML
 3. **Content Security Policy:** Implement strict CSP headers to block inline scripts
@@ -1565,6 +1640,7 @@ function DashboardPage() {
 **Risk:** Malicious color values could inject CSS or JavaScript
 
 **Mitigation:**
+
 1. **Whitelist Validation:** Only accept hex (#RRGGBB) or rgba() format colors
 2. **Regex Validation:** Validate color strings against strict regex patterns
 3. **Type Safety:** Use TypeScript to enforce color token types
@@ -1575,6 +1651,7 @@ function DashboardPage() {
 **Risk:** Compromised dependencies could introduce vulnerabilities
 
 **Mitigation:**
+
 1. **Dependency Auditing:** Run npm audit on every build, fail on high/critical vulnerabilities
 2. **Lock Files:** Commit package-lock.json to ensure reproducible builds
 3. **Minimal Dependencies:** Avoid unnecessary dependencies, prefer native solutions
@@ -1586,6 +1663,7 @@ function DashboardPage() {
 **Risk:** Accessibility features could be exploited for phishing or social engineering
 
 **Mitigation:**
+
 1. **ARIA Label Validation:** Sanitize ARIA labels to prevent misleading screen reader announcements
 2. **Focus Trap Security:** Ensure focus traps don't prevent users from closing modals
 3. **Keyboard Shortcut Conflicts:** Avoid overriding browser/OS keyboard shortcuts
@@ -1691,6 +1769,7 @@ function DashboardPage() {
    - Justification: Tabular figures, excellent for price displays
 
 **Loading Strategy:**
+
 - Use font-display: swap to prevent FOIT (Flash of Invisible Text)
 - Preload critical fonts (Inter 400, Sora 700) in HTML head
 - Subset fonts to Latin characters only (reduces file size by 60%)

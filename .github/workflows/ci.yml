@@ -207,6 +207,8 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: Stub local env files required by compose
+        run: touch .env.local
       - name: Create external Supabase network stub (CI has no local Supabase)
         run: docker network create supabase_network_coast-academy || true
       - run: docker compose config -q
