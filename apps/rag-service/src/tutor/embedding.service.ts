@@ -8,12 +8,9 @@ export class EmbeddingService {
   readonly model: string;
 
   constructor() {
-    const apiKey =
-      process.env['OPENAI_API_KEY'] ?? process.env['LLM_API_KEY'] ?? 'ollama';
+    const apiKey = process.env['OPENAI_API_KEY'] ?? process.env['LLM_API_KEY'] ?? 'ollama';
     const baseURL =
-      process.env['OPENAI_BASE_URL'] ??
-      process.env['LLM_API_BASE'] ??
-      'http://ollama:11434/v1';
+      process.env['OPENAI_BASE_URL'] ?? process.env['LLM_API_BASE'] ?? 'http://ollama:11434/v1';
     this.model = process.env['EMBEDDING_MODEL'] ?? 'nomic-embed-text';
 
     this.openai = new OpenAI({ apiKey, baseURL });

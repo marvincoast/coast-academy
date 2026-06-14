@@ -171,7 +171,7 @@ export interface DesignToken {
  */
 export function isValidColor(color: string): boolean {
   const hexPattern = /^#[0-9A-F]{6}$/i;
-  const rgbaPattern = /^rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*[\d.]+\s*)?\)$/i;
+  const rgbaPattern = /^rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*[\d.]+\s*\)$/i;
   return hexPattern.test(color) || rgbaPattern.test(color);
 }
 
@@ -276,7 +276,7 @@ export const typography: TypographyTokens = {
     sm: '0.875rem', // 14px
     base: '1rem', // 16px
     lg: '1.125rem', // 18px
-    xl: '1.25rem', // 20px
+    xl: '1.266875rem', // ~20.27px — ratio 1.125× sobre lg (Requirement 1.8)
     '2xl': '1.5rem', // 24px
     '3xl': '1.875rem', // 30px
     '4xl': '2.25rem', // 36px

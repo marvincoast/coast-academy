@@ -61,7 +61,9 @@ export function Sidebar(): JSX.Element {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute top-0 left-0 right-0 h-40 opacity-70"
-        style={{ background: 'linear-gradient(180deg, rgba(201,162,39,0.08) 0%, transparent 100%)' }}
+        style={{
+          background: 'linear-gradient(180deg, rgba(201,162,39,0.08) 0%, transparent 100%)',
+        }}
       />
 
       {/* Logo */}
@@ -179,21 +181,27 @@ function SidebarNavItem({ item, label }: SidebarNavItemProps): JSX.Element {
         className={cn(
           'relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all duration-200',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold',
-          isActive
-            ? 'text-brand-gold font-medium'
-            : 'text-white/45 hover:text-white/80',
+          isActive ? 'text-brand-gold font-medium' : 'text-white/45 hover:text-white/80',
         )}
-        style={isActive ? {
-          background: 'linear-gradient(90deg, rgba(201,162,39,0.15) 0%, rgba(201,162,39,0.04) 100%)',
-          boxShadow: 'inset 0 0 0 1px rgba(201,162,39,0.20)',
-        } : {}}
+        style={
+          isActive
+            ? {
+                background:
+                  'linear-gradient(90deg, rgba(201,162,39,0.15) 0%, rgba(201,162,39,0.04) 100%)',
+                boxShadow: 'inset 0 0 0 1px rgba(201,162,39,0.20)',
+              }
+            : {}
+        }
       >
         {/* Barra lateral indicadora para item ativo */}
         {isActive && (
           <span
             aria-hidden="true"
             className="absolute left-0 top-1/2 h-4 w-0.5 -translate-y-1/2 rounded-full"
-            style={{ background: 'linear-gradient(180deg, #f0c040, #c9a227)', boxShadow: '0 0 8px rgba(201,162,39,0.8)' }}
+            style={{
+              background: 'linear-gradient(180deg, #f0c040, #c9a227)',
+              boxShadow: '0 0 8px rgba(201,162,39,0.8)',
+            }}
           />
         )}
 

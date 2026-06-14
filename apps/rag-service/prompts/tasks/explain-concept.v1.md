@@ -10,7 +10,7 @@ Use o **System: tutor.v1**.
 
 ## Conceito alvo
 
-{{concept_name}}  (uma das tags em `packages/shared-types/.../question-tag.ts`)
+{{concept_name}} (uma das tags em `packages/shared-types/.../question-tag.ts`)
 
 ## Trechos recuperados
 

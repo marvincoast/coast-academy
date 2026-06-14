@@ -1,11 +1,11 @@
 # SPEC-001 — Observabilidade Coast Academy
 
-| Campo | Valor |
-|-------|--------|
-| **ID** | SPEC-001 |
-| **Status** | Approved (2026-06-02) |
-| **Autor** | Coast Academy team |
-| **Criado** | 2026-06-02 |
+| Campo          | Valor                                                         |
+| -------------- | ------------------------------------------------------------- |
+| **ID**         | SPEC-001                                                      |
+| **Status**     | Approved (2026-06-02)                                         |
+| **Autor**      | Coast Academy team                                            |
+| **Criado**     | 2026-06-02                                                    |
 | **Stack alvo** | Docker Compose local + Traefik + 6× NestJS + React + Supabase |
 
 ---
@@ -27,15 +27,15 @@ Hoje a plataforma depende de `docker logs`, healthchecks pontuais e o dashboard 
 
 ### In scope
 
-| Área | Detalhe |
-|------|---------|
-| **Métricas** | Prometheus + scrape Traefik e microserviços |
-| **Logs** | Loki + coleta de stdout JSON (Pino / Nest Logger) |
-| **Traces** | Tempo + OpenTelemetry nos NestJS |
-| **Visualização** | Grafana com dashboard “Coast Academy Overview” |
-| **Erros app** | Sentry (web + certificate-service como piloto) |
-| **Uptime** | Uptime Kuma com pings em URLs críticas |
-| **Compose** | Profile `obs` documentado e script de subida |
+| Área             | Detalhe                                           |
+| ---------------- | ------------------------------------------------- |
+| **Métricas**     | Prometheus + scrape Traefik e microserviços       |
+| **Logs**         | Loki + coleta de stdout JSON (Pino / Nest Logger) |
+| **Traces**       | Tempo + OpenTelemetry nos NestJS                  |
+| **Visualização** | Grafana com dashboard “Coast Academy Overview”    |
+| **Erros app**    | Sentry (web + certificate-service como piloto)    |
+| **Uptime**       | Uptime Kuma com pings em URLs críticas            |
+| **Compose**      | Profile `obs` documentado e script de subida      |
 
 ### Out of scope (fase futura)
 
@@ -160,13 +160,13 @@ Hoje a plataforma depende de `docker logs`, healthchecks pontuais e o dashboard 
 
 ## 4. Requisitos não funcionais
 
-| ID | Requisito |
-|----|-----------|
+| ID     | Requisito                                                                                |
+| ------ | ---------------------------------------------------------------------------------------- |
 | RNF-01 | Stack `obs` deve subir em máquina dev com ≥ 8 GB RAM (documentar consumo ~2–4 GB extra). |
-| RNF-02 | Sem credenciais em repositório; Sentry DSN só em `.env.local`. |
-| RNF-03 | Desligar profile `obs` não afeta serviços da aplicação (`dev` profile). |
-| RNF-04 | Overhead OTEL < 5% latência p95 em rotas normais (validar manualmente). |
-| RNF-05 | Configuração como código: YAML em `infra/obs/`, versionado no git. |
+| RNF-02 | Sem credenciais em repositório; Sentry DSN só em `.env.local`.                           |
+| RNF-03 | Desligar profile `obs` não afeta serviços da aplicação (`dev` profile).                  |
+| RNF-04 | Overhead OTEL < 5% latência p95 em rotas normais (validar manualmente).                  |
+| RNF-05 | Configuração como código: YAML em `infra/obs/`, versionado no git.                       |
 
 ---
 
@@ -195,12 +195,12 @@ Hoje a plataforma depende de `docker logs`, healthchecks pontuais e o dashboard 
 
 **Portas sugeridas (dev):**
 
-| Serviço | Porta host |
-|---------|------------|
-| Grafana | 3001 |
-| Prometheus | 9090 |
-| Alloy OTLP | 4317 (gRPC), 4318 (HTTP) |
-| Uptime Kuma | 3002 |
+| Serviço         | Porta host                      |
+| --------------- | ------------------------------- |
+| Grafana         | 3001                            |
+| Prometheus      | 9090                            |
+| Alloy OTLP      | 4317 (gRPC), 4318 (HTTP)        |
+| Uptime Kuma     | 3002                            |
 | Traefik metrics | 8082 (se separado do dashboard) |
 
 ---
@@ -209,13 +209,13 @@ Hoje a plataforma depende de `docker logs`, healthchecks pontuais e o dashboard 
 
 Contadores Prometheus (prefixo `coast_academy_`):
 
-| Métrica | Labels | Origem |
-|---------|--------|--------|
-| `certificate_issued_total` | — | certificate-service |
+| Métrica                                 | Labels   | Origem              |
+| --------------------------------------- | -------- | ------------------- |
+| `certificate_issued_total`              | —        | certificate-service |
 | `certificate_pdf_upload_failures_total` | `bucket` | certificate-service |
-| `certificate_pdf_generation_seconds` | — | histogram |
-| `assessment_attempt_submitted_total` | `passed` | assessment-service |
-| `rag_query_duration_seconds` | — | rag-service |
+| `certificate_pdf_generation_seconds`    | —        | histogram           |
+| `assessment_attempt_submitted_total`    | `passed` | assessment-service  |
+| `rag_query_duration_seconds`            | —        | rag-service         |
 
 ---
 
@@ -233,20 +233,20 @@ Uma task só é **Done** quando:
 
 ## 8. Riscos e mitigação
 
-| Risco | Mitigação |
-|-------|-----------|
-| RAM insuficiente no WSL | Profile `obs` opcional; doc de recursos mínimos |
+| Risco                                | Mitigação                                                                     |
+| ------------------------------------ | ----------------------------------------------------------------------------- |
+| RAM insuficiente no WSL              | Profile `obs` opcional; doc de recursos mínimos                               |
 | OTEL aumenta complexidade build Nest | Pacote compartilhado `@coast-academy/otel` ou bootstrap em `main.ts` copiável |
-| Traefik metrics não expostas | Habilitar em `traefik.yml` na task OBS-T02 |
-| Logs não JSON | Padronizar Pino no Nest em task OBS-T05 |
+| Traefik metrics não expostas         | Habilitar em `traefik.yml` na task OBS-T02                                    |
+| Logs não JSON                        | Padronizar Pino no Nest em task OBS-T05                                       |
 
 ---
 
 ## 9. Aprovação
 
-| Papel | Nome | Data | OK |
-|-------|------|------|-----|
-| Product / Owner | | | ☐ |
-| Tech lead | | | ☐ |
+| Papel           | Nome | Data | OK  |
+| --------------- | ---- | ---- | --- |
+| Product / Owner |      |      | ☐   |
+| Tech lead       |      |      | ☐   |
 
 **Próximo artefato:** [TASKS.md](./TASKS.md) — backlog executável por task.

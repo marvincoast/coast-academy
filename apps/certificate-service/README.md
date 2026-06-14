@@ -4,10 +4,10 @@ Emissão, verificação pública e PDF de certificados Coast Academy.
 
 ## Storage de PDF
 
-| Provider | Env | Bucket |
-|----------|-----|--------|
-| **Appwrite** (recomendado) | `CERTIFICATE_STORAGE_PROVIDER=appwrite` | `APPWRITE_CERT_BUCKET_ID=S3cert` |
-| Supabase | `CERTIFICATE_STORAGE_PROVIDER=supabase` | `SUPABASE_CERT_BUCKET_ID` (`certificates` ou `S3cert`) |
+| Provider                   | Env                                     | Bucket                                                 |
+| -------------------------- | --------------------------------------- | ------------------------------------------------------ |
+| **Appwrite** (recomendado) | `CERTIFICATE_STORAGE_PROVIDER=appwrite` | `APPWRITE_CERT_BUCKET_ID=S3cert`                       |
+| Supabase                   | `CERTIFICATE_STORAGE_PROVIDER=supabase` | `SUPABASE_CERT_BUCKET_ID` (`certificates` ou `S3cert`) |
 
 ### Appwrite (bucket `S3cert`)
 

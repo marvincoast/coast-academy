@@ -11,22 +11,22 @@
 
 Todas as tags estão em `packages/shared-types/src/domain/question-tag.ts`. Não invente tags fora dessa lista; se faltar, abra ADR e atualize o enum + esta tabela.
 
-| Tag | Quando usar |
-|-----|-------------|
-| `absorcao_preco_fixo` | Player segura preço sem deixar romper |
-| `absorcao_multiplos_niveis` | Absorção que se desloca por vários níveis |
-| `exaustao_compradora` | Compradores agredindo sem deslocar preço (vendedor mais forte) |
-| `exaustao_vendedora` | Espelho da anterior, vendedor agressivo sem vencer compra |
-| `escora_player` | Sustentação clara por player identificável |
-| `iceberg_lote_escondido` | Oferta passiva que não some apesar das execuções |
-| `range_volatilidade_dia` | Range típico baseado no comportamento do dia |
-| `zona_0_5` / `zona_1_0` / `zona_1_5` | Variações % do dia como referência |
-| `book_ofertas` | Leitura do livro (profundidade, desequilíbrios) |
-| `times_and_trades` | Leitura da fita: agressões, lotes, sequência |
-| `macroeconomia_brasil` | Copom, IPCA, fluxo cambial, dívida |
-| `macroeconomia_global` | Fed, payroll, DXY, riscos globais |
-| `gestao_risco` | (Reservado para módulos futuros) |
-| `psicologia_operacional` | (Reservado para módulos futuros) |
+| Tag                                  | Quando usar                                                    |
+| ------------------------------------ | -------------------------------------------------------------- |
+| `absorcao_preco_fixo`                | Player segura preço sem deixar romper                          |
+| `absorcao_multiplos_niveis`          | Absorção que se desloca por vários níveis                      |
+| `exaustao_compradora`                | Compradores agredindo sem deslocar preço (vendedor mais forte) |
+| `exaustao_vendedora`                 | Espelho da anterior, vendedor agressivo sem vencer compra      |
+| `escora_player`                      | Sustentação clara por player identificável                     |
+| `iceberg_lote_escondido`             | Oferta passiva que não some apesar das execuções               |
+| `range_volatilidade_dia`             | Range típico baseado no comportamento do dia                   |
+| `zona_0_5` / `zona_1_0` / `zona_1_5` | Variações % do dia como referência                             |
+| `book_ofertas`                       | Leitura do livro (profundidade, desequilíbrios)                |
+| `times_and_trades`                   | Leitura da fita: agressões, lotes, sequência                   |
+| `macroeconomia_brasil`               | Copom, IPCA, fluxo cambial, dívida                             |
+| `macroeconomia_global`               | Fed, payroll, DXY, riscos globais                              |
+| `gestao_risco`                       | (Reservado para módulos futuros)                               |
+| `psicologia_operacional`             | (Reservado para módulos futuros)                               |
 
 ## Distribuição alvo do seed (~100 questões)
 

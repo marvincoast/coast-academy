@@ -29,15 +29,15 @@ flowchart TB
 
 ## Bounded contexts
 
-| Contexto | Serviço | Tabelas principais |
-|----------|---------|--------------------|
-| Curso | `course-service` | `courses`, `modules`, `chapters`, `lessons`, `lesson_progress` |
-| Avaliação | `assessment-service` | `assessments`, `questions`, `question_options`, `attempts`, `attempt_answers` |
-| Certificação | `certificate-service` | `certificates` |
-| Ranking | `ranking-service` | `exam_rankings` |
-| RAG | `rag-service` | `rag_documents`, `document_chunks` (vector) |
-| Notificação | `notification-service` | (sem tabelas; é orquestrador de saída) |
-| Compartilhado | (Supabase Auth) | `profiles`, `audit_log`, `app_meta` |
+| Contexto      | Serviço                | Tabelas principais                                                            |
+| ------------- | ---------------------- | ----------------------------------------------------------------------------- |
+| Curso         | `course-service`       | `courses`, `modules`, `chapters`, `lessons`, `lesson_progress`                |
+| Avaliação     | `assessment-service`   | `assessments`, `questions`, `question_options`, `attempts`, `attempt_answers` |
+| Certificação  | `certificate-service`  | `certificates`                                                                |
+| Ranking       | `ranking-service`      | `exam_rankings`                                                               |
+| RAG           | `rag-service`          | `rag_documents`, `document_chunks` (vector)                                   |
+| Notificação   | `notification-service` | (sem tabelas; é orquestrador de saída)                                        |
+| Compartilhado | (Supabase Auth)        | `profiles`, `audit_log`, `app_meta`                                           |
 
 ## Fluxo crítico: simulado fullscreen
 
@@ -72,13 +72,13 @@ sequenceDiagram
 
 ## Documentação relacionada
 
-| Documento | Link |
-|-----------|------|
-| Registro de entregas por etapa | [`DELIVERY.md`](./DELIVERY.md) |
-| ADRs (decisões arquiteturais) | [`adr/`](./adr/) |
-| Segurança / Threat model | [`SECURITY.md`](./SECURITY.md) |
-| Runbook (WSL, Docker, VPS) | [`RUNBOOK.md`](./RUNBOOK.md) |
-| Guia de conteúdo | [`CONTENT_GUIDE.md`](./CONTENT_GUIDE.md) |
+| Documento                      | Link                                     |
+| ------------------------------ | ---------------------------------------- |
+| Registro de entregas por etapa | [`DELIVERY.md`](./DELIVERY.md)           |
+| ADRs (decisões arquiteturais)  | [`adr/`](./adr/)                         |
+| Segurança / Threat model       | [`SECURITY.md`](./SECURITY.md)           |
+| Runbook (WSL, Docker, VPS)     | [`RUNBOOK.md`](./RUNBOOK.md)             |
+| Guia de conteúdo               | [`CONTENT_GUIDE.md`](./CONTENT_GUIDE.md) |
 
 ## Princípios
 

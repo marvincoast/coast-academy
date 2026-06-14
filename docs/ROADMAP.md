@@ -2,16 +2,16 @@
 
 ## MVP (Etapas 1?8 do plano)
 
-| Etapa | Entreg�vel | Status |
-|-------|------------|--------|
-| 1 | Bootstrap, monorepo, docker, docs, ADRs | ? conclu�da |
-| 2 | Auth + design system + dashboard | ? conclu�da |
-| 3 | Dom�nio do curso | ? conclu�da |
-| 4 | Avalia�?es + seed 100 quest?es | ? conclu�da |
-| 5 | Prova final + ranking | ? conclu�da |
-| 6 | Certificado + e-mail | ? conclu�da |
-| 7 | RAG tutor | ? conclu�da |
-| 8 | Hardening + CI/CD completo | ? conclu�da |
+| Etapa | Entreg�vel                              | Status      |
+| ----- | --------------------------------------- | ----------- |
+| 1     | Bootstrap, monorepo, docker, docs, ADRs | ? conclu�da |
+| 2     | Auth + design system + dashboard        | ? conclu�da |
+| 3     | Dom�nio do curso                        | ? conclu�da |
+| 4     | Avalia�?es + seed 100 quest?es          | ? conclu�da |
+| 5     | Prova final + ranking                   | ? conclu�da |
+| 6     | Certificado + e-mail                    | ? conclu�da |
+| 7     | RAG tutor                               | ? conclu�da |
+| 8     | Hardening + CI/CD completo              | ? conclu�da |
 
 ## P�s-MVP
 

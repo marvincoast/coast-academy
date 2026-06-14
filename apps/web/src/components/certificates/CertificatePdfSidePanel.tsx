@@ -6,8 +6,8 @@ import { certificateApi, saveCertificatePdfBlob } from '@/api/certificate.api.js
 import { CertificateDownloadButton } from '@/components/certificates/CertificateDownloadButton.js';
 import { CertificatePreviewCard } from '@/components/certificates/CertificatePreviewCard.js';
 import { COAST_COURSE_ID } from '@/config/constants.js';
-import { useCourse } from '@/hooks/use-course.js';
 import { useMyCertificates } from '@/hooks/use-certificate.js';
+import { useCourse } from '@/hooks/use-course.js';
 import { cn } from '@/lib/cn.js';
 
 const STORAGE_KEY = 'coast-academy-cert-pdf-panel-hidden';

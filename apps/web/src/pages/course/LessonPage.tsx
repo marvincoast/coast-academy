@@ -1,11 +1,4 @@
-import {
-  ArrowLeft,
-  CheckCircle2,
-  Circle,
-  Clock,
-  FileText,
-  PlayCircle,
-} from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Circle, Clock, FileText, PlayCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
@@ -20,8 +13,7 @@ export default function LessonPage() {
   const navigate = useNavigate();
 
   const { data: lesson, isLoading, isError } = useLesson(lessonId);
-  const { mutate: completeLesson, isPending: isCompleting } =
-    useCompleteLesson(COAST_COURSE_ID);
+  const { mutate: completeLesson, isPending: isCompleting } = useCompleteLesson(COAST_COURSE_ID);
 
   const handleComplete = () => {
     if (lesson?.completed) return;
@@ -145,12 +137,7 @@ export default function LessonPage() {
         </div>
 
         {!lesson.completed && (
-          <Button
-            onClick={handleComplete}
-            disabled={isCompleting}
-            size="sm"
-            className="shrink-0"
-          >
+          <Button onClick={handleComplete} disabled={isCompleting} size="sm" className="shrink-0">
             {isCompleting ? <Spinner size="sm" /> : 'Concluir aula'}
           </Button>
         )}
@@ -314,8 +301,8 @@ function PlaceholderContent({ type }: { type: string }) {
       <PlayCircle className="h-12 w-12 opacity-20" />
       <p className="text-sm">
         Conteúdo do tipo{' '}
-        <span className="font-mono text-white/40 bg-white/5 px-2 py-0.5 rounded">{type}</span>{' '}
-        em breve
+        <span className="font-mono text-white/40 bg-white/5 px-2 py-0.5 rounded">{type}</span> em
+        breve
       </p>
     </div>
   );

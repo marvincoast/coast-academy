@@ -102,7 +102,7 @@ describe('Design Token System', () => {
       expect(typography.fontSize.sm).toBe('0.875rem'); // 14px
       expect(typography.fontSize.base).toBe('1rem'); // 16px
       expect(typography.fontSize.lg).toBe('1.125rem'); // 18px
-      expect(typography.fontSize.xl).toBe('1.25rem'); // 20px
+      expect(typography.fontSize.xl).toBe('1.266875rem'); // ~20.27px (ratio 1.125× lg)
       expect(typography.fontSize['2xl']).toBe('1.5rem'); // 24px
       expect(typography.fontSize['3xl']).toBe('1.875rem'); // 30px
       expect(typography.fontSize['4xl']).toBe('2.25rem'); // 36px

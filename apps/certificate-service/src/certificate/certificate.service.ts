@@ -292,11 +292,18 @@ export class CertificateService {
   }
 
   private async getCertificateRow(id: string): Promise<CertificateRow | null> {
-    const { data } = await this.supabase.admin.from('certificates').select('*').eq('id', id).single();
+    const { data } = await this.supabase.admin
+      .from('certificates')
+      .select('*')
+      .eq('id', id)
+      .single();
     return (data as CertificateRow | null) ?? null;
   }
 
-  private async getCertificateForUser(userId: string, certificateId: string): Promise<CertificateRow> {
+  private async getCertificateForUser(
+    userId: string,
+    certificateId: string,
+  ): Promise<CertificateRow> {
     const { data, error } = await this.supabase.admin
       .from('certificates')
       .select('*')

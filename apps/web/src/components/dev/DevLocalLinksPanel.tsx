@@ -17,24 +17,19 @@ const DEV_LINKS = [
   { label: 'Uptime Kuma', href: 'http://localhost:3002' },
 ] as const;
 
-const showDevLocalLinks =
-  import.meta.env.DEV || import.meta.env.VITE_DEV_LOCAL_LINKS === 'true';
+const showDevLocalLinks = import.meta.env.DEV || import.meta.env.VITE_DEV_LOCAL_LINKS === 'true';
 
 /**
  * Painel discreto de URLs locais — Vite dev ou build Docker com VITE_DEV_LOCAL_LINKS=true.
  * Ocultar grava em sessionStorage; recarregar a página restaura a aba.
  */
 export function DevLocalLinksPanel(): JSX.Element | null {
-  if (!showDevLocalLinks) {
-    return null;
-  }
-
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(
     () => typeof sessionStorage !== 'undefined' && sessionStorage.getItem(STORAGE_KEY) === '1',
   );
 
-  if (hidden) {
+  if (!showDevLocalLinks || hidden) {
     return null;
   }
 

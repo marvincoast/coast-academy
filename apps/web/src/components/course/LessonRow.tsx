@@ -54,9 +54,7 @@ export function LessonRow({ lesson }: LessonRowProps) {
       <span
         className={cn(
           'flex-1 truncate text-sm',
-          lesson.completed
-            ? 'text-white/40 line-through decoration-white/20'
-            : 'text-white/85',
+          lesson.completed ? 'text-white/40 line-through decoration-white/20' : 'text-white/85',
         )}
       >
         {lesson.title}

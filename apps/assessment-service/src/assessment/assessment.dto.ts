@@ -5,7 +5,7 @@ export interface AssessmentSummaryDto {
   title: string;
   assessmentType: 'simulado' | 'prova_final';
   timeLimitSeconds: number;
-  passingScore: number;    // 0-1
+  passingScore: number; // 0-1
   questionCount: number;
   moduleId: string | null;
   courseId: string;
@@ -22,7 +22,7 @@ export interface ShuffledQuestionDto {
   id: string;
   stem: string;
   imageUrl: string | null;
-  orderIndex: number;  // 0-based position in this attempt
+  orderIndex: number; // 0-based position in this attempt
   options: ShuffledOptionDto[];
 }
 
@@ -33,7 +33,7 @@ export interface StartAttemptResponseDto {
   timeLimitSeconds: number;
   assessment: AssessmentSummaryDto;
   questions: ShuffledQuestionDto[];
-  savedAnswers: Record<string, string>;  // questionId → selectedOptionId (for resume)
+  savedAnswers: Record<string, string>; // questionId → selectedOptionId (for resume)
 }
 
 /** Response after submitting an attempt */
@@ -48,8 +48,8 @@ export interface QuestionResultDto {
 
 export interface SubmitAttemptResponseDto {
   attemptId: string;
-  score: number;          // 0-1
-  scorePercent: number;   // 0-100
+  score: number; // 0-1
+  scorePercent: number; // 0-100
   passed: boolean;
   passingScore: number;
   totalQuestions: number;

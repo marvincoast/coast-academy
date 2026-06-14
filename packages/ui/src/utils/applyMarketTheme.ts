@@ -23,10 +23,7 @@ const DEFAULT_THEME: MarketTheme = {
 /**
  * Aplica tokens de tema como CSS custom properties no elemento raiz.
  */
-export function applyMarketTheme(
-  element: HTMLElement,
-  theme: MarketTheme = DEFAULT_THEME,
-): void {
+export function applyMarketTheme(element: HTMLElement, theme: MarketTheme = DEFAULT_THEME): void {
   if (typeof document === 'undefined' || !element.isConnected) {
     console.warn('[applyMarketTheme] Element is not mounted');
     return;

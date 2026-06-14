@@ -6,28 +6,28 @@ Documento de referência para evolução da plataforma (produto, técnica e oper
 
 ### Produto e UX
 
-| Item | Por quê | Esforço |
-|------|---------|---------|
-| Fluxo único pós–Prova Final | Emitir certificado + download na tela de resultado (já iniciado) | Baixo |
-| Painel PDF à direita com hide | Prévia/download sem poluir a página principal | Baixo |
-| Progresso claro até Prova Final | Dashboard com “falta X módulos” e CTA direto | Médio |
-| E-mail transacional | Certificado emitido, lembrete de simulado (notification-service) | Médio |
+| Item                            | Por quê                                                          | Esforço |
+| ------------------------------- | ---------------------------------------------------------------- | ------- |
+| Fluxo único pós–Prova Final     | Emitir certificado + download na tela de resultado (já iniciado) | Baixo   |
+| Painel PDF à direita com hide   | Prévia/download sem poluir a página principal                    | Baixo   |
+| Progresso claro até Prova Final | Dashboard com “falta X módulos” e CTA direto                     | Médio   |
+| E-mail transacional             | Certificado emitido, lembrete de simulado (notification-service) | Médio   |
 
 ### Certificados
 
-| Item | Por quê | Esforço |
-|------|---------|---------|
-| Appwrite S3cert com credenciais válidas | Storage dedicado de PDFs | Baixo |
-| Regenerar PDF em lote (admin) | Certificados antigos sem `pdf_storage_path` | Médio |
-| Template PDF v2 (logo, assinatura, número série) | Aparência profissional | Médio |
+| Item                                             | Por quê                                     | Esforço |
+| ------------------------------------------------ | ------------------------------------------- | ------- |
+| Appwrite S3cert com credenciais válidas          | Storage dedicado de PDFs                    | Baixo   |
+| Regenerar PDF em lote (admin)                    | Certificados antigos sem `pdf_storage_path` | Médio   |
+| Template PDF v2 (logo, assinatura, número série) | Aparência profissional                      | Médio   |
 
 ### Confiabilidade
 
-| Item | Por quê | Esforço |
-|------|---------|---------|
-| Health checks unificados + smoke no CI | Evitar deploy de imagem antiga | Baixo |
-| Testes E2E: login → prova → certificado → PDF | Regressão do fluxo crítico | Médio |
-| Idempotência emissão + fila (opcional) | Pico de emissão na prova | Médio |
+| Item                                          | Por quê                        | Esforço |
+| --------------------------------------------- | ------------------------------ | ------- |
+| Health checks unificados + smoke no CI        | Evitar deploy de imagem antiga | Baixo   |
+| Testes E2E: login → prova → certificado → PDF | Regressão do fluxo crítico     | Médio   |
+| Idempotência emissão + fila (opcional)        | Pico de emissão na prova       | Médio   |
 
 ---
 
@@ -75,23 +75,23 @@ Stack atual no README: **OpenTelemetry + Pino**, profile `obs` no Docker (Promet
 
 ### Recomendação principal: **Grafana LGTM** (self-hosted ou Cloud)
 
-| Ferramenta | Uso |
-|------------|-----|
-| **Prometheus** | Métricas HTTP, latência, filas, Traefik |
-| **Loki** | Logs dos containers (Pino JSON) |
-| **Tempo** | Traces OpenTelemetry entre web → Traefik → microserviços |
-| **Grafana** | Dashboards + alertas |
+| Ferramenta     | Uso                                                      |
+| -------------- | -------------------------------------------------------- |
+| **Prometheus** | Métricas HTTP, latência, filas, Traefik                  |
+| **Loki**       | Logs dos containers (Pino JSON)                          |
+| **Tempo**      | Traces OpenTelemetry entre web → Traefik → microserviços |
+| **Grafana**    | Dashboards + alertas                                     |
 
 **Por quê:** combina bem com Docker Compose local, OSS, e escala para produção. O monorepo já cita OTEL — falta collector + backends.
 
 ### Alternativas
 
-| Opção | Quando escolher |
-|-------|-----------------|
-| **Datadog** | Orçamento SaaS, time pequeno, quer tudo integrado rápido |
-| **Sentry** (já parcial) | Erros frontend + backend, release tracking |
-| **Supabase Dashboard** | Queries lentas, auth, storage |
-| **Uptime Kuma / Better Stack** | Ping simples em `/health` e URLs públicas |
+| Opção                          | Quando escolher                                          |
+| ------------------------------ | -------------------------------------------------------- |
+| **Datadog**                    | Orçamento SaaS, time pequeno, quer tudo integrado rápido |
+| **Sentry** (já parcial)        | Erros frontend + backend, release tracking               |
+| **Supabase Dashboard**         | Queries lentas, auth, storage                            |
+| **Uptime Kuma / Better Stack** | Ping simples em `/health` e URLs públicas                |
 
 ### Métricas mínimas a instrumentar
 

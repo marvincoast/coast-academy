@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import OpenAI from 'openai';
@@ -31,12 +31,9 @@ export class TutorService {
     private readonly supabase: SupabaseService,
     private readonly embedding: EmbeddingService,
   ) {
-    const apiKey =
-      process.env['OPENAI_API_KEY'] ?? process.env['LLM_API_KEY'] ?? 'ollama';
+    const apiKey = process.env['OPENAI_API_KEY'] ?? process.env['LLM_API_KEY'] ?? 'ollama';
     const baseURL =
-      process.env['OPENAI_BASE_URL'] ??
-      process.env['LLM_API_BASE'] ??
-      'http://ollama:11434/v1';
+      process.env['OPENAI_BASE_URL'] ?? process.env['LLM_API_BASE'] ?? 'http://ollama:11434/v1';
     this.chatModel = process.env['CHAT_MODEL'] ?? process.env['LLM_MODEL'] ?? 'llama3.2';
 
     this.openai = new OpenAI({ apiKey, baseURL });
@@ -79,17 +76,29 @@ export class TutorService {
       .replace('{{user_locale}}', 'pt-BR');
 
     // 5. Call LLM
-    const completion = await this.openai.chat.completions.create({
-      model: this.chatModel,
-      messages: [
-        { role: 'system', content: this.systemPrompt },
-        { role: 'user', content: userPrompt },
-      ],
-      temperature: 0.3,
-      max_tokens: 1024,
-    });
-
-    const answer = completion.choices[0]?.message?.content ?? 'Sem resposta do modelo.';
+    let answer: string;
+    try {
+      const completion = await this.openai.chat.completions.create({
+        model: this.chatModel,
+        messages: [
+          { role: 'system', content: this.systemPrompt },
+          { role: 'user', content: userPrompt },
+        ],
+        temperature: 0.3,
+        max_tokens: 1024,
+      });
+      answer = completion.choices[0]?.message?.content ?? 'Sem resposta do modelo.';
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (/model.*not found|404 model/i.test(msg)) {
+        this.logger.error(`LLM model missing: ${this.chatModel}`, msg);
+        throw new ServiceUnavailableException(
+          `Modelo "${this.chatModel}" não está instalado no Ollama. ` +
+            `Rode: docker exec coast-academy-ollama ollama pull ${this.chatModel}`,
+        );
+      }
+      throw err;
+    }
 
     // 6. Build citations from chunks actually referenced in answer
     const citations: ChunkCitationDto[] = chunks
@@ -101,7 +110,12 @@ export class TutorService {
       }));
 
     // 7. Save session for analytics (best-effort)
-    this.saveSession(userId, question, answer, chunks.map((c) => c.id)).catch(() => {
+    this.saveSession(
+      userId,
+      question,
+      answer,
+      chunks.map((c) => c.id),
+    ).catch(() => {
       /* non-blocking */
     });
 

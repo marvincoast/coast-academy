@@ -22,18 +22,21 @@ The design token system consists of two main components:
 Color tokens are organized into semantic categories that reflect the financial market theme:
 
 #### Background Colors (`bg`)
+
 - `base`: `#0B0F14` - Base background color
 - `surface`: `#101720` - Surface background color
 - `elevated`: `#162130` - Elevated background color
 - `overlay`: `#1C2A3A` - Overlay background color
 
 #### Text Colors (`text`)
+
 - `primary`: `#F4F6FA` - Primary text color
 - `secondary`: `#A6B0BF` - Secondary text color
 - `muted`: `#6E7787` - Muted text color
 - `inverse`: `#0B0F14` - Inverse text color
 
 #### Flow Colors (`flow`)
+
 - `bid`: `#00C853` - Bid/buy color (green)
 - `ask`: `#FF5252` - Ask/sell color (red)
 - `bidSubtle`: `rgba(0, 200, 83, 0.16)` - Subtle bid color
@@ -41,6 +44,7 @@ Color tokens are organized into semantic categories that reflect the financial m
 - `neutral`: `#7C8794` - Neutral color
 
 #### Brand Colors (`brand`)
+
 - `gold`: `#C9A227` - Primary brand gold
 - `goldSoft`: `#E5C66B` - Soft gold variant
 - `goldDeep`: `#8E6F12` - Deep gold variant
@@ -48,12 +52,14 @@ Color tokens are organized into semantic categories that reflect the financial m
 - `goldGlow`: `rgba(201, 162, 39, 0.25)` - Gold glow effect
 
 #### State Colors (`state`)
+
 - `success`: `#22C55E` - Success state
 - `warning`: `#F59E0B` - Warning state
 - `danger`: `#EF4444` - Danger state
 - `info`: `#38BDF8` - Info state
 
 #### Border Colors (`border`)
+
 - `subtle`: `rgba(244, 246, 250, 0.08)` - Subtle border
 - `strong`: `rgba(244, 246, 250, 0.16)` - Strong border
 - `focus`: `#C9A227` - Focus border (gold)
@@ -63,11 +69,13 @@ Color tokens are organized into semantic categories that reflect the financial m
 **Validates:** Requirements 1.2, 3.1-3.10
 
 #### Font Families (`fontFamily`)
+
 - `sans`: `['Inter', 'system-ui', 'sans-serif']` - Primary sans-serif font
 - `mono`: `['JetBrains Mono', 'Fira Code', 'monospace']` - Monospace font for financial data
 - `display`: `['Sora', 'Inter', 'sans-serif']` - Display font for headings
 
 #### Font Sizes (`fontSize`)
+
 - `xs`: `0.75rem` (12px)
 - `sm`: `0.875rem` (14px)
 - `base`: `1rem` (16px)
@@ -78,17 +86,20 @@ Color tokens are organized into semantic categories that reflect the financial m
 - `4xl`: `2.25rem` (36px)
 
 #### Font Weights (`fontWeight`)
+
 - `normal`: `400`
 - `medium`: `500`
 - `semibold`: `600`
 - `bold`: `700`
 
 #### Line Heights (`lineHeight`)
+
 - `tight`: `1.25`
 - `normal`: `1.5`
 - `relaxed`: `1.75`
 
 #### Letter Spacing (`letterSpacing`)
+
 - `tight`: `-0.025em`
 - `normal`: `0`
 - `wide`: `0.025em`
@@ -119,6 +130,7 @@ All spacing values follow a 4px base grid system:
 **Validates:** Requirements 1.4, 1.5, 1.6
 
 #### Box Shadows (`boxShadow`)
+
 - `card`: Standard card shadow
 - `cardHover`: Enhanced shadow on hover
 - `glowGold`: Gold glow effect
@@ -127,11 +139,13 @@ All spacing values follow a 4px base grid system:
 - `inner`: Inner shadow
 
 #### Backdrop Blur (`backdropBlur`)
+
 - `xs`: `2px` - Extra small blur
 - `glass`: `12px` - Standard glassmorphism blur
 - `heavy`: `24px` - Heavy blur (performance limit)
 
 #### Border Radius (`borderRadius`)
+
 - `none`: `0`
 - `sm`: `4px`
 - `md`: `8px`
@@ -142,6 +156,7 @@ All spacing values follow a 4px base grid system:
 - `full`: `9999px`
 
 #### Transitions (`transition`)
+
 - `fast`: `150ms`
 - `base`: `200ms`
 - `slow`: `300ms`
@@ -156,9 +171,9 @@ All spacing values follow a 4px base grid system:
 Validates that a color value is a valid hex (#RRGGBB) or rgba string.
 
 ```typescript
-isValidColor('#C9A227') // true
-isValidColor('rgba(201, 162, 39, 0.25)') // true
-isValidColor('invalid') // false
+isValidColor('#C9A227'); // true
+isValidColor('rgba(201, 162, 39, 0.25)'); // true
+isValidColor('invalid'); // false
 ```
 
 ### validateTypographyScale(sizes: Record<string, string>): boolean
@@ -173,7 +188,7 @@ validateTypographyScale({
   sm: '0.875rem',
   base: '1rem',
   // ...
-}) // true
+}); // true
 ```
 
 ### validateMinimumFontSize(sizes: Record<string, string>): boolean
@@ -187,7 +202,7 @@ validateMinimumFontSize({
   xs: '0.75rem', // 12px
   sm: '0.875rem', // 14px
   // ...
-}) // true
+}); // true
 ```
 
 ### validateBackdropBlur(blurValues: Record<string, string>): boolean
@@ -201,7 +216,7 @@ validateBackdropBlur({
   xs: '2px',
   glass: '12px',
   heavy: '24px',
-}) // true
+}); // true
 ```
 
 ## Usage Examples
@@ -247,9 +262,7 @@ import { GlassCard } from '@/components/ui/GlassCard';
 function DashboardWidget() {
   return (
     <div className="bg-bg-surface text-text-primary p-6 rounded-2xl">
-      <h2 className="font-display text-2xl font-bold text-brand-gold">
-        Market Overview
-      </h2>
+      <h2 className="font-display text-2xl font-bold text-brand-gold">Market Overview</h2>
       <p className="font-mono text-sm text-text-secondary mt-2">
         Real-time dollar futures analysis
       </p>
@@ -306,6 +319,7 @@ function GoldCard() {
 ### Animation Classes
 
 #### Staggered Fade-Up
+
 ```tsx
 <div className="animate-fade-up">First element</div>
 <div className="animate-fade-up-1">Second element (100ms delay)</div>
@@ -315,6 +329,7 @@ function GoldCard() {
 ```
 
 #### Ticker Animations
+
 ```tsx
 <div className="animate-slide-left-tape">Normal speed (18s)</div>
 <div className="animate-slide-left-fast">Fast speed (12s)</div>
@@ -322,11 +337,13 @@ function GoldCard() {
 ```
 
 #### Progress Animation
+
 ```tsx
 <div className="animate-progress-fill">Progress bar</div>
 ```
 
 #### Pulse Animations
+
 ```tsx
 <div className="animate-pulse">Standard pulse</div>
 <div className="animate-pulse-gold">Gold pulse effect</div>
@@ -339,16 +356,19 @@ function GoldCard() {
 Fonts are loaded from Google Fonts with the following configuration:
 
 ### Fonts Loaded
+
 - **Inter**: Weights 400, 500, 600, 700
 - **Sora**: Weights 600, 700
 - **JetBrains Mono**: Weights 400, 500, 600
 
 ### Font Display Strategy
+
 - Uses `font-display: swap` to prevent Flash of Invisible Text (FOIT)
 - Critical fonts (Inter 400, Sora 700) are preloaded in HTML head
 - Fonts are subset to Latin characters only for reduced file size
 
 ### Fallback Strategy
+
 - **Inter** → `system-ui` → `sans-serif`
 - **JetBrains Mono** → `Fira Code` → `ui-monospace` → `monospace`
 - **Sora** → `Inter` → `sans-serif`
@@ -356,18 +376,23 @@ Fonts are loaded from Google Fonts with the following configuration:
 ## Accessibility Considerations
 
 ### Color Contrast
+
 All color combinations maintain at least 4.5:1 contrast ratio for WCAG AA compliance:
+
 - Text colors on background colors meet contrast requirements
 - State colors are distinguishable for colorblind users
 - Focus states use high-contrast gold outline
 
 ### Typography
+
 - Minimum font size is 12px (0.75rem) for accessibility
 - Line heights provide adequate spacing for readability
 - Letter spacing is optimized for uppercase labels
 
 ### Focus States
+
 Global focus-visible styling uses gold outline:
+
 ```css
 *:focus-visible {
   outline: 2px solid theme('colors.brand.gold');
@@ -378,16 +403,19 @@ Global focus-visible styling uses gold outline:
 ## Performance Considerations
 
 ### Backdrop Blur Limits
+
 - Maximum blur value is 24px to maintain 60fps performance
 - Glassmorphism effects use GPU-accelerated properties
 - Overlapping glass elements are limited to 3 layers
 
 ### Animation Performance
+
 - Animations use only `transform` and `opacity` for GPU acceleration
 - Animation durations are limited to 500ms maximum
 - Staggered animations have maximum 1000ms delay
 
 ### Font Loading
+
 - Critical fonts are preloaded to prevent layout shift
 - Font subsetting reduces file size
 - `font-display: swap` ensures text is visible immediately
@@ -397,6 +425,7 @@ Global focus-visible styling uses gold outline:
 The design token system includes comprehensive unit tests:
 
 ### Token Tests (`src/tokens.test.ts`)
+
 - Validates all token interfaces
 - Tests color validation functions
 - Verifies typography scale ratios
@@ -404,6 +433,7 @@ The design token system includes comprehensive unit tests:
 - Validates backdrop blur limits
 
 ### Preset Tests (`tailwind-preset.test.cjs`)
+
 - Validates TailwindCSS configuration
 - Tests color system extension
 - Verifies typography configuration
@@ -411,6 +441,7 @@ The design token system includes comprehensive unit tests:
 - Validates animation keyframes
 
 Run tests with:
+
 ```bash
 pnpm test --filter=@coast-academy/ui
 ```
@@ -420,6 +451,7 @@ pnpm test --filter=@coast-academy/ui
 ### From Hardcoded Values
 
 **Before:**
+
 ```tsx
 <div style={{ backgroundColor: '#101720', padding: '24px' }}>
   <h1 style={{ color: '#C9A227', fontSize: '24px' }}>Title</h1>
@@ -427,6 +459,7 @@ pnpm test --filter=@coast-academy/ui
 ```
 
 **After:**
+
 ```tsx
 <div className="bg-bg-surface p-6">
   <h1 className="text-brand-gold text-2xl">Title</h1>
@@ -436,12 +469,14 @@ pnpm test --filter=@coast-academy/ui
 ### From Old Token System
 
 **Before:**
+
 ```typescript
 import { colors } from './old-tokens';
 const goldColor = colors.gold;
 ```
 
 **After:**
+
 ```typescript
 import { colors } from '@coast-academy/ui/tokens';
 const goldColor = colors.brand.gold;

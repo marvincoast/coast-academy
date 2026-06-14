@@ -9,7 +9,6 @@ Cada task referencia requisitos (`RF-xx`) e entrega verificável.
 
 ## Visão das fases
 
-
 | Fase  | Objetivo                   | Tasks             | RF principal        |
 | ----- | -------------------------- | ----------------- | ------------------- |
 | **0** | Fundação & spec            | OBS-T00           | —                   |
@@ -19,20 +18,17 @@ Cada task referencia requisitos (`RF-xx`) e entrega verificável.
 | **4** | Sentry + Uptime            | OBS-T10 … OBS-T11 | RF-05, RF-06        |
 | **5** | Alertas + métricas negócio | OBS-T12 … OBS-T14 | RF-07, §6 SPEC      |
 
-
 ---
 
 ## Fase 0 — Fundação
 
 ### OBS-T00 — Aprovar SPEC-001 e estrutura de pastas
 
-
 |                |       |
 | -------------- | ----- |
-| **Status**     | ✅     |
+| **Status**     | ✅    |
 | **RF**         | RF-08 |
 | **Depende de** | —     |
-
 
 **Entregáveis**
 
@@ -52,13 +48,11 @@ test -f docs/specs/observability/SPEC.md && test -d infra/obs
 
 ### OBS-T01 — Profile `obs` no Docker Compose
 
-
 |                |         |
 | -------------- | ------- |
-| **Status**     | ✅       |
+| **Status**     | ✅      |
 | **RF**         | RF-01   |
 | **Depende de** | OBS-T00 |
-
 
 **Entregáveis**
 
@@ -80,13 +74,11 @@ curl -sf http://localhost:9090/-/healthy  # Prometheus
 
 ### OBS-T02 — Métricas do Traefik no Prometheus
 
-
 |                |         |
 | -------------- | ------- |
-| **Status**     | ✅       |
+| **Status**     | ✅      |
 | **RF**         | RF-02   |
 | **Depende de** | OBS-T01 |
-
 
 **Entregáveis**
 
@@ -105,13 +97,11 @@ curl -s http://localhost:8082/metrics | head -20   # ou porta definida
 
 ### OBS-T03 — Endpoint `/metrics` nos microserviços NestJS
 
-
 |                |         |
 | -------------- | ------- |
-| **Status**     | ✅       |
+| **Status**     | ✅      |
 | **RF**         | RF-02   |
 | **Depende de** | OBS-T01 |
-
 
 **Entregáveis**
 
@@ -130,13 +120,11 @@ docker exec coast-academy-certificate wget -qO- http://localhost:3000/metrics | 
 
 ### OBS-T04 — Dashboard Grafana “Coast Academy Overview”
 
-
 |                |                  |
 | -------------- | ---------------- |
-| **Status**     | ✅                |
+| **Status**     | ✅               |
 | **RF**         | RF-02, RF-08     |
 | **Depende de** | OBS-T02, OBS-T03 |
-
 
 **Entregáveis**
 
@@ -154,13 +142,11 @@ docker exec coast-academy-certificate wget -qO- http://localhost:3000/metrics | 
 
 ### OBS-T05 — Padronizar logs estruturados (NestJS)
 
-
 |                |         |
 | -------------- | ------- |
-| **Status**     | ✅       |
+| **Status**     | ✅      |
 | **RF**         | RF-03   |
 | **Depende de** | OBS-T00 |
-
 
 **Entregáveis**
 
@@ -188,13 +174,11 @@ docker logs coast-academy-certificate --tail 3 2>&1 | jq '{service,level,time,ms
 
 ### OBS-T06 — Loki + Alloy (coleta logs Docker)
 
-
 |                |                  |
 | -------------- | ---------------- |
-| **Status**     | ✅                |
+| **Status**     | ✅               |
 | **RF**         | RF-03            |
 | **Depende de** | OBS-T01, OBS-T05 |
-
 
 **Entregáveis**
 
@@ -216,13 +200,11 @@ docker logs coast-academy-certificate --tail 3 2>&1 | jq '{service,level,time,ms
 
 ### OBS-T07 — OpenTelemetry Collector / Alloy pipelines
 
-
 |                |         |
 | -------------- | ------- |
-| **Status**     | ✅       |
+| **Status**     | ✅      |
 | **RF**         | RF-04   |
 | **Depende de** | OBS-T01 |
-
 
 **Entregáveis**
 
@@ -244,13 +226,11 @@ chmod +x infra/scripts/verify-obs-t07.sh
 
 ### OBS-T08 — Instrumentação OTEL nos microserviços (piloto)
 
-
 |                |         |
 | -------------- | ------- |
-| **Status**     | ✅       |
+| **Status**     | ✅      |
 | **RF**         | RF-04   |
 | **Depende de** | OBS-T07 |
-
 
 **Entregáveis**
 
@@ -272,13 +252,11 @@ AUTH_TOKEN=<jwt> ./infra/scripts/verify-obs-t08.sh
 
 ### OBS-T09 — Propagação de trace (Traefik → Nest)
 
-
 |                |         |
 | -------------- | ------- |
-| **Status**     | ✅       |
+| **Status**     | ✅      |
 | **RF**         | RF-04   |
 | **Depende de** | OBS-T08 |
-
 
 **Entregáveis**
 
@@ -305,13 +283,11 @@ AUTH_TOKEN=<jwt> ./infra/scripts/verify-obs-t08.sh
 
 ### OBS-T10 — Sentry (web + certificate-service)
 
-
 |                |       |
 | -------------- | ----- |
-| **Status**     | ✅     |
+| **Status**     | ✅    |
 | **RF**         | RF-05 |
 | **Depende de** | —     |
-
 
 **Entregáveis**
 
@@ -329,13 +305,11 @@ AUTH_TOKEN=<jwt> ./infra/scripts/verify-obs-t08.sh
 
 ### OBS-T11 — Uptime Kuma
 
-
 |                |         |
 | -------------- | ------- |
-| **Status**     | ✅       |
+| **Status**     | ✅      |
 | **RF**         | RF-06   |
 | **Depende de** | OBS-T01 |
-
 
 **Entregáveis**
 
@@ -356,13 +330,11 @@ AUTH_TOKEN=<jwt> ./infra/scripts/verify-obs-t08.sh
 
 ### OBS-T12 — Regras de alerta Grafana
 
-
 |                |         |
 | -------------- | ------- |
-| **Status**     | ✅       |
+| **Status**     | ✅      |
 | **RF**         | RF-07   |
 | **Depende de** | OBS-T04 |
-
 
 **Entregáveis**
 
@@ -381,13 +353,11 @@ AUTH_TOKEN=<jwt> ./infra/scripts/verify-obs-t08.sh
 
 ### OBS-T13 — Métricas de certificado (negócio)
 
-
 |                |                  |
 | -------------- | ---------------- |
-| **Status**     | ✅                |
+| **Status**     | ✅               |
 | **RF**         | §6 SPEC          |
 | **Depende de** | OBS-T03, OBS-T08 |
-
 
 **Entregáveis**
 
@@ -409,13 +379,11 @@ AUTH_TOKEN=<jwt> ./infra/scripts/verify-obs-t08.sh
 
 ### OBS-T14 — Smoke `verify-stack.sh --obs`
 
-
 |                |                           |
 | -------------- | ------------------------- |
-| **Status**     | ✅                         |
+| **Status**     | ✅                        |
 | **RF**         | RF-08                     |
 | **Depende de** | OBS-T01, OBS-T04, OBS-T06 |
-
 
 **Entregáveis**
 
@@ -465,17 +433,21 @@ OBS-T12 → OBS-T13 → OBS-T14
 ## SPEC-001 / OBS-T0X — <título>
 
 ### Spec
+
 - Requisitos: RF-xx
 - [SPEC](./docs/specs/observability/SPEC.md)
 
 ### Mudanças
+
 - ...
 
 ### Verificação
+
 - [ ] Comandos da task executados
 - [ ] verify-stack (com/sem --obs)
 
 ### Screenshots
+
 - Grafana / Sentry (se aplicável)
 ```
 
@@ -493,7 +465,6 @@ OBS-T12 → OBS-T13 → OBS-T14
 ---
 
 ## Registro de progresso
-
 
 | Task    | Responsável | Início     | Fim        | Notas                                                        |
 | ------- | ----------- | ---------- | ---------- | ------------------------------------------------------------ |
@@ -522,5 +493,3 @@ OBS-T12 → OBS-T13 → OBS-T14
 | OBS-T12 |             |            |            |                                                              |
 | OBS-T13 |             | 2026-06-05 | 2026-06-05 | Métricas negócio certificate-service + painéis Grafana       |
 | OBS-T14 |             | 2026-06-05 | 2026-06-05 | verify-stack.sh --obs (Grafana/Prometheus/Loki + targets)    |
-
-

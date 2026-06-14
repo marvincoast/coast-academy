@@ -9,11 +9,7 @@ const ISO_CURRENCY = /^[A-Z]{3}$/;
 /**
  * Formata preço financeiro com separadores de milhar e casas decimais.
  */
-export function formatPrice(
-  value: number,
-  decimals?: number,
-  currency = 'BRL',
-): string {
+export function formatPrice(value: number, decimals?: number, currency = 'BRL'): string {
   if (!Number.isFinite(value)) {
     console.warn('[formatPrice] Invalid value:', value);
     return '0';

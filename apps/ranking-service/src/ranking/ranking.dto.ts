@@ -11,7 +11,7 @@ export interface LeaderboardEntryDto {
 export interface LeaderboardResponseDto {
   entries: LeaderboardEntryDto[];
   totalParticipants: number;
-  myEntry: LeaderboardEntryDto | null;  // null if user hasn't attempted
+  myEntry: LeaderboardEntryDto | null; // null if user hasn't attempted
 }
 
 export interface SimuladoScoreDto {

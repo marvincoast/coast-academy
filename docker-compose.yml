@@ -20,15 +20,15 @@ x-service-defaults: &service-defaults
     - no-new-privileges:true
   # Supabase CLI roda no host WSL (127.0.0.1:54321) — microserviços alcançam via host-gateway.
   extra_hosts:
-    - "host.docker.internal:host-gateway"
+    - 'host.docker.internal:host-gateway'
   logging:
     driver: json-file
     options:
-      max-size: "10m"
-      max-file: "5"
+      max-size: '10m'
+      max-file: '5'
 
 x-node-build-args: &node-build-args
-  NODE_VERSION: "22"
+  NODE_VERSION: '22'
 
 services:
   # ---------------------------------------------------------------------------
@@ -40,15 +40,15 @@ services:
     image: traefik:v3.6
     container_name: coast-academy-traefik
     command:
-      - "--configFile=/etc/traefik/traefik.yml"
+      - '--configFile=/etc/traefik/traefik.yml'
     environment:
       # W3C Trace Context (traceparent) — padrao OTEL; explicito para OBS-T09.
       - OTEL_PROPAGATORS=tracecontext,baggage
     ports:
-      - "80:80"
-      - "443:443"
-      - "8081:8080" # dashboard (somente dev)
-      - "8082:8082" # prometheus metrics (profile obs / OBS-T02)
+      - '80:80'
+      - '443:443'
+      - '8081:8080' # dashboard (somente dev)
+      - '8082:8082' # prometheus metrics (profile obs / OBS-T02)
     volumes:
       - ./infra/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./infra/traefik/dynamic.yml:/etc/traefik/dynamic.yml:ro
@@ -58,7 +58,7 @@ services:
     networks:
       - coast-academy-net
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:8080/ping"]
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:8080/ping']
       interval: 30s
       timeout: 5s
       retries: 3
@@ -82,15 +82,15 @@ services:
     container_name: coast-academy-web
     ports:
       # Acesso direto ao frontend se o Traefik estiver instável (dev).
-      - "3000:80"
+      - '3000:80'
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=coast-academy_coast-academy-net"
-      - "traefik.http.routers.web.rule=Host(`localhost`) || Host(`127.0.0.1`) || Host(`coastacademy`)"
-      - "traefik.http.routers.web.entrypoints=web"
-      - "traefik.http.routers.web.priority=1"
-      - "traefik.http.routers.web.middlewares=secureheaders@file"
-      - "traefik.http.services.web.loadbalancer.server.port=80"
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=coast-academy_coast-academy-net'
+      - 'traefik.http.routers.web.rule=Host(`localhost`) || Host(`127.0.0.1`) || Host(`coastacademy`)'
+      - 'traefik.http.routers.web.entrypoints=web'
+      - 'traefik.http.routers.web.priority=1'
+      - 'traefik.http.routers.web.middlewares=secureheaders@file'
+      - 'traefik.http.services.web.loadbalancer.server.port=80'
     networks:
       - coast-academy-net
     depends_on:
@@ -116,18 +116,18 @@ services:
       - OTEL_TRACES_EXPORTER=otlp
       - OTEL_METRICS_EXPORTER=otlp
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=coast-academy_coast-academy-net"
-      - "traefik.http.routers.course.rule=PathPrefix(`/api/courses`) || PathPrefix(`/api/progress`)"
-      - "traefik.http.routers.course.entrypoints=web"
-      - "traefik.http.routers.course.priority=100"
-      - "traefik.http.routers.course.middlewares=cors-api@file,ratelimit@file,secureheaders@file"
-      - "traefik.http.services.course.loadbalancer.server.port=3000"
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=coast-academy_coast-academy-net'
+      - 'traefik.http.routers.course.rule=PathPrefix(`/api/courses`) || PathPrefix(`/api/progress`)'
+      - 'traefik.http.routers.course.entrypoints=web'
+      - 'traefik.http.routers.course.priority=100'
+      - 'traefik.http.routers.course.middlewares=cors-api@file,ratelimit@file,secureheaders@file'
+      - 'traefik.http.services.course.loadbalancer.server.port=3000'
     networks:
       - coast-academy-net
       - supabase
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3000/health']
       interval: 30s
       timeout: 5s
       retries: 3
@@ -149,18 +149,18 @@ services:
       - OTEL_TRACES_EXPORTER=otlp
       - OTEL_METRICS_EXPORTER=otlp
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=coast-academy_coast-academy-net"
-      - "traefik.http.routers.assessment.rule=PathPrefix(`/api/assessments`) || PathPrefix(`/api/attempts`)"
-      - "traefik.http.routers.assessment.entrypoints=web"
-      - "traefik.http.routers.assessment.priority=100"
-      - "traefik.http.routers.assessment.middlewares=cors-api@file,ratelimit@file,secureheaders@file"
-      - "traefik.http.services.assessment.loadbalancer.server.port=3000"
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=coast-academy_coast-academy-net'
+      - 'traefik.http.routers.assessment.rule=PathPrefix(`/api/assessments`) || PathPrefix(`/api/attempts`)'
+      - 'traefik.http.routers.assessment.entrypoints=web'
+      - 'traefik.http.routers.assessment.priority=100'
+      - 'traefik.http.routers.assessment.middlewares=cors-api@file,ratelimit@file,secureheaders@file'
+      - 'traefik.http.services.assessment.loadbalancer.server.port=3000'
     networks:
       - coast-academy-net
       - supabase
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3000/health']
       interval: 30s
       timeout: 5s
       retries: 3
@@ -185,18 +185,18 @@ services:
       - OTEL_TRACES_EXPORTER=otlp
       - OTEL_METRICS_EXPORTER=otlp
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=coast-academy_coast-academy-net"
-      - "traefik.http.routers.certificate.rule=PathPrefix(`/api/certificates`) || PathPrefix(`/verify`)"
-      - "traefik.http.routers.certificate.entrypoints=web"
-      - "traefik.http.routers.certificate.priority=100"
-      - "traefik.http.routers.certificate.middlewares=cors-api@file,ratelimit@file,secureheaders@file"
-      - "traefik.http.services.certificate.loadbalancer.server.port=3000"
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=coast-academy_coast-academy-net'
+      - 'traefik.http.routers.certificate.rule=PathPrefix(`/api/certificates`) || PathPrefix(`/verify`)'
+      - 'traefik.http.routers.certificate.entrypoints=web'
+      - 'traefik.http.routers.certificate.priority=100'
+      - 'traefik.http.routers.certificate.middlewares=cors-api@file,ratelimit@file,secureheaders@file'
+      - 'traefik.http.services.certificate.loadbalancer.server.port=3000'
     networks:
       - coast-academy-net
       - supabase
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3000/health']
       interval: 30s
       timeout: 5s
       retries: 3
@@ -219,12 +219,12 @@ services:
       - OTEL_TRACES_EXPORTER=otlp
       - OTEL_METRICS_EXPORTER=otlp
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=coast-academy_coast-academy-net"
-      - "traefik.http.routers.ranking.rule=PathPrefix(`/api/ranking`)"
-      - "traefik.http.routers.ranking.entrypoints=web"
-      - "traefik.http.routers.ranking.middlewares=cors-api@file,ratelimit@file,secureheaders@file"
-      - "traefik.http.services.ranking.loadbalancer.server.port=3000"
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=coast-academy_coast-academy-net'
+      - 'traefik.http.routers.ranking.rule=PathPrefix(`/api/ranking`)'
+      - 'traefik.http.routers.ranking.entrypoints=web'
+      - 'traefik.http.routers.ranking.middlewares=cors-api@file,ratelimit@file,secureheaders@file'
+      - 'traefik.http.services.ranking.loadbalancer.server.port=3000'
     networks:
       - coast-academy-net
       - supabase
@@ -246,12 +246,12 @@ services:
       - OTEL_TRACES_EXPORTER=otlp
       - OTEL_METRICS_EXPORTER=otlp
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=coast-academy_coast-academy-net"
-      - "traefik.http.routers.rag.rule=PathPrefix(`/api/rag`)"
-      - "traefik.http.routers.rag.entrypoints=web"
-      - "traefik.http.routers.rag.middlewares=cors-api@file,ratelimit@file,secureheaders@file"
-      - "traefik.http.services.rag.loadbalancer.server.port=3000"
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=coast-academy_coast-academy-net'
+      - 'traefik.http.routers.rag.rule=PathPrefix(`/api/rag`)'
+      - 'traefik.http.routers.rag.entrypoints=web'
+      - 'traefik.http.routers.rag.middlewares=cors-api@file,ratelimit@file,secureheaders@file'
+      - 'traefik.http.services.rag.loadbalancer.server.port=3000'
     networks:
       - coast-academy-net
       - supabase
@@ -273,17 +273,17 @@ services:
       - OTEL_TRACES_EXPORTER=otlp
       - OTEL_METRICS_EXPORTER=otlp
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=coast-academy_coast-academy-net"
-      - "traefik.http.routers.notification.rule=PathPrefix(`/api/notifications`)"
-      - "traefik.http.routers.notification.entrypoints=web"
-      - "traefik.http.routers.notification.middlewares=cors-api@file,ratelimit@file,secureheaders@file"
-      - "traefik.http.services.notification.loadbalancer.server.port=3000"
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=coast-academy_coast-academy-net'
+      - 'traefik.http.routers.notification.rule=PathPrefix(`/api/notifications`)'
+      - 'traefik.http.routers.notification.entrypoints=web'
+      - 'traefik.http.routers.notification.middlewares=cors-api@file,ratelimit@file,secureheaders@file'
+      - 'traefik.http.services.notification.loadbalancer.server.port=3000'
     networks:
       - coast-academy-net
       - supabase
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3000/health']
       interval: 30s
       timeout: 5s
       retries: 3
@@ -295,15 +295,15 @@ services:
     <<: *service-defaults
     image: ollama/ollama:latest
     container_name: coast-academy-ollama
-    profiles: ["llm"]
+    profiles: ['llm']
     expose:
-      - "11434"
+      - '11434'
     volumes:
       - ollama_data:/root/.ollama
     networks:
       - coast-academy-net
     healthcheck:
-      test: ["CMD", "ollama", "list"]
+      test: ['CMD', 'ollama', 'list']
       interval: 20s
       timeout: 8s
       retries: 10
@@ -315,10 +315,10 @@ services:
     <<: *service-defaults
     image: redis:7-alpine
     container_name: coast-academy-redis
-    profiles: ["cache"]
-    command: ["redis-server", "--save", "60", "1", "--appendonly", "yes"]
+    profiles: ['cache']
+    command: ['redis-server', '--save', '60', '1', '--appendonly', 'yes']
     expose:
-      - "6379"
+      - '6379'
     volumes:
       - redis_data:/data
     networks:

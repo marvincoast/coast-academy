@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { SupabaseService } from '../common/supabase.service';
 import { AssessmentService } from '../assessment/assessment.service';
 import {
@@ -47,10 +42,7 @@ export class AttemptService {
 
   // ── Start or resume an attempt ─────────────────────────────────────────────
 
-  async startAttempt(
-    userId: string,
-    assessmentId: string,
-  ): Promise<StartAttemptResponseDto> {
+  async startAttempt(userId: string, assessmentId: string): Promise<StartAttemptResponseDto> {
     const assessment = await this.assessmentService.getById(assessmentId);
 
     // Check for existing active attempt (not yet submitted)
@@ -130,27 +122,22 @@ export class AttemptService {
       throw new BadRequestException('Option does not belong to this question');
     }
 
-    await this.supabase.admin
-      .from('attempt_answers')
-      .upsert(
-        {
-          attempt_id: attemptId,
-          question_id: questionId,
-          selected_option_id: selectedOptionId,
-          answered_at: new Date().toISOString(),
-        },
-        { onConflict: 'attempt_id,question_id' },
-      );
+    await this.supabase.admin.from('attempt_answers').upsert(
+      {
+        attempt_id: attemptId,
+        question_id: questionId,
+        selected_option_id: selectedOptionId,
+        answered_at: new Date().toISOString(),
+      },
+      { onConflict: 'attempt_id,question_id' },
+    );
 
     return { saved: true };
   }
 
   // ── Submit attempt — server-side scoring ──────────────────────────────────
 
-  async submitAttempt(
-    userId: string,
-    attemptId: string,
-  ): Promise<SubmitAttemptResponseDto> {
+  async submitAttempt(userId: string, attemptId: string): Promise<SubmitAttemptResponseDto> {
     const attempt = await this.requireActiveAttempt(userId, attemptId);
 
     // Validate time limit
@@ -163,9 +150,7 @@ export class AttemptService {
       throw new BadRequestException('Time limit exceeded');
     }
 
-    const assessment = await this.assessmentService.getById(
-      attempt.assessment_id as string,
-    );
+    const assessment = await this.assessmentService.getById(attempt.assessment_id as string);
 
     // Fetch questions with correct options
     const questionOrder = attempt.question_order as string[];
@@ -261,10 +246,7 @@ export class AttemptService {
 
   // ── Get attempt result (submitted only) ──────────────────────────────────
 
-  async getAttemptResult(
-    userId: string,
-    attemptId: string,
-  ): Promise<AttemptResultDto> {
+  async getAttemptResult(userId: string, attemptId: string): Promise<AttemptResultDto> {
     const { data: attempt, error } = await this.supabase.admin
       .from('attempts')
       .select('*, assessments!inner(title, assessment_type, passing_score)')
@@ -286,10 +268,12 @@ export class AttemptService {
     const questions = await this.fetchQuestionsWithOptions(questionOrder);
 
     const answerMap = new Map<string, { selectedOptionId: string; isCorrect: boolean }>(
-      (answers ?? []).map((a: { question_id: string; selected_option_id: string; is_correct: boolean }) => [
-        a.question_id,
-        { selectedOptionId: a.selected_option_id, isCorrect: a.is_correct },
-      ]),
+      (answers ?? []).map(
+        (a: { question_id: string; selected_option_id: string; is_correct: boolean }) => [
+          a.question_id,
+          { selectedOptionId: a.selected_option_id, isCorrect: a.is_correct },
+        ],
+      ),
     );
 
     const results: QuestionResultDto[] = questions.map((q) => {
@@ -308,7 +292,9 @@ export class AttemptService {
     const score = attempt.score as number;
     const total = questions.length;
     const correct = results.filter((r) => r.isCorrect).length;
-    const rawAss = attempt.assessments as { title: string; assessment_type: string; passing_score: number } | { title: string; assessment_type: string; passing_score: number }[];
+    const rawAss = attempt.assessments as
+      | { title: string; assessment_type: string; passing_score: number }
+      | { title: string; assessment_type: string; passing_score: number }[];
     const ass = Array.isArray(rawAss) ? rawAss[0]! : rawAss;
 
     return {
@@ -332,33 +318,39 @@ export class AttemptService {
   async listUserAttempts(userId: string) {
     const { data } = await this.supabase.admin
       .from('attempts')
-      .select('id, assessment_id, score, passed, submitted_at, started_at, assessments!inner(title, assessment_type)')
+      .select(
+        'id, assessment_id, score, passed, submitted_at, started_at, assessments!inner(title, assessment_type)',
+      )
       .eq('user_id', userId)
       .not('submitted_at', 'is', null)
       .order('submitted_at', { ascending: false });
 
-    return (data ?? []).map((a: {
-      id: string;
-      assessment_id: string;
-      score: number;
-      passed: boolean;
-      submitted_at: string;
-      started_at: string;
-      assessments: { title: string; assessment_type: string } | { title: string; assessment_type: string }[];
-    }) => {
-      const ass = Array.isArray(a.assessments) ? a.assessments[0]! : a.assessments;
-      return {
-      attemptId: a.id,
-      assessmentId: a.assessment_id,
-      assessmentTitle: ass.title,
-      assessmentType: ass.assessment_type,
-      score: a.score,
-      scorePercent: Math.round(a.score * 100),
-      passed: a.passed,
-      submittedAt: a.submitted_at,
-      startedAt: a.started_at,
-    };
-    });
+    return (data ?? []).map(
+      (a: {
+        id: string;
+        assessment_id: string;
+        score: number;
+        passed: boolean;
+        submitted_at: string;
+        started_at: string;
+        assessments:
+          | { title: string; assessment_type: string }
+          | { title: string; assessment_type: string }[];
+      }) => {
+        const ass = Array.isArray(a.assessments) ? a.assessments[0]! : a.assessments;
+        return {
+          attemptId: a.id,
+          assessmentId: a.assessment_id,
+          assessmentTitle: ass.title,
+          assessmentType: ass.assessment_type,
+          score: a.score,
+          scorePercent: Math.round(a.score * 100),
+          passed: a.passed,
+          submittedAt: a.submitted_at,
+          startedAt: a.started_at,
+        };
+      },
+    );
   }
 
   // ─── Private helpers ───────────────────────────────────────────────────────
@@ -382,20 +374,19 @@ export class AttemptService {
     return attempt;
   }
 
-  private async drawQuestions(
-    assessmentId: string,
-    count: number,
-  ): Promise<RawQuestion[]> {
+  private async drawQuestions(assessmentId: string, count: number): Promise<RawQuestion[]> {
     // Use Postgres random() for true server-side shuffle from the pool
     const { data } = await this.supabase.admin
       .from('assessment_questions')
-      .select(`
+      .select(
+        `
         question_id,
         questions!inner (
           id, stem, image_url, explanation,
           question_options ( id, text, is_correct, order_index )
         )
-      `)
+      `,
+      )
       .eq('assessment_id', assessmentId)
       .limit(count * 3); // overfetch for shuffle headroom
 
@@ -406,20 +397,18 @@ export class AttemptService {
     return this.shuffleArray(all).slice(0, count);
   }
 
-  private async fetchQuestionsWithOptions(
-    questionIds: string[],
-  ): Promise<RawQuestion[]> {
+  private async fetchQuestionsWithOptions(questionIds: string[]): Promise<RawQuestion[]> {
     if (questionIds.length === 0) return [];
 
     const { data } = await this.supabase.admin
       .from('questions')
-      .select('id, stem, image_url, explanation, question_options ( id, text, is_correct, order_index )')
+      .select(
+        'id, stem, image_url, explanation, question_options ( id, text, is_correct, order_index )',
+      )
       .in('id', questionIds);
 
     // Re-order to match questionIds order
-    const map = new Map<string, RawQuestion>(
-      (data ?? []).map((q: RawQuestion) => [q.id, q]),
-    );
+    const map = new Map<string, RawQuestion>((data ?? []).map((q: RawQuestion) => [q.id, q]));
 
     return questionIds.map((id) => map.get(id)!).filter(Boolean);
   }
@@ -473,8 +462,9 @@ export class AttemptService {
 
     const savedAnswers: Record<string, string> = {};
     for (const row of savedAnswerRows ?? []) {
-      savedAnswers[(row as { question_id: string }).question_id] =
-        (row as { selected_option_id: string }).selected_option_id;
+      savedAnswers[(row as { question_id: string }).question_id] = (
+        row as { selected_option_id: string }
+      ).selected_option_id;
     }
 
     // Build shuffled question DTOs (never expose is_correct)

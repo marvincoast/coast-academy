@@ -22,13 +22,13 @@ function format4(n: number): string {
 export function LivePriceGrid({
   className,
   baseBid = 5.2458,
-  baseAsk = 5.2460,
+  baseAsk = 5.246,
 }: LivePriceGridProps): JSX.Element {
   const [bid, setBid] = useState(baseBid);
   const [ask, setAsk] = useState(baseAsk);
   const [vol, setVol] = useState(142_300);
-  const [max, setMax] = useState(5.2820);
-  const [min, setMin] = useState(5.1890);
+  const [max, setMax] = useState(5.282);
+  const [min, setMin] = useState(5.189);
   const [flashBid, setFlashBid] = useState(false);
   const [flashAsk, setFlashAsk] = useState(false);
 
@@ -63,7 +63,11 @@ export function LivePriceGrid({
     { label: 'ASK', value: format4(ask), color: 'text-flow-ask', pulse: flashAsk },
     { label: 'MÁX', value: format4(max), color: 'text-white/70' },
     { label: 'MÍN', value: format4(min), color: 'text-white/70' },
-    { label: 'VOL', value: vol >= 1000 ? `${(vol / 1000).toFixed(1)}K` : String(vol), color: 'text-brand-gold' },
+    {
+      label: 'VOL',
+      value: vol >= 1000 ? `${(vol / 1000).toFixed(1)}K` : String(vol),
+      color: 'text-brand-gold',
+    },
     { label: 'VAR', value: varStr, color: varPct >= 0 ? 'text-flow-bid' : 'text-flow-ask' },
   ];
 

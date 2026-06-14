@@ -5,6 +5,7 @@ import { AppShell } from '@/components/layout/AppShell.js';
 import { FullPageSpinner } from '@/components/ui/Spinner.js';
 import { getRouterBasename } from '@/lib/base-path.js';
 import LoginPage from '@/pages/auth/LoginPage.js';
+
 import { ProtectedRoute } from './ProtectedRoute.js';
 
 // Lazy imports — rotas secundárias (login é eager: entrada principal em /)

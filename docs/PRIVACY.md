@@ -5,14 +5,14 @@
 
 ## Dados pessoais tratados
 
-| Dado | Origem | Finalidade | Base legal | Retenção |
-|------|--------|------------|------------|----------|
-| Nome completo | Cadastro | Emissão de certificado | Execução de contrato | Enquanto conta ativa + 5 anos (certificados) |
-| E-mail | Cadastro | Autenticação, envio de certificado | Execução de contrato | Enquanto conta ativa |
-| `displayName` | Cadastro | Exibição no ranking (opt-in) | Consentimento | Até revogação |
-| IP / user-agent | Logs | Segurança e auditoria | Legítimo interesse | 90 dias |
-| Tentativas e scores | Uso | Progresso, ranking, certificado | Execução de contrato | Enquanto conta ativa |
-| Conversas com Tutor | Uso | Qualidade do RAG | Consentimento | Não armazenadas em prod sem opt-in |
+| Dado                | Origem   | Finalidade                         | Base legal           | Retenção                                     |
+| ------------------- | -------- | ---------------------------------- | -------------------- | -------------------------------------------- |
+| Nome completo       | Cadastro | Emissão de certificado             | Execução de contrato | Enquanto conta ativa + 5 anos (certificados) |
+| E-mail              | Cadastro | Autenticação, envio de certificado | Execução de contrato | Enquanto conta ativa                         |
+| `displayName`       | Cadastro | Exibição no ranking (opt-in)       | Consentimento        | Até revogação                                |
+| IP / user-agent     | Logs     | Segurança e auditoria              | Legítimo interesse   | 90 dias                                      |
+| Tentativas e scores | Uso      | Progresso, ranking, certificado    | Execução de contrato | Enquanto conta ativa                         |
+| Conversas com Tutor | Uso      | Qualidade do RAG                   | Consentimento        | Não armazenadas em prod sem opt-in           |
 
 ## Direitos do titular
 
@@ -30,11 +30,11 @@ Implementados ou planejados:
 
 ## Sub-processadores
 
-| Serviço | Função | Localização de dados |
-|---------|--------|----------------------|
-| Supabase | Auth, DB, Storage | a confirmar (preferência por região AWS sa-east-1) |
-| Resend | E-mail transacional | EU/US |
-| Provedor LLM (se cloud) | RAG | a confirmar; preferência por opção local (Ollama) para conteúdo sensível |
+| Serviço                 | Função              | Localização de dados                                                     |
+| ----------------------- | ------------------- | ------------------------------------------------------------------------ |
+| Supabase                | Auth, DB, Storage   | a confirmar (preferência por região AWS sa-east-1)                       |
+| Resend                  | E-mail transacional | EU/US                                                                    |
+| Provedor LLM (se cloud) | RAG                 | a confirmar; preferência por opção local (Ollama) para conteúdo sensível |
 
 ## Encarregado (DPO)
 

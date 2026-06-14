@@ -10,10 +10,7 @@ export class RankingController {
 
   /** GET /ranking/prova-final?limit=50 — leaderboard público da prova final */
   @Get('prova-final')
-  getProvaFinalLeaderboard(
-    @Query('limit') limit: string,
-    @CurrentUser() user: CurrentUserPayload,
-  ) {
+  getProvaFinalLeaderboard(@Query('limit') limit: string, @CurrentUser() user: CurrentUserPayload) {
     return this.rankingService.getProvaFinalLeaderboard(
       user.id,
       limit ? Math.min(parseInt(limit, 10), 100) : 50,

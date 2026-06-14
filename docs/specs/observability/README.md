@@ -2,16 +2,16 @@
 
 Este diretório segue **Spec-Driven Development (SDD)**:
 
-1. **[SPEC.md](./SPEC.md)** — o *quê* e *por quê* (requisitos, arquitetura, DoD).
-2. **[TASKS.md](./TASKS.md)** — o *como*, em tasks pequenas com verificação e dependências.
+1. **[SPEC.md](./SPEC.md)** — o _quê_ e _por quê_ (requisitos, arquitetura, DoD).
+2. **[TASKS.md](./TASKS.md)** — o _como_, em tasks pequenas com verificação e dependências.
 
 ## Quick links
 
-| Documento | Uso |
-|-----------|-----|
-| [SPEC-001](./SPEC.md) | Aprovar escopo antes de codar |
-| [TASKS](./TASKS.md) | Executar sprint a sprint |
-| [ROADMAP geral](../../ROADMAP-MELHORIAS.md#observabilidade--recomendação) | Contexto produto |
+| Documento                                                                 | Uso                           |
+| ------------------------------------------------------------------------- | ----------------------------- |
+| [SPEC-001](./SPEC.md)                                                     | Aprovar escopo antes de codar |
+| [TASKS](./TASKS.md)                                                       | Executar sprint a sprint      |
+| [ROADMAP geral](../../ROADMAP-MELHORIAS.md#observabilidade--recomendação) | Contexto produto              |
 
 ## Fluxo SDD
 
@@ -35,13 +35,13 @@ chmod +x infra/scripts/obs-*.sh
 ./infra/scripts/obs-up.sh
 ```
 
-| URL | Uso |
-|-----|-----|
-| http://localhost:3001 | Grafana (`admin` / `admin`) |
-| http://localhost:3002 | Uptime Kuma (OBS-T11) |
-| http://localhost:9090 | Prometheus |
-| http://localhost:8082/metrics | Traefik metrics |
-| localhost:4317 / :4318 | OTLP (Alloy) |
+| URL                           | Uso                         |
+| ----------------------------- | --------------------------- |
+| http://localhost:3001         | Grafana (`admin` / `admin`) |
+| http://localhost:3002         | Uptime Kuma (OBS-T11)       |
+| http://localhost:9090         | Prometheus                  |
+| http://localhost:8082/metrics | Traefik metrics             |
+| localhost:4317 / :4318        | OTLP (Alloy)                |
 
 Parar: `./infra/scripts/obs-down.sh`
 
@@ -75,4 +75,4 @@ pnpm --filter @coast-academy/observability run build
 docker exec coast-academy-certificate wget -qO- http://localhost:3000/metrics | grep http_requests_total
 ```
 
-Quando pedir ao agente: *"Implemente OBS-T03 conforme SPEC-001"* — ler SPEC + task antes de codar.
+Quando pedir ao agente: _"Implemente OBS-T03 conforme SPEC-001"_ — ler SPEC + task antes de codar.

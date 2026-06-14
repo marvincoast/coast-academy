@@ -22,9 +22,7 @@ export default function VerifyPage(): JSX.Element {
         <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-gold/40 bg-brand-gold/10 text-brand-gold">
           <span className="text-xl font-bold">FE</span>
         </div>
-        <p className="text-xs font-medium uppercase tracking-widest text-white/40">
-          Coast Academy
-        </p>
+        <p className="text-xs font-medium uppercase tracking-widest text-white/40">Coast Academy</p>
       </div>
 
       <div className="w-full max-w-md rounded-2xl border border-white/8 bg-bg-surface p-8 shadow-card">
@@ -73,9 +71,7 @@ export default function VerifyPage(): JSX.Element {
               </p>
               <h1 className="text-xl font-bold text-white">{data.fullName}</h1>
               <p className="mt-1 text-white/60">{data.courseTitle}</p>
-              <p className="mt-3 text-sm text-white/40">
-                Emitido em {formatDate(data.issuedAt)}
-              </p>
+              <p className="mt-3 text-sm text-white/40">Emitido em {formatDate(data.issuedAt)}</p>
             </div>
 
             {data.isValid && (

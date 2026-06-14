@@ -4,13 +4,14 @@ import { AssessmentSummaryDto } from './assessment.dto';
 
 @Injectable()
 export class AssessmentService {
-
   constructor(private readonly supabase: SupabaseService) {}
 
   async getByModule(moduleId: string): Promise<AssessmentSummaryDto> {
     const { data, error } = await this.supabase.admin
       .from('assessments')
-      .select('id, title, assessment_type, time_limit_seconds, passing_score, question_count, module_id, course_id')
+      .select(
+        'id, title, assessment_type, time_limit_seconds, passing_score, question_count, module_id, course_id',
+      )
       .eq('module_id', moduleId)
       .eq('is_published', true)
       .single();
@@ -25,7 +26,9 @@ export class AssessmentService {
   async getProvaFinal(courseId: string): Promise<AssessmentSummaryDto> {
     const { data, error } = await this.supabase.admin
       .from('assessments')
-      .select('id, title, assessment_type, time_limit_seconds, passing_score, question_count, module_id, course_id')
+      .select(
+        'id, title, assessment_type, time_limit_seconds, passing_score, question_count, module_id, course_id',
+      )
       .eq('course_id', courseId)
       .eq('assessment_type', 'prova_final')
       .eq('is_published', true)
@@ -41,7 +44,9 @@ export class AssessmentService {
   async getById(assessmentId: string): Promise<AssessmentSummaryDto> {
     const { data, error } = await this.supabase.admin
       .from('assessments')
-      .select('id, title, assessment_type, time_limit_seconds, passing_score, question_count, module_id, course_id')
+      .select(
+        'id, title, assessment_type, time_limit_seconds, passing_score, question_count, module_id, course_id',
+      )
       .eq('id', assessmentId)
       .eq('is_published', true)
       .single();
