@@ -9,7 +9,11 @@
     "./node": "./node.cjs",
     "./react": "./react.cjs"
   },
-  "files": ["index.cjs", "react.cjs", "node.cjs"],
+  "files": [
+    "index.cjs",
+    "react.cjs",
+    "node.cjs"
+  ],
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^8.8.0",
     "@typescript-eslint/parser": "^8.8.0",
@@ -25,5 +29,11 @@
   "peerDependencies": {
     "eslint": "^8.57.1",
     "typescript": "^5.5.0"
+  },
+  "scripts": {
+    "build": "echo '@coast-academy/eslint-config: build noop'",
+    "lint": "echo '@coast-academy/eslint-config: lint noop'",
+    "typecheck": "echo '@coast-academy/eslint-config: typecheck noop'",
+    "clean": "echo '@coast-academy/eslint-config: clean noop'"
   }
 }

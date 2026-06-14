@@ -20,6 +20,9 @@ test-results
 Thumbs.db
 *.log
 logs
+package-lock.json
+npm-shrinkwrap.json
+*.docker-build.log
 
 .vscode/*
 !.vscode/extensions.json
@@ -34,3 +37,9 @@ supabase/.temp
 supabase/docker
 
 certificates/*.pdf
+
+# Cursor & Spec Kit temporaries
+.cursor/
+.specify/
+!.specify/memory/
+!.specify/specs/

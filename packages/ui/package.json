@@ -2,7 +2,7 @@
   "name": "@coast-academy/ui",
   "version": "0.1.0",
   "private": true,
-  "description": "Componentes e design tokens Empire Trading reutilizaveis no frontend",
+  "description": "Componentes e design tokens Coast Academy reutilizaveis no frontend",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -20,7 +20,11 @@
       "require": "./tailwind-preset.cjs"
     }
   },
-  "files": ["dist", "src", "tailwind-preset.cjs"],
+  "files": [
+    "dist",
+    "src",
+    "tailwind-preset.cjs"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "tsc -p tsconfig.json --watch",

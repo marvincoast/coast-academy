@@ -18,13 +18,17 @@
       "import": "./dist/domain/*.js"
     }
   },
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "tsc -p tsconfig.json --watch",
     "lint": "eslint \"src/**/*.ts\"",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "clean": "rimraf dist .tsbuildinfo"
+    "clean": "rimraf dist .tsbuildinfo",
+    "test": "echo 'no tests yet'"
   },
   "dependencies": {
     "zod": "^3.23.8"
