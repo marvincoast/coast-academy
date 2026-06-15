@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { appPath } from '@/lib/base-path.js';
 import { cn } from '@/lib/cn.js';
 
-const backgroundVideo = '/videos/background.mp4';
+const backgroundVideo = appPath('/videos/background.mp4');
 const BACKGROUND_VOLUME = 0.4;
 
 interface LoginVideoBackgroundProps {
