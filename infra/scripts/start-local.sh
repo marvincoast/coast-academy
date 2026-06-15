@@ -133,6 +133,15 @@ elif [[ "${COAST_ACADEMY_SKIP_SEED:-}" == "1" ]]; then
   log "Seed ignorado (COAST_ACADEMY_SKIP_SEED=1)"
 fi
 
+# ── .env.local ↔ Supabase local ──────────────────────────────────────────────
+sync_out="$("$SCRIPTS/sync-env-from-supabase.sh" 2>&1 || true)"
+echo "$sync_out"
+if echo "$sync_out" | grep -q 'ENV_SYNCED=1'; then
+  log "Chaves atualizadas — rebuild web e recriação dos containers"
+  COAST_ACADEMY_BUILD_WEB=1
+  COAST_ACADEMY_RECREATE=1
+fi
+
 # ── Docker build ─────────────────────────────────────────────────────────────
 log "Docker — build"
 if [[ "${COAST_ACADEMY_BUILD_WEB:-}" == "1" ]]; then
@@ -152,10 +161,14 @@ fi
 
 # ── Docker up ────────────────────────────────────────────────────────────────
 log "Docker — subindo stack"
+compose_up_args=(-d)
+if [[ "${COAST_ACADEMY_RECREATE:-}" == "1" ]]; then
+  compose_up_args=(--force-recreate -d)
+fi
 if [[ "${COAST_ACADEMY_SKIP_OLLAMA:-}" != "1" ]]; then
-  "$SCRIPTS/coast-academy-compose.sh" --profile llm up -d
+  "$SCRIPTS/coast-academy-compose.sh" --profile llm up "${compose_up_args[@]}"
 else
-  "$SCRIPTS/coast-academy-compose.sh" up -d
+  "$SCRIPTS/coast-academy-compose.sh" up "${compose_up_args[@]}"
 fi
 
 log "Rede Supabase ↔ microserviços"
@@ -165,8 +178,10 @@ log "Rede Supabase ↔ microserviços"
 if [[ "${COAST_ACADEMY_SKIP_OLLAMA:-}" != "1" ]]; then
   log "Ollama — modelos (pode demorar na 1ª vez)"
   if wait_container_running coast-academy-ollama 30; then
-    embed_model="${EMBEDDING_MODEL:-nomic-embed-text}"
-    chat_model="${LLM_MODEL:-${CHAT_MODEL:-llama3.2}}"
+    embed_model="$(grep -E '^EMBEDDING_MODEL=' .env.local 2>/dev/null | head -1 | cut -d= -f2- | tr -d "\"'" | xargs || true)"
+    embed_model="${embed_model:-nomic-embed-text}"
+    chat_model="$(grep -E '^LLM_MODEL=' .env.local 2>/dev/null | head -1 | cut -d= -f2- | tr -d "\"'" | xargs || true)"
+    chat_model="${chat_model:-${CHAT_MODEL:-llama3.2}}"
     docker exec coast-academy-ollama ollama pull "$embed_model" || true
     docker exec coast-academy-ollama ollama pull "$chat_model" || true
   else
@@ -176,21 +191,40 @@ fi
 
 log "Aguardando serviços"
 sleep 15
-wait_http "http://localhost/api/rag/health" 40 || echo "    AVISO: rag health ainda não respondeu"
+if docker ps --format '{{.Names}}' | grep -qx coast-academy-rag; then
+  for _ in $(seq 1 40); do
+    if docker exec coast-academy-rag wget -qO- http://127.0.0.1:3000/health >/dev/null 2>&1; then
+      break
+    fi
+    sleep 2
+  done
+else
+  echo "    AVISO: coast-academy-rag não está rodando"
+fi
 
 # ── Ingest RAG ───────────────────────────────────────────────────────────────
 if [[ "${COAST_ACADEMY_SKIP_INGEST:-}" != "1" ]]; then
   log "RAG — indexando aulas"
   ingest_secret="$(grep -E '^INGEST_SECRET=' .env.local 2>/dev/null | head -1 | cut -d= -f2- | tr -d "\"'" | xargs || true)"
   ingest_secret="${ingest_secret:-dev-secret}"
-  ingest_json=$(curl -s -X POST "http://localhost/api/rag/ingest" \
-    -H "Content-Type: application/json" \
-    -d "{\"secret\":\"${ingest_secret}\"}" || echo '{}')
+  ingest_json='{"errors":["fetch failed"]}'
+  for attempt in 1 2 3 4 5; do
+    ingest_json=$(curl -sf -X POST "http://localhost/api/rag/ingest" \
+      -H "Content-Type: application/json" \
+      -d "{\"secret\":\"${ingest_secret}\"}" 2>/dev/null || echo '{"errors":["fetch failed"]}')
+    if echo "$ingest_json" | grep -qE '"chunksUpserted":[1-9]'; then
+      break
+    fi
+    echo "    tentativa ${attempt}/5 — aguardando rag-service..."
+    sleep 10
+  done
   echo "    $ingest_json"
   if echo "$ingest_json" | grep -q '"chunksUpserted":0' && ! echo "$ingest_json" | grep -q '"errors":\[\]'; then
-    echo "    AVISO: ingest com erros — veja logs: docker logs coast-academy-rag --tail 50"
+    echo "    AVISO: ingest com erros — rode: ./infra/scripts/rag-ingest.sh"
+    echo "    logs: docker logs coast-academy-rag --tail 50"
   elif echo "$ingest_json" | grep -q '"chunksUpserted":0'; then
     echo "    AVISO: 0 chunks — confira lessons no banco e logs do rag-service"
+    echo "    Reindexar: ./infra/scripts/rag-ingest.sh"
   fi
 fi
 

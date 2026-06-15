@@ -25,6 +25,8 @@ import { Spinner } from '../../components/ui/Spinner';
 import { useIssueCertificate } from '../../hooks/use-certificate';
 import { cn } from '../../lib/cn';
 
+const MAX_TAB_CHANGES = 3;
+
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export function SimuladoPage() {
@@ -151,6 +153,17 @@ export function SimuladoPage() {
     [phase, attempt, answers],
   );
 
+  // ── Auto-submit após exceder limite de trocas de aba ─────────────────────
+  useEffect(() => {
+    if (phase !== 'quiz' || tabChanges <= MAX_TAB_CHANGES) return;
+
+    toast.error(
+      `Limite de ${MAX_TAB_CHANGES} trocas de aba excedido. O simulado será finalizado automaticamente.`,
+      { duration: 5000 },
+    );
+    void handleSubmit(true);
+  }, [tabChanges, phase, handleSubmit]);
+
   // ─── Render phases ────────────────────────────────────────────────────────
 
   if (phase === 'loading') {
@@ -232,9 +245,18 @@ export function SimuladoPage() {
 
         <div className="flex items-center gap-4">
           {tabChanges > 0 && (
-            <div className="flex items-center gap-1.5 text-xs text-red-400 bg-red-950/50 px-2 py-1 rounded-lg">
+            <div
+              className={cn(
+                'flex items-center gap-1.5 text-xs px-2 py-1 rounded-lg',
+                tabChanges > MAX_TAB_CHANGES
+                  ? 'text-red-300 bg-red-950/70'
+                  : tabChanges >= MAX_TAB_CHANGES
+                    ? 'text-amber-300 bg-amber-950/50'
+                    : 'text-red-400 bg-red-950/50',
+              )}
+            >
               <AlertTriangle className="h-3 w-3" />
-              {tabChanges} troca{tabChanges > 1 ? 's' : ''} de aba
+              {tabChanges}/{MAX_TAB_CHANGES} trocas de aba
             </div>
           )}
           <Timer seconds={timeLeft} total={attempt.timeLimitSeconds} />

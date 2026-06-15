@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/cn.js';
 
 const backgroundVideo = '/videos/background.mp4';
+const BACKGROUND_VOLUME = 0.4;
 
 interface LoginVideoBackgroundProps {
   className?: string;
@@ -22,46 +23,73 @@ function usePrefersReducedMotion(): boolean {
 
 export function LoginVideoBackground({ className }: LoginVideoBackgroundProps): JSX.Element {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoReady, setVideoReady] = useState(false);
+  // Começa mudo (autoplay); após play() bem-sucedido React libera o som via muted={isMuted}.
+  const [isMuted, setIsMuted] = useState(true);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video || prefersReducedMotion) return;
 
-    const onReady = (): void => setVideoReady(true);
-    const onError = (): void => setVideoReady(false);
+    const startPlayback = async (): Promise<void> => {
+      video.volume = BACKGROUND_VOLUME;
+      video.muted = true;
+      setIsMuted(true);
 
-    video.addEventListener('canplay', onReady);
-    video.addEventListener('error', onError);
-    void video.play().catch(() => undefined);
+      try {
+        await video.play();
+        setIsMuted(false);
+        video.muted = false;
+        video.volume = BACKGROUND_VOLUME;
+
+        if (video.paused) {
+          setIsMuted(true);
+          video.muted = true;
+          await video.play().catch(() => undefined);
+        }
+      } catch {
+        await video.play().catch(() => undefined);
+      }
+    };
+
+    const onLoadedData = (): void => {
+      void startPlayback();
+    };
+
+    video.addEventListener('loadeddata', onLoadedData);
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      void startPlayback();
+    }
 
     return () => {
-      video.removeEventListener('canplay', onReady);
-      video.removeEventListener('error', onError);
+      video.removeEventListener('loadeddata', onLoadedData);
     };
   }, [prefersReducedMotion]);
+
+  if (prefersReducedMotion) {
+    return (
+      <div
+        className={cn('absolute inset-0 overflow-hidden bg-bg-base', className)}
+        aria-hidden="true"
+      />
+    );
+  }
 
   return (
     <div
       className={cn('absolute inset-0 overflow-hidden bg-bg-base', className)}
       aria-hidden="true"
     >
-      {!prefersReducedMotion && (
-        <video
-          ref={videoRef}
-          className={cn(
-            'absolute inset-0 h-full w-full object-cover transition-opacity duration-700',
-            videoReady ? 'opacity-100' : 'opacity-0',
-          )}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          src={backgroundVideo}
-        />
-      )}
+      <video
+        ref={videoRef}
+        className="absolute inset-0 h-full w-full object-cover"
+        autoPlay
+        loop
+        muted={isMuted}
+        playsInline
+        preload="auto"
+        src={backgroundVideo}
+      />
 
       {/* Overlay escuro para legibilidade do formulário */}
       <div

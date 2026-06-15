@@ -116,7 +116,7 @@ Ambiente completo: Supabase local, Docker, microserviços, Ollama e frontend.
 git clone https://github.com/marvincoast/coast-academy.git
 cd coast-academy
 pnpm install
-cp .env.example .env.local   # ajuste chaves após supabase start
+cp .env.example .env.local   # start-local.sh sincroniza chaves após supabase start
 pnpm start:local               # ou: ./infra/scripts/start-local.sh
 ```
 
