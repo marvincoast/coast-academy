@@ -5,7 +5,7 @@ test.describe('Authentication', () => {
     await page.goto('/');
 
     await expect(page).toHaveTitle(/Coast Academy/i);
-    await expect(page.getByText(/Coast/i).first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: /acesse a plataforma/i })).toBeVisible();
 
     const emailInput = page.getByRole('textbox', { name: /e-mail/i });
     await expect(emailInput).toBeVisible();
@@ -31,7 +31,8 @@ test.describe('Authentication', () => {
 
   test('public certificate verify page is accessible without auth', async ({ page }) => {
     await page.goto('/verify/nonexistent-hash');
-    // Should render the verify page (not redirect to login)
-    await expect(page.getByText(/Coast Academy/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /certificado não encontrado/i })).toBeVisible({
+      timeout: 10_000,
+    });
   });
 });

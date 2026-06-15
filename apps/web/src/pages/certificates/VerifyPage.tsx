@@ -22,7 +22,7 @@ export default function VerifyPage(): JSX.Element {
         <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-gold/40 bg-brand-gold/10 text-brand-gold">
           <span className="text-xl font-bold">FE</span>
         </div>
-        <p className="text-xs font-medium uppercase tracking-widest text-white/40">Coast Academy</p>
+        <p className="text-xs font-medium uppercase tracking-widest text-white/60">Coast Academy</p>
       </div>
 
       <div className="w-full max-w-md rounded-2xl border border-white/8 bg-bg-surface p-8 shadow-card">
@@ -46,7 +46,7 @@ export default function VerifyPage(): JSX.Element {
                 O hash informado não corresponde a nenhum certificado válido.
               </p>
             </div>
-            <p className="rounded-lg bg-bg-base px-3 py-2 font-mono text-xs text-white/30 break-all">
+            <p className="rounded-lg bg-bg-base px-3 py-2 font-mono text-xs text-white/60 break-all">
               {hash}
             </p>
           </div>
@@ -66,12 +66,12 @@ export default function VerifyPage(): JSX.Element {
             )}
 
             <div>
-              <p className="mb-1 text-xs font-medium uppercase tracking-widest text-white/40">
+              <p className="mb-1 text-xs font-medium uppercase tracking-widest text-white/60">
                 {data.isValid ? 'Certificado Autêntico' : 'Certificado Revogado'}
               </p>
               <h1 className="text-xl font-bold text-white">{data.fullName}</h1>
               <p className="mt-1 text-white/60">{data.courseTitle}</p>
-              <p className="mt-3 text-sm text-white/40">Emitido em {formatDate(data.issuedAt)}</p>
+              <p className="mt-3 text-sm text-white/60">Emitido em {formatDate(data.issuedAt)}</p>
             </div>
 
             {data.isValid && (
@@ -82,7 +82,7 @@ export default function VerifyPage(): JSX.Element {
             )}
 
             <div className="w-full rounded-lg bg-bg-base px-3 py-2">
-              <p className="font-mono text-xs text-white/30 break-all">Hash: {hash}</p>
+              <p className="font-mono text-xs text-white/60 break-all">Hash: {hash}</p>
             </div>
           </div>
         )}
@@ -95,8 +95,8 @@ export default function VerifyPage(): JSX.Element {
         )}
       </div>
 
-      <p className="mt-6 text-xs text-white/20">
-        <Link to="/" className="underline hover:text-white/40">
+      <p className="mt-6 text-xs text-white/50">
+        <Link to="/" className="text-white/60 underline hover:text-white/80">
           Coast Academy
         </Link>{' '}
         — Tape Reading &amp; Análise de Fluxo
