@@ -15,10 +15,7 @@ export class RankingService {
 
   // ── Prova Final leaderboard ────────────────────────────────────────────────
 
-  async getProvaFinalLeaderboard(
-    userId: string,
-    limit = 50,
-  ): Promise<LeaderboardResponseDto> {
+  async getProvaFinalLeaderboard(userId: string, limit = 50): Promise<LeaderboardResponseDto> {
     // All passing entries (public leaderboard)
     const { data: entries, error } = await this.supabase.admin
       .from('prova_final_leaderboard')
@@ -47,9 +44,7 @@ export class RankingService {
     };
   }
 
-  private async getUserProvaFinalEntry(
-    userId: string,
-  ): Promise<LeaderboardEntryDto | null> {
+  private async getUserProvaFinalEntry(userId: string): Promise<LeaderboardEntryDto | null> {
     const { data } = await this.supabase.admin
       .from('prova_final_all_attempts')
       .select('*')

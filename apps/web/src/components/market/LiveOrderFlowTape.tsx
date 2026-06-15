@@ -31,7 +31,10 @@ function createTick(lastPrice: number): OrderFlowRow {
   const side: 'bid' | 'ask' = Math.random() > 0.48 ? 'bid' : 'ask';
   const step = side === 'bid' ? 0.0001 : -0.0001;
   const jitter = (Math.random() - 0.5) * 0.0008;
-  const price = Math.max(5.18, Math.min(5.29, Math.round((lastPrice + step + jitter) * 10000) / 10000));
+  const price = Math.max(
+    5.18,
+    Math.min(5.29, Math.round((lastPrice + step + jitter) * 10000) / 10000),
+  );
   const vol = Math.floor(Math.random() * 2800) + 150;
   return { id: crypto.randomUUID(), price, vol, side };
 }
@@ -51,10 +54,17 @@ function FlowRow({ row, isNew }: { row: OrderFlowRow; isNew: boolean }): JSX.Ele
       className={cn(
         'flex items-center gap-2 px-3 py-2 font-mono text-xs border-b border-white/5 transition-colors duration-300',
         isNew && 'animate-slide-down bg-white/6',
-        row.side === 'bid' ? 'shadow-[inset_3px_0_0_rgba(0,200,83,0.55)]' : 'shadow-[inset_3px_0_0_rgba(255,82,82,0.55)]',
+        row.side === 'bid'
+          ? 'shadow-[inset_3px_0_0_rgba(0,200,83,0.55)]'
+          : 'shadow-[inset_3px_0_0_rgba(255,82,82,0.55)]',
       )}
     >
-      <span className={cn('font-bold tabular-nums w-[4.5rem]', row.side === 'bid' ? 'text-flow-bid' : 'text-flow-ask')}>
+      <span
+        className={cn(
+          'font-bold tabular-nums w-[4.5rem]',
+          row.side === 'bid' ? 'text-flow-bid' : 'text-flow-ask',
+        )}
+      >
         {formatPrice(row.price)}
       </span>
       <span className="flex-1 text-right text-white/45 tabular-nums">{formatVol(row.vol)}</span>
@@ -111,23 +121,38 @@ export function LiveOrderFlowTape({
     return () => window.clearTimeout(timerId);
   }, [pushTick]);
 
+  const firstRowId = rows[0]?.id;
+
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [rows[0]?.id]);
+  }, [firstRowId]);
 
   return (
-    <div className={cn('rounded-xl border border-white/8 bg-black/30 backdrop-blur-sm overflow-hidden', className)}>
+    <div
+      className={cn(
+        'rounded-xl border border-white/8 bg-black/30 backdrop-blur-sm overflow-hidden',
+        className,
+      )}
+    >
       <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-white/8">
         <div className="flex items-center gap-2">
           <Activity size={11} className="text-brand-gold animate-pulse" aria-hidden="true" />
-          <span className="text-[10px] uppercase tracking-widest text-white/40 font-semibold">Fluxo de ordens</span>
+          <span className="text-[10px] uppercase tracking-widest text-white/40 font-semibold">
+            Fluxo de ordens
+          </span>
         </div>
         <span className="flex items-center gap-1.5 text-[9px] uppercase tracking-wider text-flow-bid font-semibold">
           <span className="h-1.5 w-1.5 rounded-full bg-flow-bid animate-pulse" aria-hidden="true" />
           Ao vivo
         </span>
       </div>
-      <div ref={scrollRef} className="max-h-[220px] overflow-hidden" role="log" aria-live="polite" aria-label="Fluxo de ordens em tempo real">
+      <div
+        ref={scrollRef}
+        className="max-h-[220px] overflow-hidden"
+        role="log"
+        aria-live="polite"
+        aria-label="Fluxo de ordens em tempo real"
+      >
         {rows.map((row) => (
           <FlowRow key={row.id} row={row} isNew={newIds.has(row.id)} />
         ))}

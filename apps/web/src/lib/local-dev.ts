@@ -9,17 +9,9 @@ export function isLocalDevHost(): boolean {
 export const LOCAL_MAIL_INBOX_URL = 'http://localhost:54324';
 
 export function isLocalMailInboxEnabled(): boolean {
-  return (
-    import.meta.env.DEV ||
-    import.meta.env.VITE_DEV_LOCAL_LINKS === 'true' ||
-    isLocalDevHost()
-  );
+  return import.meta.env.DEV || import.meta.env.VITE_DEV_LOCAL_LINKS === 'true' || isLocalDevHost();
 }
 
 export function isCertDevToolsEnabled(): boolean {
-  return (
-    import.meta.env.DEV ||
-    import.meta.env.VITE_DEV_LOCAL_LINKS === 'true' ||
-    isLocalDevHost()
-  );
+  return import.meta.env.DEV || import.meta.env.VITE_DEV_LOCAL_LINKS === 'true' || isLocalDevHost();
 }

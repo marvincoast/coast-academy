@@ -24,32 +24,32 @@ O **Coast Academy** é um monorepo que reúne frontend, microserviços, banco de
 
 ### Funcionalidades
 
-| Área | O que faz |
-|------|-----------|
+| Área             | O que faz                                                          |
+| ---------------- | ------------------------------------------------------------------ |
 | **Autenticação** | Login por e-mail (Supabase Auth), perfil criado no primeiro acesso |
-| **Curso** | 8 módulos, 48 aulas, progresso e desbloqueio sequencial |
-| **Simulados** | Questões de tape reading, timer, tela cheia, correção no servidor |
-| **Prova final** | Avaliação conclusiva com limite de tentativas |
-| **Ranking** | Leaderboard sazonal com pódio |
-| **Certificados** | PDF com QR code e verificação pública (`/verify/:hash`) |
-| **Tutor IA** | RAG com pgvector, citações e guardrails |
-| **Design** | Tema de terminal financeiro (bid/ask, ticker, fluxo de ordens) |
+| **Curso**        | 8 módulos, 48 aulas, progresso e desbloqueio sequencial            |
+| **Simulados**    | Questões de tape reading, timer, tela cheia, correção no servidor  |
+| **Prova final**  | Avaliação conclusiva com limite de tentativas                      |
+| **Ranking**      | Leaderboard sazonal com pódio                                      |
+| **Certificados** | PDF com QR code e verificação pública (`/verify/:hash`)            |
+| **Tutor IA**     | RAG com pgvector, citações e guardrails                            |
+| **Design**       | Tema de terminal financeiro (bid/ask, ticker, fluxo de ordens)     |
 
 ---
 
 ## Stack
 
-| Camada | Tecnologias |
-|--------|-------------|
-| Monorepo | pnpm 9 + Turborepo 2 |
-| Frontend | React 19, Vite, TailwindCSS, TanStack Query, i18next |
-| Design system | `@coast-academy/ui` |
-| Backend | 6 microserviços NestJS (curso, avaliações, certificados, ranking, RAG, notificações) |
-| Gateway | Traefik (proxy, TLS, rate limit) |
-| Dados / Auth | Supabase (Postgres 16, pgvector, RLS) |
-| LLM local | Ollama (tutor RAG) |
-| Testes / CI | Vitest, Playwright, GitHub Actions |
-| Deploy preview | GitHub Pages (frontend estático) |
+| Camada         | Tecnologias                                                                          |
+| -------------- | ------------------------------------------------------------------------------------ |
+| Monorepo       | pnpm 9 + Turborepo 2                                                                 |
+| Frontend       | React 19, Vite, TailwindCSS, TanStack Query, i18next                                 |
+| Design system  | `@coast-academy/ui`                                                                  |
+| Backend        | 6 microserviços NestJS (curso, avaliações, certificados, ranking, RAG, notificações) |
+| Gateway        | Traefik (proxy, TLS, rate limit)                                                     |
+| Dados / Auth   | Supabase (Postgres 16, pgvector, RLS)                                                |
+| LLM local      | Ollama (tutor RAG)                                                                   |
+| Testes / CI    | Vitest, Playwright, GitHub Actions                                                   |
+| Deploy preview | GitHub Pages (frontend estático)                                                     |
 
 ---
 
@@ -68,12 +68,34 @@ coast-academy/
 ├── packages/
 │   ├── ui/                    # Tokens e componentes compartilhados
 │   ├── shared-types/          # Tipos e schemas Zod
-│   └── eslint-config/
-├── supabase/                  # Migrations, seeds, auth
+│   ├── eslint-config/         # ESLint compartilhado
+│   ├── observability/         # Pino, OTEL e Prometheus
+│   └── otel-smoke/            # Smoke test OTLP (infra obs)
+├── supabase/                  # Migrations, seeds, auth (fora do workspace PNPM)
 ├── infra/                     # Docker, Traefik, scripts de deploy
+│   └── scripts/               # start-local.sh, verify-stack.sh, etc.
+├── specs/                     # Spec Kit — specs de features
 ├── docs/                      # Arquitetura, ADRs, runbook
+├── start.sh                   # Atalho → infra/scripts/start-local.sh
+├── start-all.sh               # Atalho → infra/scripts/start-all.sh
+├── pnpm-lock.yaml             # Único lockfile (PNPM exclusivo — não use npm)
+├── tsconfig.base.json         # TypeScript strict compartilhado
+├── tsconfig.paths.json        # Paths workspace centralizados
 └── .github/workflows/         # CI e GitHub Pages
 ```
+
+### Política de lockfile
+
+Este monorepo usa **pnpm 9 exclusivamente**. Use apenas `pnpm-lock.yaml` para dependências.
+Não commite `package-lock.json` nem `yarn.lock` — estão no `.gitignore`.
+
+### Atalhos na raiz
+
+| Script             | Destino                        |
+| ------------------ | ------------------------------ |
+| `start.sh`         | `infra/scripts/start-local.sh` |
+| `start-all.sh`     | `infra/scripts/start-all.sh`   |
+| `pnpm start:local` | Equivalente ao `start.sh`      |
 
 ---
 
@@ -94,7 +116,7 @@ Ambiente completo: Supabase local, Docker, microserviços, Ollama e frontend.
 git clone https://github.com/marvincoast/coast-academy.git
 cd coast-academy
 pnpm install
-cp .env.example .env.local   # ajuste chaves após supabase start
+cp .env.example .env.local   # start-local.sh sincroniza chaves após supabase start
 pnpm start:local               # ou: ./infra/scripts/start-local.sh
 ```
 
@@ -106,12 +128,12 @@ COAST_ACADEMY_DB_RESET=1 COAST_ACADEMY_BUILD=1 COAST_ACADEMY_BUILD_WEB=1 ./infra
 
 ### URLs locais
 
-| Serviço | URL |
-|---------|-----|
-| **App** | http://localhost ou http://coastacademy |
-| **Login** | http://localhost/ |
-| **Mailpit** (magic link) | http://127.0.0.1:54324 |
-| **Supabase Studio** | http://127.0.0.1:54323 |
+| Serviço                  | URL                                     |
+| ------------------------ | --------------------------------------- |
+| **App**                  | http://localhost ou http://coastacademy |
+| **Login**                | http://localhost/                       |
+| **Mailpit** (magic link) | http://127.0.0.1:54324                  |
+| **Supabase Studio**      | http://127.0.0.1:54323                  |
 
 Fluxo de login: informe o e-mail → abra o link em **Mailpit** → você entra no dashboard.
 
@@ -128,37 +150,38 @@ pnpm --filter @coast-academy/web dev
 
 ## Comandos úteis
 
-| Comando | Descrição |
-|---------|-----------|
-| `pnpm start:local` | Sobe stack completa |
-| `pnpm build` | Build de todos os pacotes |
-| `pnpm test` | Testes unitários |
-| `pnpm test:e2e` | Testes E2E (Playwright) |
-| `pnpm lint` / `pnpm typecheck` | Qualidade de código |
-| `./infra/scripts/verify-stack.sh` | Smoke test dos serviços |
+| Comando                           | Descrição                          |
+| --------------------------------- | ---------------------------------- |
+| `pnpm start:local`                | Sobe stack completa                |
+| `pnpm build`                      | Build de todos os pacotes          |
+| `pnpm test`                       | Testes unitários                   |
+| `pnpm test:e2e`                   | Testes E2E (Playwright)            |
+| `pnpm lint` / `pnpm typecheck`    | Qualidade de código                |
+| `pnpm test:e2e`                   | E2E Playwright — apenas `apps/web` |
+| `./infra/scripts/verify-stack.sh` | Smoke test dos serviços            |
 
 ---
 
 ## Deploy e preview
 
-| Ambiente | Como funciona |
-|----------|----------------|
-| **GitHub Pages** | Push na `main` → workflow `.github/workflows/pages.yml` publica o frontend em [marvincoast.github.io/coast-academy](https://marvincoast.github.io/coast-academy/) |
-| **Local (Docker)** | Traefik + nginx + microserviços via `start-local.sh` |
-| **Produção** | Supabase cloud, `.env.prod`, TLS — ver [`docs/RUNBOOK.md`](docs/RUNBOOK.md) |
+| Ambiente           | Como funciona                                                                                                                                                     |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **GitHub Pages**   | Push na `main` → workflow `.github/workflows/pages.yml` publica o frontend em [marvincoast.github.io/coast-academy](https://marvincoast.github.io/coast-academy/) |
+| **Local (Docker)** | Traefik + nginx + microserviços via `start-local.sh`                                                                                                              |
+| **Produção**       | Supabase cloud, `.env.prod`, TLS — ver [`docs/RUNBOOK.md`](docs/RUNBOOK.md)                                                                                       |
 
 ---
 
 ## Documentação
 
-| Tema | Arquivo |
-|------|---------|
-| Arquitetura | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) |
-| Runbook (WSL, Docker, troubleshooting) | [`docs/RUNBOOK.md`](docs/RUNBOOK.md) |
-| Segurança | [`docs/SECURITY.md`](docs/SECURITY.md) |
-| ADRs (decisões técnicas) | [`docs/adr/`](docs/adr/) |
-| Observabilidade | [`docs/specs/observability/`](docs/specs/observability/) |
-| Contribuição | [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) |
+| Tema                                   | Arquivo                                                  |
+| -------------------------------------- | -------------------------------------------------------- |
+| Arquitetura                            | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)           |
+| Runbook (WSL, Docker, troubleshooting) | [`docs/RUNBOOK.md`](docs/RUNBOOK.md)                     |
+| Segurança                              | [`docs/SECURITY.md`](docs/SECURITY.md)                   |
+| ADRs (decisões técnicas)               | [`docs/adr/`](docs/adr/)                                 |
+| Observabilidade                        | [`docs/specs/observability/`](docs/specs/observability/) |
+| Contribuição                           | [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md)           |
 
 ---
 

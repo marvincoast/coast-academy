@@ -18,6 +18,10 @@ export function initSentry(): void {
 
 /** Ativa por padrao; desligue com SENTRY_TEST=false em prod. */
 export function isSentryTestRouteEnabled(): boolean {
-  const raw = process.env['SENTRY_TEST']?.trim().replace(/\r/g, '').replace(/^["']|["']$/g, '').toLowerCase();
+  const raw = process.env['SENTRY_TEST']
+    ?.trim()
+    .replace(/\r/g, '')
+    .replace(/^["']|["']$/g, '')
+    .toLowerCase();
   return raw !== 'false' && raw !== '0' && raw !== 'no';
 }

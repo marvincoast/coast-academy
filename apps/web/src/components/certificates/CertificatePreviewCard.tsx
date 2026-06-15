@@ -74,7 +74,9 @@ export function CertificatePreviewCard({
         <div className="min-w-0 flex-1 text-left">
           <p className="text-[9px] uppercase tracking-wider text-white/30">Emitido por</p>
           <p className="text-xs font-medium text-white/55">{issuerName}</p>
-          <p className="mt-2 font-mono text-[9px] text-white/25 break-all">{verificationHash.slice(0, 24)}…</p>
+          <p className="mt-2 font-mono text-[9px] text-white/25 break-all">
+            {verificationHash.slice(0, 24)}…
+          </p>
         </div>
         <div className="flex h-[72px] w-[72px] flex-shrink-0 items-center justify-center rounded-lg border border-dashed border-white/15 bg-white/5 p-1">
           <img

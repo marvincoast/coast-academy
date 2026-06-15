@@ -15,8 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: "20"
-  PNPM_VERSION: "9.12.0"
+  NODE_VERSION: '20'
+  PNPM_VERSION: '9.12.0'
 
 jobs:
   build:
@@ -43,11 +43,11 @@ jobs:
 
       - name: Build web (GitHub Pages)
         env:
-          GITHUB_PAGES: "true"
+          GITHUB_PAGES: 'true'
           VITE_API_BASE_URL: /api
           VITE_SUPABASE_URL: https://placeholder.supabase.co
           VITE_SUPABASE_ANON_KEY: placeholder-anon-key
-          VITE_DEV_LOCAL_LINKS: "false"
+          VITE_DEV_LOCAL_LINKS: 'false'
         run: pnpm --filter @coast-academy/web run build
 
       - name: Prepare SPA fallback

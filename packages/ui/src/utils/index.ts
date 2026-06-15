@@ -1,10 +1,6 @@
 export { formatPrice } from './formatPrice.js';
 export { getFlowColor, type FlowVariant } from './getFlowColor.js';
-export {
-  applyMarketTheme,
-  getDefaultMarketTheme,
-  type MarketTheme,
-} from './applyMarketTheme.js';
+export { applyMarketTheme, getDefaultMarketTheme, type MarketTheme } from './applyMarketTheme.js';
 export {
   applyStaggeredAnimation,
   clearStaggeredAnimation,

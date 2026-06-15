@@ -4,7 +4,6 @@ import { cn } from '@/lib/cn.js';
 
 import { Spinner } from './Spinner.js';
 
-
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
@@ -21,10 +20,8 @@ const variantStyles: Record<ButtonVariant, string> = {
     'bg-brand-gold text-bg-base font-semibold hover:bg-brand-gold-soft active:bg-brand-gold-deep disabled:opacity-50 hover:shadow-glow-gold active:shadow-none',
   secondary:
     'border border-brand-gold/40 text-brand-gold hover:border-brand-gold hover:bg-brand-gold/10 hover:shadow-glow-gold disabled:opacity-40',
-  ghost:
-    'text-white/70 hover:text-white hover:bg-white/8 disabled:opacity-40',
-  danger:
-    'bg-state-danger text-white hover:bg-red-600 active:bg-red-700 disabled:opacity-50',
+  ghost: 'text-white/70 hover:text-white hover:bg-white/8 disabled:opacity-40',
+  danger: 'bg-state-danger text-white hover:bg-red-600 active:bg-red-700 disabled:opacity-50',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -64,11 +61,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {...props}
       >
-        {loading ? (
-          <Spinner size="sm" />
-        ) : (
-          leftIcon && <span aria-hidden="true">{leftIcon}</span>
-        )}
+        {loading ? <Spinner size="sm" /> : leftIcon && <span aria-hidden="true">{leftIcon}</span>}
         {children}
         {!loading && rightIcon && <span aria-hidden="true">{rightIcon}</span>}
       </button>

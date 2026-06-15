@@ -91,22 +91,18 @@ function DataGridInner<T>({
                 style={col.width ? { width: col.width } : undefined}
                 onClick={() => handleSort(col.key, col.sortable)}
                 aria-sort={
-                  sortKey === col.key
-                    ? sortDir === 'asc'
-                      ? 'ascending'
-                      : 'descending'
-                    : undefined
+                  sortKey === col.key ? (sortDir === 'asc' ? 'ascending' : 'descending') : undefined
                 }
               >
                 <span className="inline-flex items-center gap-1">
                   {col.header}
-                  {col.sortable && sortKey === col.key && (
-                    sortDir === 'asc' ? (
+                  {col.sortable &&
+                    sortKey === col.key &&
+                    (sortDir === 'asc' ? (
                       <ChevronUp className="h-3 w-3" aria-hidden="true" />
                     ) : (
                       <ChevronDown className="h-3 w-3" aria-hidden="true" />
-                    )
-                  )}
+                    ))}
                 </span>
               </th>
             ))}

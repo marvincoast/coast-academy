@@ -51,9 +51,7 @@ export type PublicQuestion = z.infer<typeof PublicQuestionSchema>;
  * Questao em autoria/seed: inclui rationale e gabarito.
  */
 export const AuthoringQuestionSchema = PublicQuestionSchema.extend({
-  rationale: z
-    .string()
-    .min(20, 'Justificativa minima de 20 caracteres para uso pedagogico/RAG.'),
+  rationale: z.string().min(20, 'Justificativa minima de 20 caracteres para uso pedagogico/RAG.'),
   options: z
     .array(AuthoringQuestionOptionSchema)
     .length(4)

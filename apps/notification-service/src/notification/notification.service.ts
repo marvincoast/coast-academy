@@ -17,8 +17,7 @@ export class NotificationService {
 
   constructor() {
     const apiKey = process.env['RESEND_API_KEY'];
-    this.fromAddress =
-      process.env['EMAIL_FROM'] ?? 'Coast Academy <noreply@coast-academy.com>';
+    this.fromAddress = process.env['EMAIL_FROM'] ?? 'Coast Academy <noreply@coast-academy.com>';
     this.baseUrl = process.env['PUBLIC_BASE_URL'] ?? 'http://localhost';
 
     if (apiKey) {
@@ -82,11 +81,7 @@ export class NotificationService {
 
   // ── Internal send ──────────────────────────────────────────────────────────
 
-  private async send(opts: {
-    to: string;
-    subject: string;
-    html: string;
-  }): Promise<EmailResultDto> {
+  private async send(opts: { to: string; subject: string; html: string }): Promise<EmailResultDto> {
     if (!this.resend) {
       if (this.transporter) {
         this.logger.log(`Sending email to ${opts.to} via local SMTP: ${opts.subject}`);

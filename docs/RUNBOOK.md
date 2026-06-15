@@ -4,11 +4,11 @@
 
 ## Ambientes
 
-| Ambiente | Frontend | API | DB | Onde rodar |
-|----------|----------|-----|-----|------------|
+| Ambiente    | Frontend         | API                  | DB                        | Onde rodar     |
+| ----------- | ---------------- | -------------------- | ------------------------- | -------------- |
 | local (dev) | http://localhost | http://localhost/api | Supabase local (`:54321`) | WSL 2 / Ubuntu |
-| staging | TBD | TBD | Supabase staging | VPS (TBD) |
-| prod | TBD | TBD | Supabase cloud | VPS (TBD) |
+| staging     | TBD              | TBD                  | Supabase staging          | VPS (TBD)      |
+| prod        | TBD              | TBD                  | Supabase cloud            | VPS (TBD)      |
 
 ---
 
@@ -87,12 +87,12 @@ docker compose --profile llm --profile cache up -d
 
 Acessos após subir:
 
-| URL | O quê |
-|-----|-------|
-| http://localhost | Frontend Coast Academy |
-| http://localhost:8081 | Traefik dashboard (dev only) |
+| URL                    | O quê                                 |
+| ---------------------- | ------------------------------------- |
+| http://localhost       | Frontend Coast Academy                |
+| http://localhost:8081  | Traefik dashboard (dev only)          |
 | http://localhost:54323 | Supabase Studio (se `supabase start`) |
-| http://localhost:54321 | Supabase API local |
+| http://localhost:54321 | Supabase API local                    |
 
 ### 7 — Supabase local (banco de desenvolvimento)
 

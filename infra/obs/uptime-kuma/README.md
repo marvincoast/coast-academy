@@ -20,13 +20,13 @@ Monitoramento simples de disponibilidade (RF-06), profile `obs`, UI em **http://
 
 Use **`host.docker.internal`** (já configurado no compose). Evita `getaddrinfo EAI_AGAIN` com `traefik`.
 
-| Monitor | URL no Kuma | Status aceito |
-|---------|-------------|---------------|
-| Web — Home | `http://host.docker.internal:3000/` (ou `:80` + header `Host: localhost`) | 2xx |
-| Traefik — Ping | `http://host.docker.internal:8081/ping` | 2xx |
-| Certificate — /me | `http://host.docker.internal/api/certificates/me` | **401** |
-| Grafana | `http://host.docker.internal:3001/api/health` | 2xx |
-| Supabase (opcional) | `http://host.docker.internal:54321/rest/v1/` | 2xx ou 401 |
+| Monitor             | URL no Kuma                                                               | Status aceito |
+| ------------------- | ------------------------------------------------------------------------- | ------------- |
+| Web — Home          | `http://host.docker.internal:3000/` (ou `:80` + header `Host: localhost`) | 2xx           |
+| Traefik — Ping      | `http://host.docker.internal:8081/ping`                                   | 2xx           |
+| Certificate — /me   | `http://host.docker.internal/api/certificates/me`                         | **401**       |
+| Grafana             | `http://host.docker.internal:3001/api/health`                             | 2xx           |
+| Supabase (opcional) | `http://host.docker.internal:54321/rest/v1/`                              | 2xx ou 401    |
 
 **Alternativa** (se DNS Docker funcionar): `http://traefik/...` ou `http://coast-academy-traefik:8080/ping`.
 

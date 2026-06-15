@@ -1,5 +1,5 @@
-import { Lock, Target, Trophy } from 'lucide-react';
 import { useQueries } from '@tanstack/react-query';
+import { Lock, Target, Trophy } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -32,9 +32,7 @@ function ModuleSimuladoRow({
   const lockedLessons = module.isUnlocked && module.progressPct < 100;
   const ready = module.isUnlocked && module.progressPct === 100;
 
-  const minutes = assessment
-    ? Math.max(1, Math.round(assessment.timeLimitSeconds / 60))
-    : 15;
+  const minutes = assessment ? Math.max(1, Math.round(assessment.timeLimitSeconds / 60)) : 15;
 
   return (
     <div
@@ -80,9 +78,7 @@ function ModuleSimuladoRow({
       </div>
 
       <div className="mt-3">
-        {lockedModule && (
-          <p className="text-xs text-white/40">{t('simulations.lockedModule')}</p>
-        )}
+        {lockedModule && <p className="text-xs text-white/40">{t('simulations.lockedModule')}</p>}
         {lockedLessons && (
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-white/50">{t('simulations.lockedLessons')}</p>
@@ -169,8 +165,12 @@ export default function SimuladosPage(): JSX.Element {
           <Target size={24} aria-hidden="true" />
         </div>
         <div>
-          <h1 className="text-2xl font-display font-bold text-white">{t('simulations.pageTitle')}</h1>
-          <p className="mt-1 text-sm text-white/50 leading-relaxed">{t('simulations.pageDescription')}</p>
+          <h1 className="text-2xl font-display font-bold text-white">
+            {t('simulations.pageTitle')}
+          </h1>
+          <p className="mt-1 text-sm text-white/50 leading-relaxed">
+            {t('simulations.pageDescription')}
+          </p>
         </div>
       </div>
 

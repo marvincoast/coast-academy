@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   AlertTriangle,
   Award,
@@ -10,20 +9,23 @@ import {
   Loader2,
   XCircle,
 } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { ApiError } from '../../api/client';
 import { assessmentApi } from '../../api/assessment.api';
-import { certificateApi, saveCertificatePdfBlob } from '../../api/certificate.api';
-import { useIssueCertificate } from '../../hooks/use-certificate';
 import type {
   QuestionResultDto,
   StartAttemptResponseDto,
   SubmitAttemptResponseDto,
 } from '../../api/assessment.api';
+import { certificateApi, saveCertificatePdfBlob } from '../../api/certificate.api';
+import { ApiError } from '../../api/client';
 import { Spinner } from '../../components/ui/Spinner';
+import { useIssueCertificate } from '../../hooks/use-certificate';
 import { cn } from '../../lib/cn';
+
+const MAX_TAB_CHANGES = 3;
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
@@ -95,10 +97,7 @@ export function SimuladoPage() {
     const handleVisibilityChange = () => {
       if (document.hidden && attemptIdRef.current) {
         setTabChanges((n) => n + 1);
-        toast(
-          '⚠️ Você saiu da aba! Isso foi registrado.',
-          { icon: '⚠️', duration: 4000 },
-        );
+        toast('⚠️ Você saiu da aba! Isso foi registrado.', { icon: '⚠️', duration: 4000 });
         void assessmentApi.recordTabChange(attemptIdRef.current);
       }
     };
@@ -108,16 +107,13 @@ export function SimuladoPage() {
   }, [phase]);
 
   // ── Select answer ─────────────────────────────────────────────────────────
-  const handleSelectOption = useCallback(
-    (questionId: string, optionId: string) => {
-      setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
-      // Auto-save in background
-      if (attemptIdRef.current) {
-        void assessmentApi.saveAnswer(attemptIdRef.current, questionId, optionId);
-      }
-    },
-    [],
-  );
+  const handleSelectOption = useCallback((questionId: string, optionId: string) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
+    // Auto-save in background
+    if (attemptIdRef.current) {
+      void assessmentApi.saveAnswer(attemptIdRef.current, questionId, optionId);
+    }
+  }, []);
 
   // ── Submit ────────────────────────────────────────────────────────────────
   const handleSubmit = useCallback(
@@ -156,6 +152,17 @@ export function SimuladoPage() {
     },
     [phase, attempt, answers],
   );
+
+  // ── Auto-submit após exceder limite de trocas de aba ─────────────────────
+  useEffect(() => {
+    if (phase !== 'quiz' || tabChanges <= MAX_TAB_CHANGES) return;
+
+    toast.error(
+      `Limite de ${MAX_TAB_CHANGES} trocas de aba excedido. O simulado será finalizado automaticamente.`,
+      { duration: 5000 },
+    );
+    void handleSubmit(true);
+  }, [tabChanges, phase, handleSubmit]);
 
   // ─── Render phases ────────────────────────────────────────────────────────
 
@@ -199,14 +206,17 @@ export function SimuladoPage() {
           attemptIdRef.current = null;
           // Re-trigger effect
           if (assessmentId) {
-            assessmentApi.startAttempt(assessmentId).then((data) => {
-              setAttempt(data);
-              setAnswers(data.savedAnswers);
-              attemptIdRef.current = data.attemptId;
-              const elapsed = (Date.now() - new Date(data.startedAt).getTime()) / 1000;
-              setTimeLeft(Math.max(0, data.timeLimitSeconds - Math.floor(elapsed)));
-              setPhase('quiz');
-            }).catch(() => navigate(-1));
+            assessmentApi
+              .startAttempt(assessmentId)
+              .then((data) => {
+                setAttempt(data);
+                setAnswers(data.savedAnswers);
+                attemptIdRef.current = data.attemptId;
+                const elapsed = (Date.now() - new Date(data.startedAt).getTime()) / 1000;
+                setTimeLeft(Math.max(0, data.timeLimitSeconds - Math.floor(elapsed)));
+                setPhase('quiz');
+              })
+              .catch(() => navigate(-1));
           }
         }}
       />
@@ -235,9 +245,18 @@ export function SimuladoPage() {
 
         <div className="flex items-center gap-4">
           {tabChanges > 0 && (
-            <div className="flex items-center gap-1.5 text-xs text-red-400 bg-red-950/50 px-2 py-1 rounded-lg">
+            <div
+              className={cn(
+                'flex items-center gap-1.5 text-xs px-2 py-1 rounded-lg',
+                tabChanges > MAX_TAB_CHANGES
+                  ? 'text-red-300 bg-red-950/70'
+                  : tabChanges >= MAX_TAB_CHANGES
+                    ? 'text-amber-300 bg-amber-950/50'
+                    : 'text-red-400 bg-red-950/50',
+              )}
+            >
               <AlertTriangle className="h-3 w-3" />
-              {tabChanges} troca{tabChanges > 1 ? 's' : ''} de aba
+              {tabChanges}/{MAX_TAB_CHANGES} trocas de aba
             </div>
           )}
           <Timer seconds={timeLeft} total={attempt.timeLimitSeconds} />
@@ -271,9 +290,7 @@ export function SimuladoPage() {
           <span className="text-xs font-semibold text-amber-500 uppercase tracking-wider">
             Questão {currentIdx + 1} de {total}
           </span>
-          <p className="mt-3 text-lg text-white leading-relaxed font-medium">
-            {current.stem}
-          </p>
+          <p className="mt-3 text-lg text-white leading-relaxed font-medium">{current.stem}</p>
           {current.imageUrl && (
             <img
               src={current.imageUrl}
@@ -305,9 +322,7 @@ export function SimuladoPage() {
                       selected ? 'border-amber-500 bg-amber-500' : 'border-gray-600',
                     )}
                   >
-                    {selected && (
-                      <span className="w-2 h-2 rounded-full bg-black" />
-                    )}
+                    {selected && <span className="w-2 h-2 rounded-full bg-black" />}
                   </span>
                   <span className="text-sm leading-relaxed">{option.text}</span>
                 </div>
@@ -408,9 +423,7 @@ function ResultScreen({
             <XCircle className="h-14 w-14 text-red-400 mx-auto mb-4" />
           )}
 
-          <h1 className="text-3xl font-bold text-white mb-1">
-            {result.scorePercent}%
-          </h1>
+          <h1 className="text-3xl font-bold text-white mb-1">{result.scorePercent}%</h1>
           <p
             className={cn(
               'text-lg font-semibold mb-2',
@@ -428,7 +441,8 @@ function ResultScreen({
           {result.tabChangeCount > 0 && (
             <p className="mt-3 text-xs text-red-400 flex items-center justify-center gap-1.5">
               <AlertTriangle className="h-3.5 w-3.5" />
-              {result.tabChangeCount} troca{result.tabChangeCount > 1 ? 's' : ''} de aba registrada{result.tabChangeCount > 1 ? 's' : ''}
+              {result.tabChangeCount} troca{result.tabChangeCount > 1 ? 's' : ''} de aba registrada
+              {result.tabChangeCount > 1 ? 's' : ''}
             </p>
           )}
         </div>
@@ -442,7 +456,9 @@ function ResultScreen({
               <Award className="h-8 w-8 shrink-0 text-amber-400" aria-hidden="true" />
               <div className="min-w-0 flex-1 space-y-3">
                 <div>
-                  <p className="font-semibold text-amber-200">Parabéns! Você pode emitir seu certificado</p>
+                  <p className="font-semibold text-amber-200">
+                    Parabéns! Você pode emitir seu certificado
+                  </p>
                   <p className="mt-1 text-sm text-gray-400">
                     Gera o PDF oficial, salva no Appwrite (S3cert) e aparece em Meus Certificados.
                   </p>
@@ -486,9 +502,7 @@ function ResultScreen({
         {/* Review / gabarito */}
         {showReview && (
           <div className="flex flex-col gap-4">
-            <h2 className="text-base font-semibold text-gray-200">
-              Gabarito comentado
-            </h2>
+            <h2 className="text-base font-semibold text-gray-200">Gabarito comentado</h2>
             {result.results.map((r, i) => (
               <QuestionReview key={r.questionId} result={r} index={i} />
             ))}

@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-  ParseUUIDPipe,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../common/auth.guard';
 import { CurrentUser, CurrentUserPayload } from '../common/current-user.decorator';
 import { CourseService } from './course.service';
@@ -22,10 +16,7 @@ export class CourseController {
 
   /** GET /courses/:id — full course tree with progress and lock state */
   @Get(':id')
-  getCourse(
-    @Param('id', ParseUUIDPipe) id: string,
-    @CurrentUser() user: CurrentUserPayload,
-  ) {
+  getCourse(@Param('id', ParseUUIDPipe) id: string, @CurrentUser() user: CurrentUserPayload) {
     return this.courseService.getCourse(id, user.id);
   }
 

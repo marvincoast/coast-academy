@@ -17,6 +17,5 @@ export interface TutorAnswerDto {
 // ─── API ───────────────────────────────────────────────────────────────────
 
 export const tutorApi = {
-  ask: (question: string) =>
-    apiPost<TutorAnswerDto>('/rag/ask', { question }),
+  ask: (question: string) => apiPost<TutorAnswerDto>('/rag/ask', { question }),
 };

@@ -23,17 +23,17 @@ export interface VerifyResponseDto {
 // ─── API ───────────────────────────────────────────────────────────────────
 
 export const certificateApi = {
-  issue: (attemptId: string) =>
-    apiPost<CertificateDto>('/certificates/issue', { attemptId }),
+  issue: (attemptId: string) => apiPost<CertificateDto>('/certificates/issue', { attemptId }),
 
   listMine: () => apiGet<CertificateDto[]>('/certificates/me'),
 
   verify: (hash: string) =>
-    fetch(`${import.meta.env['VITE_API_BASE_URL'] ?? 'http://localhost/api'}/certificates/verify/${hash}`)
-      .then((r) => {
-        if (!r.ok) throw new Error('Certificate not found');
-        return r.json() as Promise<VerifyResponseDto>;
-      }),
+    fetch(
+      `${import.meta.env['VITE_API_BASE_URL'] ?? 'http://localhost/api'}/certificates/verify/${hash}`,
+    ).then((r) => {
+      if (!r.ok) throw new Error('Certificate not found');
+      return r.json() as Promise<VerifyResponseDto>;
+    }),
 
   downloadPdf: (certificateId: string) => apiDownloadBlob(`/certificates/${certificateId}/pdf`),
 

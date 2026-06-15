@@ -26,7 +26,7 @@ groups:
               maxDataPoints: 43200
               refId: A
           - refId: B
-            datasourceUid: "-100"
+            datasourceUid: '-100'
             model:
               conditions:
                 - evaluator:
@@ -44,7 +44,7 @@ groups:
                   type: query
               datasource:
                 type: __expr__
-                uid: "-100"
+                uid: '-100'
               intervalMs: 1000
               maxDataPoints: 43200
               refId: B
@@ -79,7 +79,7 @@ groups:
               maxDataPoints: 43200
               refId: A
           - refId: B
-            datasourceUid: "-100"
+            datasourceUid: '-100'
             model:
               conditions:
                 - evaluator:
@@ -97,7 +97,7 @@ groups:
                   type: query
               datasource:
                 type: __expr__
-                uid: "-100"
+                uid: '-100'
               intervalMs: 1000
               maxDataPoints: 43200
               refId: B
@@ -132,7 +132,7 @@ groups:
               maxDataPoints: 43200
               refId: A
           - refId: B
-            datasourceUid: "-100"
+            datasourceUid: '-100'
             model:
               conditions:
                 - evaluator:
@@ -150,7 +150,7 @@ groups:
                   type: query
               datasource:
                 type: __expr__
-                uid: "-100"
+                uid: '-100'
               intervalMs: 1000
               maxDataPoints: 43200
               refId: B

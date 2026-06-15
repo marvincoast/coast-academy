@@ -2,8 +2,8 @@ import { Download, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { ApiError } from '@/api/client.js';
 import { certificateApi, saveCertificatePdfBlob } from '@/api/certificate.api.js';
+import { ApiError } from '@/api/client.js';
 import { cn } from '@/lib/cn.js';
 
 interface CertificateDownloadButtonProps {
@@ -41,11 +41,7 @@ export function CertificateDownloadButton({
       toast.success('PDF baixado');
     } catch (e) {
       const msg =
-        e instanceof ApiError
-          ? e.message.slice(0, 100)
-          : e instanceof Error
-            ? e.message
-            : 'erro';
+        e instanceof ApiError ? e.message.slice(0, 100) : e instanceof Error ? e.message : 'erro';
       toast.error(`Download falhou: ${msg}`);
     } finally {
       setLoading(false);

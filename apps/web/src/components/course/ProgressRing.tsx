@@ -1,7 +1,7 @@
 interface ProgressRingProps {
-  pct: number;       // 0-100
-  size?: number;     // SVG width/height in px
-  stroke?: number;   // stroke width in px
+  pct: number; // 0-100
+  size?: number; // SVG width/height in px
+  stroke?: number; // stroke width in px
   className?: string;
 }
 
@@ -9,19 +9,14 @@ interface ProgressRingProps {
  * Circular progress ring used on module cards.
  * Uses SVG stroke-dashoffset animation.
  */
-export function ProgressRing({
-  pct,
-  size = 48,
-  stroke = 4,
-  className,
-}: ProgressRingProps) {
+export function ProgressRing({ pct, size = 48, stroke = 4, className }: ProgressRingProps) {
   const r = (size - stroke) / 2;
   const circ = 2 * Math.PI * r;
   const offset = circ - (pct / 100) * circ;
 
   const color =
     pct === 100
-      ? '#22c55e'   // green-500 — complete
+      ? '#22c55e' // green-500 — complete
       : pct > 0
         ? '#eab308' // yellow-500 — in progress
         : '#374151'; // gray-700 — not started
@@ -35,14 +30,7 @@ export function ProgressRing({
       aria-hidden="true"
     >
       {/* Background track */}
-      <circle
-        cx={size / 2}
-        cy={size / 2}
-        r={r}
-        fill="none"
-        stroke="#1f2937"
-        strokeWidth={stroke}
-      />
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#1f2937" strokeWidth={stroke} />
       {/* Progress arc */}
       <circle
         cx={size / 2}

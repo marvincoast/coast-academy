@@ -66,13 +66,7 @@ export function PriceDisplay({
 
   return (
     <div className={cn('inline-flex flex-col gap-0.5', className)}>
-      <span
-        className={cn(
-          'font-mono font-semibold tabular-nums',
-          sizeClasses[size],
-          colorClass,
-        )}
-      >
+      <span className={cn('font-mono font-semibold tabular-nums', sizeClasses[size], colorClass)}>
         {formatPrice(displayValue, undefined, currency)}
       </span>
       {showChange && change !== undefined && (

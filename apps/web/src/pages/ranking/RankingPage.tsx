@@ -13,8 +13,8 @@ import { cn } from '../../lib/cn';
 // ─── Constantes de prêmios (customizável pelo admin) ─────────────────────────
 const PRIZES = [
   { position: 1, label: 'Notebook Coast Academy', icon: '💻' },
-  { position: 2, label: 'Kit Café Premium',         icon: '☕' },
-  { position: 3, label: 'Copo Coast Academy',      icon: '🏆' },
+  { position: 2, label: 'Kit Café Premium', icon: '☕' },
+  { position: 3, label: 'Copo Coast Academy', icon: '🏆' },
 ];
 
 const MESA_PROP_MIN_SCORE = 80; // % mínimo para candidatura à mesa proprietária
@@ -53,7 +53,8 @@ export default function RankingPage() {
           ))}
         </div>
         <p className="mt-4 border-t border-white/8 pt-3 text-xs text-white/40">
-          Score ≥ {MESA_PROP_MIN_SCORE}% na Prova Final — candidatura à mesa proprietária Coast Academy
+          Score ≥ {MESA_PROP_MIN_SCORE}% na Prova Final — candidatura à mesa proprietária Coast
+          Academy
         </p>
       </GlassCard>
 
@@ -83,11 +84,7 @@ export default function RankingPage() {
             <StatCard
               icon={<Medal className="h-4 w-4" />}
               label="Sua posição"
-              value={
-                leaderboard?.myEntry
-                  ? `${leaderboard.myEntry.position}º`
-                  : '—'
-              }
+              value={leaderboard?.myEntry ? `${leaderboard.myEntry.position}º` : '—'}
             />
           </div>
 
@@ -140,7 +137,10 @@ function MyStatsCard({
       <h2 className="mb-4 text-sm font-semibold text-white/80">Meu desempenho</h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
-        <MiniStat label="Aulas concluídas" value={`${profileStats.completedLessons}/${profileStats.totalLessons}`} />
+        <MiniStat
+          label="Aulas concluídas"
+          value={`${profileStats.completedLessons}/${profileStats.totalLessons}`}
+        />
         <MiniStat label="Simulados aprovados" value={`${profileStats.simuladosPassed}/8`} />
         <MiniStat
           label="Prova Final"
@@ -159,7 +159,12 @@ function MyStatsCard({
       </div>
 
       {/* Course progress bar */}
-      <ProgressBar value={progressPct} label="Progresso geral do curso" showPercentage variant="gold" />
+      <ProgressBar
+        value={progressPct}
+        label="Progresso geral do curso"
+        showPercentage
+        variant="gold"
+      />
 
       {/* Simulado scores mini-grid */}
       {simulados.length > 0 && (
@@ -239,10 +244,10 @@ function Podium({ entries }: { entries: LeaderboardEntryDto[] }) {
         <div key={entry.userId} className="flex flex-col items-center gap-2 flex-1 max-w-36">
           <div className="text-center">
             <p className="text-2xl">{medals[i]}</p>
-            <p className="text-sm font-semibold text-white mt-1 truncate">
-              {entry.displayName}
+            <p className="text-sm font-semibold text-white mt-1 truncate">{entry.displayName}</p>
+            <p className="text-xs font-bold font-mono text-brand-gold tabular-nums">
+              {entry.scorePercent}%
             </p>
-            <p className="text-xs font-bold font-mono text-brand-gold tabular-nums">{entry.scorePercent}%</p>
           </div>
           <div
             className={cn(
@@ -259,21 +264,9 @@ function Podium({ entries }: { entries: LeaderboardEntryDto[] }) {
   );
 }
 
-function LeaderboardRow({
-  entry,
-  isMe,
-}: {
-  entry: LeaderboardEntryDto;
-  isMe: boolean;
-}) {
+function LeaderboardRow({ entry, isMe }: { entry: LeaderboardEntryDto; isMe: boolean }) {
   const medalIcon =
-    entry.position === 1
-      ? '🥇'
-      : entry.position === 2
-        ? '🥈'
-        : entry.position === 3
-          ? '🥉'
-          : null;
+    entry.position === 1 ? '🥇' : entry.position === 2 ? '🥈' : entry.position === 3 ? '🥉' : null;
 
   const isEligibleMesa = entry.scorePercent >= MESA_PROP_MIN_SCORE;
 
@@ -342,15 +335,7 @@ function LeaderboardRow({
   );
 }
 
-function Avatar({
-  name,
-  url,
-  size,
-}: {
-  name: string;
-  url: string | null;
-  size: number;
-}) {
+function Avatar({ name, url, size }: { name: string; url: string | null; size: number }) {
   const initials = name
     .split(' ')
     .map((n) => n[0])

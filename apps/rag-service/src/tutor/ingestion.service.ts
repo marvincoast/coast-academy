@@ -3,7 +3,7 @@ import { SupabaseService } from '../common/supabase.service.js';
 import { EmbeddingService } from './embedding.service.js';
 import type { IngestStatusDto } from './tutor.dto.js';
 
-const CHUNK_SIZE = 800;   // characters
+const CHUNK_SIZE = 800; // characters
 const CHUNK_OVERLAP = 150; // characters
 
 function splitIntoChunks(text: string): string[] {
@@ -59,7 +59,8 @@ export class IngestionService {
     if (error || !lessons) {
       this.logger.error('Failed to load lessons', error);
       status.errors.push(
-        error?.message ?? 'Failed to load lessons — verifique SUPABASE_URL e service role no rag-service',
+        error?.message ??
+          'Failed to load lessons — verifique SUPABASE_URL e service role no rag-service',
       );
       return status;
     }
@@ -118,9 +119,7 @@ export class IngestionService {
         : chapter.modules
       : null;
 
-    const sourceLabel = moduleInfo
-      ? `${moduleInfo.title} · ${lesson.title}`
-      : lesson.title;
+    const sourceLabel = moduleInfo ? `${moduleInfo.title} · ${lesson.title}` : lesson.title;
     const moduleId = moduleInfo?.id ?? null;
 
     const rawChunks = splitIntoChunks(lesson.content_markdown);
@@ -142,12 +141,10 @@ export class IngestionService {
         tokens: Math.ceil(content.length / 4),
       }));
 
-      const { error } = await this.supabase.admin
-        .from('knowledge_chunks')
-        .upsert(rows, {
-          onConflict: 'lesson_id,chunk_index',
-          ignoreDuplicates: false,
-        });
+      const { error } = await this.supabase.admin.from('knowledge_chunks').upsert(rows, {
+        onConflict: 'lesson_id,chunk_index',
+        ignoreDuplicates: false,
+      });
 
       if (error) {
         throw new Error(`Upsert failed: ${error.message}`);

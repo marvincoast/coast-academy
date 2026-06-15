@@ -18,7 +18,7 @@ No Docker, o `Dockerfile.service` faz isso automaticamente.
 import { applyPinoLogger, ObservabilityModule } from '@coast-academy/observability';
 
 @Module({
-  imports: [ObservabilityModule, /* ... */],
+  imports: [ObservabilityModule /* ... */],
 })
 export class AppModule {}
 ```

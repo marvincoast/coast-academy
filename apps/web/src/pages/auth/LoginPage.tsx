@@ -14,8 +14,8 @@ import { Input } from '@/components/ui/Input.js';
 import { Logo } from '@/components/ui/Logo.js';
 import { useAuth } from '@/hooks/use-auth.js';
 import { appOriginPath } from '@/lib/base-path.js';
-import { MOCK_TICKER_ITEMS } from '@/lib/mock-market-data.js';
 import { isLocalMailInboxEnabled, LOCAL_MAIL_INBOX_URL } from '@/lib/local-dev.js';
+import { MOCK_TICKER_ITEMS } from '@/lib/mock-market-data.js';
 import { supabase } from '@/lib/supabase.js';
 
 const EmailSchema = z.string().email();
@@ -75,7 +75,10 @@ export default function LoginPage(): JSX.Element {
         <div
           aria-hidden="true"
           className="absolute top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(201,162,39,0.22) 0%, rgba(201,162,39,0.06) 50%, transparent 70%)' }}
+          style={{
+            background:
+              'radial-gradient(circle, rgba(201,162,39,0.22) 0%, rgba(201,162,39,0.06) 50%, transparent 70%)',
+          }}
         />
         {/* Glow verde (bid) canto inferior */}
         <div
@@ -87,7 +90,9 @@ export default function LoginPage(): JSX.Element {
         <div
           aria-hidden="true"
           className="absolute -top-20 right-0 h-[300px] w-[300px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(255,82,82,0.12) 0%, transparent 70%)' }}
+          style={{
+            background: 'radial-gradient(circle, rgba(255,82,82,0.12) 0%, transparent 70%)',
+          }}
         />
 
         {/* Grid decorativo */}
@@ -95,7 +100,8 @@ export default function LoginPage(): JSX.Element {
           aria-hidden="true"
           className="absolute inset-0 opacity-30"
           style={{
-            backgroundImage: 'linear-gradient(rgba(201,162,39,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(201,162,39,0.08) 1px, transparent 1px)',
+            backgroundImage:
+              'linear-gradient(rgba(201,162,39,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(201,162,39,0.08) 1px, transparent 1px)',
             backgroundSize: '48px 48px',
           }}
         />
@@ -115,12 +121,15 @@ export default function LoginPage(): JSX.Element {
                 DÓLAR FUTURO · B3
               </div>
               <h2 className="text-2xl xl:text-[1.65rem] font-display font-bold text-white leading-tight">
-                Tape Reading<br />
-                <span className="text-brand-gold">profissional</span> do<br />
+                Tape Reading
+                <br />
+                <span className="text-brand-gold">profissional</span> do
+                <br />
                 mercado brasileiro
               </h2>
               <p className="mt-2 text-xs xl:text-sm text-white/45 max-w-xs leading-relaxed">
-                Domine a análise de fluxo de ordens no Dólar Futuro da B3 com metodologia institucional.
+                Domine a análise de fluxo de ordens no Dólar Futuro da B3 com metodologia
+                institucional.
               </p>
             </div>
 
@@ -151,7 +160,12 @@ export default function LoginPage(): JSX.Element {
       {/* ── Painel direito — formulário (maior) ─────────────────────── */}
       <div className="relative flex flex-1 min-w-0 flex-col overflow-hidden">
         {/* Ticker no topo do painel direito */}
-        <MarketTicker items={MOCK_TICKER_ITEMS} speed="slow" variant="compact" className="relative z-20 shrink-0" />
+        <MarketTicker
+          items={MOCK_TICKER_ITEMS}
+          speed="slow"
+          variant="compact"
+          className="relative z-20 shrink-0"
+        />
 
         {/* Vídeo / animação de mercado financeiro */}
         <LoginVideoBackground className="absolute inset-0" />
@@ -165,13 +179,15 @@ export default function LoginPage(): JSX.Element {
 
           <main className="w-full max-w-[400px] animate-scale-in">
             {/* Card de login */}
-            <div className="rounded-3xl border border-white/12 bg-bg-surface/80 backdrop-blur-heavy p-8"
-              style={{ boxShadow: '0 0 0 1px rgba(201,162,39,0.08), 0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(201,162,39,0.06)' }}
+            <div
+              className="rounded-3xl border border-white/12 bg-bg-surface/80 backdrop-blur-heavy p-8"
+              style={{
+                boxShadow:
+                  '0 0 0 1px rgba(201,162,39,0.08), 0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(201,162,39,0.06)',
+              }}
             >
               <div className="mb-8 text-center">
-                <h1 className="text-2xl font-display font-bold text-white">
-                  {t('login.title')}
-                </h1>
+                <h1 className="text-2xl font-display font-bold text-white">{t('login.title')}</h1>
                 <p className="mt-2 text-sm text-white/45">{t('login.subtitle')}</p>
               </div>
 
@@ -194,7 +210,9 @@ export default function LoginPage(): JSX.Element {
                     />
 
                     {errorMessage && (
-                      <p role="alert" className="text-sm text-state-danger">{errorMessage}</p>
+                      <p role="alert" className="text-sm text-state-danger">
+                        {errorMessage}
+                      </p>
                     )}
 
                     <Button
@@ -204,7 +222,9 @@ export default function LoginPage(): JSX.Element {
                       leftIcon={<Mail size={16} />}
                       className="w-full"
                     >
-                      {loginState === 'submitting' ? t('login.submitting') : t('login.submitButton')}
+                      {loginState === 'submitting'
+                        ? t('login.submitting')
+                        : t('login.submitButton')}
                     </Button>
                   </div>
 
@@ -239,15 +259,19 @@ function SuccessState({ t, email, onBack }: SuccessStateProps): JSX.Element {
 
   return (
     <div className="flex flex-col items-center gap-4 py-4 text-center animate-scale-in">
-      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-flow-bid/15 border border-flow-bid/20"
-        style={{ boxShadow: '0 0 20px rgba(0,200,83,0.15)' }}>
+      <div
+        className="flex h-16 w-16 items-center justify-center rounded-2xl bg-flow-bid/15 border border-flow-bid/20"
+        style={{ boxShadow: '0 0 20px rgba(0,200,83,0.15)' }}
+      >
         <CheckCircle className="h-7 w-7 text-flow-bid" aria-hidden="true" />
       </div>
       <div>
         <h2 className="text-lg font-display font-semibold text-white">{t('login.successTitle')}</h2>
         <p className="mt-1 text-sm text-white/50">{t('login.successDescription')}</p>
       </div>
-      <p className="mt-1 text-xs text-white/35 bg-white/5 px-3 py-1 rounded-lg font-mono">{email}</p>
+      <p className="mt-1 text-xs text-white/35 bg-white/5 px-3 py-1 rounded-lg font-mono">
+        {email}
+      </p>
       {showMailpit ? (
         <>
           <p className="text-xs text-white/40 max-w-[280px]">{t('login.successHintLocal')}</p>

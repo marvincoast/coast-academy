@@ -2,16 +2,16 @@ import { BookOpen, Target, TrendingUp, Trophy } from 'lucide-react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 
 import { ApiError } from '@/api/client.js';
-import { TapeReadingVisualization } from '@/components/market/TapeReadingVisualization.js';
 import { ModuleCard } from '@/components/course/ModuleCard.js';
+import { TapeReadingVisualization } from '@/components/market/TapeReadingVisualization.js';
 import { Button } from '@/components/ui/Button.js';
 import { GlassCard } from '@/components/ui/GlassCard.js';
 import { MarketBadge } from '@/components/ui/MarketBadge.js';
 import { ProgressBar } from '@/components/ui/ProgressBar.js';
-import { MOCK_TAPE_ENTRIES } from '@/lib/mock-market-data.js';
 import { COAST_COURSE_ID } from '@/config/constants.js';
 import { useCourse } from '@/hooks/use-course.js';
 import { cn } from '@/lib/cn.js';
+import { MOCK_TAPE_ENTRIES } from '@/lib/mock-market-data.js';
 
 export default function CoursePage() {
   const { courseId = COAST_COURSE_ID } = useParams<{ courseId?: string }>();
@@ -75,21 +75,23 @@ export default function CoursePage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 space-y-6 animate-fade-up">
-
       {/* ── Course header ──────────────────────────────────────────── */}
       <div
         className="relative overflow-hidden rounded-2xl p-6"
         style={{
           background: 'linear-gradient(135deg, rgba(13,20,32,0.98) 0%, rgba(10,16,22,1) 100%)',
           border: '1px solid rgba(201,162,39,0.28)',
-          boxShadow: '0 0 0 1px rgba(201,162,39,0.06), 0 20px 60px rgba(0,0,0,0.5), 0 0 60px rgba(201,162,39,0.05)',
+          boxShadow:
+            '0 0 0 1px rgba(201,162,39,0.06), 0 20px 60px rgba(0,0,0,0.5), 0 0 60px rgba(201,162,39,0.05)',
         }}
       >
         {/* Glows decorativos */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -right-12 -top-12 h-56 w-56 rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(201,162,39,0.22) 0%, transparent 70%)' }}
+          style={{
+            background: 'radial-gradient(circle, rgba(201,162,39,0.22) 0%, transparent 70%)',
+          }}
         />
         <div
           aria-hidden="true"
@@ -101,7 +103,8 @@ export default function CoursePage() {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 opacity-25"
           style={{
-            backgroundImage: 'linear-gradient(rgba(201,162,39,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(201,162,39,0.07) 1px, transparent 1px)',
+            backgroundImage:
+              'linear-gradient(rgba(201,162,39,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(201,162,39,0.07) 1px, transparent 1px)',
             backgroundSize: '36px 36px',
           }}
         />
@@ -115,7 +118,10 @@ export default function CoursePage() {
                 </MarketBadge>
                 <span
                   className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-flow-ask"
-                  style={{ background: 'rgba(255,82,82,0.10)', border: '1px solid rgba(255,82,82,0.20)' }}
+                  style={{
+                    background: 'rgba(255,82,82,0.10)',
+                    border: '1px solid rgba(255,82,82,0.20)',
+                  }}
                 >
                   Dólar Futuro (B3)
                 </span>
@@ -123,9 +129,7 @@ export default function CoursePage() {
               <h1 className="text-2xl font-display font-bold text-white leading-tight">
                 {course.title}
               </h1>
-              {course.subtitle && (
-                <p className="text-white/50 mt-1 text-sm">{course.subtitle}</p>
-              )}
+              {course.subtitle && <p className="text-white/50 mt-1 text-sm">{course.subtitle}</p>}
             </div>
           </div>
 

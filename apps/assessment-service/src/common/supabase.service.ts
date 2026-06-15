@@ -11,9 +11,7 @@ export class SupabaseService implements OnModuleInit {
     const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY'];
 
     if (!url || !serviceKey) {
-      throw new Error(
-        'SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set',
-      );
+      throw new Error('SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set');
     }
 
     this._admin = createClient(url, serviceKey, {

@@ -79,6 +79,5 @@ export const assessmentApi = {
   submitAttempt: (attemptId: string) =>
     apiPost<SubmitAttemptResponseDto>(`/attempts/${attemptId}/submit`),
 
-  recordTabChange: (attemptId: string) =>
-    apiPost<void>(`/attempts/${attemptId}/tab-change`),
+  recordTabChange: (attemptId: string) => apiPost<void>(`/attempts/${attemptId}/tab-change`),
 };

@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": [".env", ".env.local", "tsconfig.base.json"],
+  "globalDependencies": [".env", ".env.local", "tsconfig.base.json", "tsconfig.paths.json"],
   "globalEnv": [
     "NODE_ENV",
     "LOG_LEVEL",
@@ -22,6 +22,7 @@
       "persistent": true
     },
     "lint": {
+      "dependsOn": ["^build"],
       "outputs": []
     },
     "typecheck": {

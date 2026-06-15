@@ -27,21 +27,29 @@ export function ModuleCard({ module, index }: ModuleCardProps) {
   return (
     <div
       className="rounded-2xl transition-all duration-200"
-      style={isLocked ? {
-        border: '1px solid rgba(255,255,255,0.05)',
-        background: 'rgba(11,15,20,0.4)',
-        opacity: 0.6,
-      } : isCompleted ? {
-        border: '1px solid rgba(0,200,83,0.22)',
-        background: 'linear-gradient(135deg, rgba(14,22,18,0.95) 0%, rgba(11,16,20,0.98) 100%)',
-        boxShadow: '0 0 0 1px rgba(0,200,83,0.06), 0 4px 20px rgba(0,0,0,0.3)',
-      } : {
-        border: '1px solid rgba(201,162,39,0.18)',
-        background: 'linear-gradient(135deg, rgba(15,21,30,0.95) 0%, rgba(11,16,20,0.98) 100%)',
-        boxShadow: isInProgress
-          ? '0 0 0 1px rgba(201,162,39,0.08), 0 4px 20px rgba(0,0,0,0.3)'
-          : '0 1px 3px rgba(0,0,0,0.2)',
-      }}
+      style={
+        isLocked
+          ? {
+              border: '1px solid rgba(255,255,255,0.05)',
+              background: 'rgba(11,15,20,0.4)',
+              opacity: 0.6,
+            }
+          : isCompleted
+            ? {
+                border: '1px solid rgba(0,200,83,0.22)',
+                background:
+                  'linear-gradient(135deg, rgba(14,22,18,0.95) 0%, rgba(11,16,20,0.98) 100%)',
+                boxShadow: '0 0 0 1px rgba(0,200,83,0.06), 0 4px 20px rgba(0,0,0,0.3)',
+              }
+            : {
+                border: '1px solid rgba(201,162,39,0.18)',
+                background:
+                  'linear-gradient(135deg, rgba(15,21,30,0.95) 0%, rgba(11,16,20,0.98) 100%)',
+                boxShadow: isInProgress
+                  ? '0 0 0 1px rgba(201,162,39,0.08), 0 4px 20px rgba(0,0,0,0.3)'
+                  : '0 1px 3px rgba(0,0,0,0.2)',
+              }
+      }
     >
       <button
         type="button"
@@ -58,21 +66,27 @@ export function ModuleCard({ module, index }: ModuleCardProps) {
           className={cn(
             'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold',
           )}
-          style={isLocked ? {
-            border: '1px solid rgba(255,255,255,0.08)',
-            background: 'rgba(11,15,20,0.6)',
-            color: 'rgba(255,255,255,0.25)',
-          } : isCompleted ? {
-            border: '1px solid rgba(0,200,83,0.40)',
-            background: 'rgba(0,200,83,0.12)',
-            color: '#00c853',
-            boxShadow: '0 0 12px rgba(0,200,83,0.20)',
-          } : {
-            border: '1px solid rgba(201,162,39,0.40)',
-            background: 'rgba(201,162,39,0.10)',
-            color: '#c9a227',
-            boxShadow: isInProgress ? '0 0 12px rgba(201,162,39,0.20)' : 'none',
-          }}
+          style={
+            isLocked
+              ? {
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  background: 'rgba(11,15,20,0.6)',
+                  color: 'rgba(255,255,255,0.25)',
+                }
+              : isCompleted
+                ? {
+                    border: '1px solid rgba(0,200,83,0.40)',
+                    background: 'rgba(0,200,83,0.12)',
+                    color: '#00c853',
+                    boxShadow: '0 0 12px rgba(0,200,83,0.20)',
+                  }
+                : {
+                    border: '1px solid rgba(201,162,39,0.40)',
+                    background: 'rgba(201,162,39,0.10)',
+                    color: '#c9a227',
+                    boxShadow: isInProgress ? '0 0 12px rgba(201,162,39,0.20)' : 'none',
+                  }
+          }
         >
           {isLocked ? <Lock className="h-4 w-4" /> : index + 1}
         </div>
@@ -80,7 +94,13 @@ export function ModuleCard({ module, index }: ModuleCardProps) {
         <div className="min-w-0 flex-1">
           <p
             className="mb-0.5 text-xs font-semibold uppercase tracking-widest"
-            style={{ color: isLocked ? 'rgba(255,255,255,0.22)' : isCompleted ? 'rgba(0,200,83,0.7)' : 'rgba(201,162,39,0.65)' }}
+            style={{
+              color: isLocked
+                ? 'rgba(255,255,255,0.22)'
+                : isCompleted
+                  ? 'rgba(0,200,83,0.7)'
+                  : 'rgba(201,162,39,0.65)',
+            }}
           >
             Módulo {index + 1}
           </p>

@@ -53,7 +53,9 @@ function TapeRow({
       style={{ opacity: fadeOpacity }}
     >
       {variant === 'detailed' && (
-        <span className="w-20 shrink-0 text-white/35 tabular-nums">{formatTime(entry.timestamp)}</span>
+        <span className="w-20 shrink-0 text-white/35 tabular-nums">
+          {formatTime(entry.timestamp)}
+        </span>
       )}
       <span
         className={cn(
@@ -63,7 +65,9 @@ function TapeRow({
       >
         {formatPrice(entry.price, 4)}
       </span>
-      <span className="flex-1 text-right tabular-nums text-white/70">{entry.volume.toLocaleString('pt-BR')}</span>
+      <span className="flex-1 text-right tabular-nums text-white/70">
+        {entry.volume.toLocaleString('pt-BR')}
+      </span>
       <span
         className={cn(
           'w-8 text-center text-[10px] font-bold uppercase',
@@ -90,7 +94,10 @@ export const TapeReadingVisualization = memo(function TapeReadingVisualization({
 
   return (
     <div
-      className={cn('max-h-64 overflow-y-auto rounded-lg border border-white/8 bg-bg-base/50', className)}
+      className={cn(
+        'max-h-64 overflow-y-auto rounded-lg border border-white/8 bg-bg-base/50',
+        className,
+      )}
       role="log"
       aria-label="Fluxo de ordens — tape reading"
     >

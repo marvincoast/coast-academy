@@ -122,7 +122,9 @@ export function TopBar(): JSX.Element {
               >
                 {/* Header do menu */}
                 <div className="border-b border-white/8 px-4 py-3">
-                  <p className="text-[10px] uppercase tracking-widest text-white/35 font-semibold">Conta</p>
+                  <p className="text-[10px] uppercase tracking-widest text-white/35 font-semibold">
+                    Conta
+                  </p>
                   <p className="mt-1 font-semibold text-sm text-white truncate">{displayName}</p>
                   <p className="truncate text-xs text-white/40 mt-0.5">{displayEmail}</p>
                 </div>

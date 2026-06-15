@@ -31,10 +31,7 @@ export class CertificateController {
   @Post('issue')
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.CREATED)
-  async issue(
-    @CurrentUser() user: CurrentUserPayload,
-    @Body() dto: IssueCertificateDto,
-  ) {
+  async issue(@CurrentUser() user: CurrentUserPayload, @Body() dto: IssueCertificateDto) {
     return this.certificateService.issueCertificate(user.userId, dto.attemptId);
   }
 
@@ -57,10 +54,7 @@ export class CertificateController {
   /** GET /api/certificates/preview-pdf — prévia PDF (dev; grava no bucket, não no banco) */
   @Get('preview-pdf')
   @UseGuards(AuthGuard)
-  async previewPdf(
-    @CurrentUser() user: CurrentUserPayload,
-    @Res() res: Response,
-  ): Promise<void> {
+  async previewPdf(@CurrentUser() user: CurrentUserPayload, @Res() res: Response): Promise<void> {
     if (!CertificateController.isDevPreviewEnabled()) {
       throw new ForbiddenException('Preview PDF is only available in development');
     }

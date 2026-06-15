@@ -1,7 +1,7 @@
+import { useMutation } from '@tanstack/react-query';
+import { AlertCircle, BookOpen, Bot, Loader2, Send, User } from 'lucide-react';
 import type { FormEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { AlertCircle, BookOpen, Bot, Loader2, Send, User } from 'lucide-react';
-import { useMutation } from '@tanstack/react-query';
 
 import { ApiError } from '@/api/client';
 import { tutorApi, type TutorAnswerDto } from '@/api/tutor.api';
@@ -31,11 +31,10 @@ function CitationsPanel({ citations }: { citations: TutorAnswerDto['citations'] 
         Fontes
       </p>
       {citations.map((c) => (
-        <div
-          key={c.id}
-          className="rounded-lg border border-white/8 bg-bg-base/50 px-3 py-2"
-        >
-          <p className="text-xs font-medium text-brand-gold">[source:{c.id}] {c.sourceLabel}</p>
+        <div key={c.id} className="rounded-lg border border-white/8 bg-bg-base/50 px-3 py-2">
+          <p className="text-xs font-medium text-brand-gold">
+            [source:{c.id}] {c.sourceLabel}
+          </p>
           <p className="mt-0.5 line-clamp-2 text-xs text-white/40">{c.excerpt}</p>
         </div>
       ))}
@@ -52,9 +51,7 @@ function MessageBubble({ msg }: { msg: Message }) {
       <div
         className={cn(
           'flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold',
-          isUser
-            ? 'bg-brand-gold/20 text-brand-gold'
-            : 'bg-state-info/20 text-state-info',
+          isUser ? 'bg-brand-gold/20 text-brand-gold' : 'bg-state-info/20 text-state-info',
         )}
       >
         {isUser ? <User size={15} /> : <Bot size={15} />}
@@ -82,9 +79,7 @@ function MessageBubble({ msg }: { msg: Message }) {
         </div>
 
         {/* Citations */}
-        {!isUser && msg.citations && (
-          <CitationsPanel citations={msg.citations} />
-        )}
+        {!isUser && msg.citations && <CitationsPanel citations={msg.citations} />}
       </div>
     </div>
   );
@@ -113,7 +108,15 @@ export default function TutorPage(): JSX.Element {
       if (err instanceof ApiError) {
         if (err.status === 401) {
           hint = 'Sessão expirada. Faça login novamente.';
-        } else if (err.status === 404 || err.status === 502 || err.status === 503) {
+        } else if (err.status === 503) {
+          try {
+            const body = JSON.parse(err.message) as { message?: string };
+            if (body.message) hint = body.message;
+          } catch {
+            hint =
+              'Modelo LLM não encontrado no Ollama. Rode: docker exec coast-academy-ollama ollama pull qwen2.5:1.5b';
+          }
+        } else if (err.status === 404 || err.status === 502) {
           hint =
             'API do tutor indisponível. Suba a stack com ./infra/scripts/up-local.sh (perfil llm) e confira: docker ps | grep coast-academy-rag';
         } else if (import.meta.env.DEV) {
@@ -232,10 +235,7 @@ export default function TutorPage(): JSX.Element {
 
       {/* Input */}
       <div className="border-t border-white/8 bg-bg-surface px-4 py-4 md:px-8">
-        <form
-          onSubmit={handleSubmit}
-          className="mx-auto flex max-w-2xl items-end gap-3"
-        >
+        <form onSubmit={handleSubmit} className="mx-auto flex max-w-2xl items-end gap-3">
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}

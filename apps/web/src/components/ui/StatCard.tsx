@@ -37,7 +37,13 @@ export function StatCard({
   }
 
   const TrendIcon =
-    trend === 'up' ? TrendingUp : trend === 'down' ? TrendingDown : trend === 'neutral' ? Minus : null;
+    trend === 'up'
+      ? TrendingUp
+      : trend === 'down'
+        ? TrendingDown
+        : trend === 'neutral'
+          ? Minus
+          : null;
 
   const content = (
     <>
@@ -84,7 +90,10 @@ export function StatCard({
       <button
         type="button"
         onClick={onClick}
-        className={cn(cardClass, 'text-left w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold')}
+        className={cn(
+          cardClass,
+          'text-left w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold',
+        )}
         aria-label={`${label}: ${value}`}
       >
         {content}

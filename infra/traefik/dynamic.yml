@@ -5,16 +5,16 @@ http:
         frameDeny: true
         contentTypeNosniff: true
         browserXssFilter: true
-        referrerPolicy: "strict-origin-when-cross-origin"
+        referrerPolicy: 'strict-origin-when-cross-origin'
         stsSeconds: 63072000
         stsIncludeSubdomains: true
         stsPreload: true
         forceSTSHeader: false # ligar quando entrar TLS de verdade
         contentSecurityPolicy: "default-src 'self'; img-src 'self' data: blob: https:; media-src 'self' blob: https:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' http://127.0.0.1:54321 ws://127.0.0.1:54321 http://localhost:54321 ws://localhost:54321 https://*.supabase.co wss://*.supabase.co; font-src 'self' data:; object-src 'none'; frame-ancestors 'none'; base-uri 'self'"
-        permissionsPolicy: "geolocation=(), microphone=(), camera=(), payment=()"
+        permissionsPolicy: 'geolocation=(), microphone=(), camera=(), payment=()'
         customResponseHeaders:
-          X-Powered-By: ""
-          Server: ""
+          X-Powered-By: ''
+          Server: ''
 
     ratelimit:
       rateLimit:

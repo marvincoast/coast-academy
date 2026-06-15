@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { SupabaseService } from '../common/supabase.service';
 
 export interface LessonProgressResult {
@@ -34,10 +29,7 @@ export class ProgressService {
 
   constructor(private readonly supabase: SupabaseService) {}
 
-  async completeLesson(
-    userId: string,
-    lessonId: string,
-  ): Promise<LessonProgressResult> {
+  async completeLesson(userId: string, lessonId: string): Promise<LessonProgressResult> {
     // Verify lesson exists and is published
     const { data: lesson, error: lessonError } = await this.supabase.admin
       .from('lessons')
@@ -102,10 +94,7 @@ export class ProgressService {
     return { lessonId, completed: false };
   }
 
-  async getCourseProgress(
-    userId: string,
-    courseId: string,
-  ): Promise<CourseProgressResult> {
+  async getCourseProgress(userId: string, courseId: string): Promise<CourseProgressResult> {
     // Verify course exists
     const { data: course, error: courseError } = await this.supabase.admin
       .from('courses')
@@ -143,23 +132,14 @@ export class ProgressService {
       }),
     );
 
-    const totalLessons = moduleProgress.reduce(
-      (acc, m) => acc + m.totalLessons,
-      0,
-    );
-    const completedLessons = moduleProgress.reduce(
-      (acc, m) => acc + m.completedLessons,
-      0,
-    );
+    const totalLessons = moduleProgress.reduce((acc, m) => acc + m.totalLessons, 0);
+    const completedLessons = moduleProgress.reduce((acc, m) => acc + m.completedLessons, 0);
 
     return {
       courseId,
       totalLessons,
       completedLessons,
-      progressPct:
-        totalLessons === 0
-          ? 0
-          : Math.round((completedLessons / totalLessons) * 100),
+      progressPct: totalLessons === 0 ? 0 : Math.round((completedLessons / totalLessons) * 100),
       moduleProgress,
     };
   }

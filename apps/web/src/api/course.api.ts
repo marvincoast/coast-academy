@@ -76,14 +76,11 @@ export const courseApi = {
 
   getCourse: (courseId: string) => apiGet<CourseDto>(`/courses/${courseId}`),
 
-  getLesson: (lessonId: string) =>
-    apiGet<LessonDto>(`/courses/lessons/${lessonId}`),
+  getLesson: (lessonId: string) => apiGet<LessonDto>(`/courses/lessons/${lessonId}`),
 
   completeLesson: (lessonId: string) =>
     apiPost<LessonProgressResult>(`/progress/lessons/${lessonId}/complete`),
 
   uncompleteLesson: (lessonId: string) =>
-    apiDelete<{ lessonId: string; completed: boolean }>(
-      `/progress/lessons/${lessonId}/complete`,
-    ),
+    apiDelete<{ lessonId: string; completed: boolean }>(`/progress/lessons/${lessonId}/complete`),
 };

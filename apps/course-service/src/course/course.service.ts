@@ -1,12 +1,6 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 
-import type {
-  ChapterDto,
-  CourseDto,
-  CourseListItemDto,
-  LessonDto,
-  ModuleDto,
-} from './course.dto';
+import type { ChapterDto, CourseDto, CourseListItemDto, LessonDto, ModuleDto } from './course.dto';
 import { SupabaseService } from '../common/supabase.service';
 
 // ─── Raw DB row shapes ────────────────────────────────────────────────────────
@@ -83,7 +77,13 @@ export class CourseService {
     );
 
     return (courses ?? []).map(
-      (c: { id: string; title: string; subtitle: string | null; cover_url: string | null; market: string }) => {
+      (c: {
+        id: string;
+        title: string;
+        subtitle: string | null;
+        cover_url: string | null;
+        market: string;
+      }) => {
         const total = totalMap[c.id] ?? 0;
         const completed = completedMap[c.id] ?? 0;
         return {
@@ -177,15 +177,10 @@ export class CourseService {
   // ─── Private helpers ───────────────────────────────────────────────────────
 
   private extractAllLessonIds(course: RawCourse): string[] {
-    return course.modules.flatMap((m) =>
-      m.chapters.flatMap((c) => c.lessons.map((l) => l.id)),
-    );
+    return course.modules.flatMap((m) => m.chapters.flatMap((c) => c.lessons.map((l) => l.id)));
   }
 
-  private async fetchCompletedSet(
-    userId: string,
-    lessonIds: string[],
-  ): Promise<Set<string>> {
+  private async fetchCompletedSet(userId: string, lessonIds: string[]): Promise<Set<string>> {
     if (lessonIds.length === 0) return new Set();
 
     const { data } = await this.supabase.admin
@@ -240,9 +235,7 @@ export class CourseService {
     return result;
   }
 
-  private async fetchTotalLessonsPerCourse(
-    courseIds: string[],
-  ): Promise<Record<string, number>> {
+  private async fetchTotalLessonsPerCourse(courseIds: string[]): Promise<Record<string, number>> {
     if (courseIds.length === 0) return {};
 
     const counts = await Promise.all(
@@ -268,9 +261,7 @@ export class CourseService {
   }
 
   private mapCourse(raw: RawCourse, completedSet: Set<string>): CourseDto {
-    const sortedModules = [...(raw.modules ?? [])].sort(
-      (a, b) => a.order_index - b.order_index,
-    );
+    const sortedModules = [...(raw.modules ?? [])].sort((a, b) => a.order_index - b.order_index);
 
     let totalLessons = 0;
     let completedLessons = 0;
@@ -278,26 +269,20 @@ export class CourseService {
     const modules: ModuleDto[] = sortedModules.map((m, moduleIdx) => {
       // A module is unlocked if it's the first one, or the previous module is fully complete
       const isUnlocked =
-        moduleIdx === 0 ||
-        this.isModuleComplete(sortedModules[moduleIdx - 1]!, completedSet);
+        moduleIdx === 0 || this.isModuleComplete(sortedModules[moduleIdx - 1]!, completedSet);
 
-      const sortedChapters = [...(m.chapters ?? [])].sort(
-        (a, b) => a.order_index - b.order_index,
-      );
+      const sortedChapters = [...(m.chapters ?? [])].sort((a, b) => a.order_index - b.order_index);
 
       let modTotal = 0;
       let modCompleted = 0;
 
       const chapters: ChapterDto[] = sortedChapters.map((ch) => {
-        const sortedLessons = [...(ch.lessons ?? [])].sort(
-          (a, b) => a.order_index - b.order_index,
-        );
+        const sortedLessons = [...(ch.lessons ?? [])].sort((a, b) => a.order_index - b.order_index);
 
         const lessons: LessonDto[] = sortedLessons.map((l, lessonIdx) => {
           const completed = completedSet.has(l.id);
           const isLocked =
-            !isUnlocked ||
-            (lessonIdx > 0 && !completedSet.has(sortedLessons[lessonIdx - 1]!.id));
+            !isUnlocked || (lessonIdx > 0 && !completedSet.has(sortedLessons[lessonIdx - 1]!.id));
 
           if (completed) modCompleted++;
           modTotal++;
@@ -343,8 +328,7 @@ export class CourseService {
         chapters,
         completedLessons: modCompleted,
         totalLessons: modTotal,
-        progressPct:
-          modTotal === 0 ? 0 : Math.round((modCompleted / modTotal) * 100),
+        progressPct: modTotal === 0 ? 0 : Math.round((modCompleted / modTotal) * 100),
       };
     });
 
@@ -358,16 +342,11 @@ export class CourseService {
       modules,
       completedLessons,
       totalLessons,
-      progressPct:
-        totalLessons === 0
-          ? 0
-          : Math.round((completedLessons / totalLessons) * 100),
+      progressPct: totalLessons === 0 ? 0 : Math.round((completedLessons / totalLessons) * 100),
     };
   }
 
   private isModuleComplete(mod: RawModule, completedSet: Set<string>): boolean {
-    return mod.chapters.every((ch) =>
-      ch.lessons.every((l) => completedSet.has(l.id)),
-    );
+    return mod.chapters.every((ch) => ch.lessons.every((l) => completedSet.has(l.id)));
   }
 }

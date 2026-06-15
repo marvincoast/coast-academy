@@ -9,7 +9,7 @@ sed -i 's/\r$//' "$ROOT/infra/scripts"/*.sh 2>/dev/null || true
 SERVICE_NAME="${OTEL_SMOKE_SERVICE:-obs-t07-smoke}"
 TEMPO_URL="${TEMPO_URL:-http://localhost:3200}"
 ALLOY_URL="${ALLOY_URL:-http://localhost:12345}"
-SMOKE_DIR="$ROOT/infra/scripts/otel-smoke"
+SMOKE_DIR="$ROOT/packages/otel-smoke"
 
 docker_ok() {
   docker ps >/dev/null 2>&1
@@ -44,18 +44,10 @@ fi
 echo "  rede: ${NET}"
 
 echo ""
-echo "==> deps otel-smoke (uma vez)"
-if [[ ! -d "$SMOKE_DIR/node_modules/@opentelemetry/sdk-node" ]]; then
-  if command -v npm >/dev/null 2>&1; then
-    (cd "$SMOKE_DIR" && npm install --no-audit --no-fund)
-  else
-    echo "npm nao encontrado no host; instalando deps via container node..."
-    docker run --rm \
-      -v "$SMOKE_DIR:/app" \
-      -w /app \
-      node:22-bookworm-slim \
-      npm install --no-audit --no-fund
-  fi
+echo "==> deps otel-smoke (pnpm workspace)"
+if [[ ! -d "$ROOT/node_modules/@opentelemetry/sdk-node" ]]; then
+  echo "ERRO: dependencias OTEL nao encontradas. Rode: pnpm install"
+  exit 1
 fi
 
 echo ""
@@ -63,7 +55,8 @@ echo "==> envia trace OTLP/HTTP (alloy:4318)"
 docker run --rm --network "$NET" \
   -e OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4318 \
   -e OTEL_SMOKE_SERVICE="$SERVICE_NAME" \
-  -v "$SMOKE_DIR:/app:ro" \
+  -v "$ROOT/node_modules:/app/node_modules:ro" \
+  -v "$SMOKE_DIR/smoke.cjs:/app/smoke.cjs:ro" \
   -w /app \
   node:22-bookworm-slim \
   node smoke.cjs

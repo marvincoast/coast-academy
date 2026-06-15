@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseUUIDPipe,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Delete, Get, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../common/auth.guard';
 import { CurrentUser, CurrentUserPayload } from '../common/current-user.decorator';
 import { ProgressService } from './progress.service';

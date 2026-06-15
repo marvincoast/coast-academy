@@ -1,5 +1,5 @@
-import { BookOpen, Lock, Trophy } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import { BookOpen, Lock, Trophy } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -14,7 +14,11 @@ import { cn } from '@/lib/cn';
 export default function ProvaFinalPage(): JSX.Element {
   const { t } = useTranslation('course');
   const navigate = useNavigate();
-  const { data: course, isLoading: courseLoading, isError: courseError } = useCourse(COAST_COURSE_ID);
+  const {
+    data: course,
+    isLoading: courseLoading,
+    isError: courseError,
+  } = useCourse(COAST_COURSE_ID);
 
   const progressPct = course?.progressPct ?? 0;
   const courseComplete = progressPct >= 100;
@@ -59,8 +63,12 @@ export default function ProvaFinalPage(): JSX.Element {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/5 border border-white/10">
             <Lock className="h-8 w-8 text-white/35" aria-hidden="true" />
           </div>
-          <h1 className="text-2xl font-display font-bold text-white">{t('finalExam.lockedTitle')}</h1>
-          <p className="mt-2 text-sm text-white/50 leading-relaxed">{t('finalExam.lockedDescription')}</p>
+          <h1 className="text-2xl font-display font-bold text-white">
+            {t('finalExam.lockedTitle')}
+          </h1>
+          <p className="mt-2 text-sm text-white/50 leading-relaxed">
+            {t('finalExam.lockedDescription')}
+          </p>
         </div>
 
         <GlassCard depth="surface" className="p-6 space-y-4">
@@ -98,9 +106,15 @@ export default function ProvaFinalPage(): JSX.Element {
 
   if (assessmentError || !assessment) {
     return (
-      <GlassCard variant="gold" depth="surface" className="mx-auto max-w-lg p-8 text-center space-y-4">
+      <GlassCard
+        variant="gold"
+        depth="surface"
+        className="mx-auto max-w-lg p-8 text-center space-y-4"
+      >
         <p className="text-sm text-white/70">{t('finalExam.notConfigured')}</p>
-        <p className="text-xs text-white/40 font-mono">./infra/scripts/seed-db.sh (02_questions.sql)</p>
+        <p className="text-xs text-white/40 font-mono">
+          ./infra/scripts/seed-db.sh (02_questions.sql)
+        </p>
         <Link to="/curso" className="text-sm text-brand-gold underline underline-offset-2">
           {t('finalExam.goToCourse')}
         </Link>
@@ -110,8 +124,7 @@ export default function ProvaFinalPage(): JSX.Element {
 
   const hours = Math.floor(assessment.timeLimitSeconds / 3600);
   const minutes = Math.floor((assessment.timeLimitSeconds % 3600) / 60);
-  const timeLabel =
-    hours > 0 ? `${hours}h ${minutes}min` : `${minutes} min`;
+  const timeLabel = hours > 0 ? `${hours}h ${minutes}min` : `${minutes} min`;
 
   return (
     <div className="mx-auto max-w-xl space-y-6 animate-scale-in">
@@ -125,9 +138,7 @@ export default function ProvaFinalPage(): JSX.Element {
 
       <GlassCard variant="gold" depth="surface" className="p-6 space-y-4">
         <ul className="space-y-2 text-sm text-white/60">
-          <li>
-            {t('finalExam.metaQuestions', { count: assessment.questionCount })}
-          </li>
+          <li>{t('finalExam.metaQuestions', { count: assessment.questionCount })}</li>
           <li>{t('finalExam.metaTime', { time: timeLabel })}</li>
           <li>
             {t('finalExam.metaPassing', {

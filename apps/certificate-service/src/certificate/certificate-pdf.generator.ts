@@ -1,15 +1,10 @@
 import PDFDocument from 'pdfkit';
 
-
-
 type PdfKitDocument = InstanceType<typeof PDFDocument>;
-
-
 
 /** Alinhado ao CertificatePreviewCard / design tokens Coast Academy */
 
 const COLORS = {
-
   bgBase: '#0B0F14',
 
   gold: '#C9A227',
@@ -25,13 +20,9 @@ const COLORS = {
   textSecondary: '#A6B0BF',
 
   borderSubtle: '#2a3544',
-
 } as const;
 
-
-
 export interface CertificatePdfInput {
-
   fullName: string;
 
   courseTitle: string;
@@ -45,43 +36,29 @@ export interface CertificatePdfInput {
   issuerName: string;
 
   qrPngBuffer: Buffer;
-
 }
 
-
-
 function formatIssuedDate(iso: string): string {
-
   const d = new Date(iso);
 
   if (Number.isNaN(d.getTime())) return iso;
 
   return d.toLocaleDateString('pt-BR', {
-
     day: '2-digit',
 
     month: 'long',
 
     year: 'numeric',
-
   });
-
 }
 
-
-
 function fillPageBackground(doc: PdfKitDocument): void {
-
   const { width, height } = doc.page;
 
   doc.rect(0, 0, width, height).fill(COLORS.bgBase);
-
 }
 
-
-
 function drawGoldFrame(doc: PdfKitDocument): void {
-
   const { width, height } = doc.page;
 
   const m = 28;
@@ -99,33 +76,28 @@ function drawGoldFrame(doc: PdfKitDocument): void {
   doc.opacity(1);
 
   doc.restore();
-
 }
 
-
-
 function drawTopAccent(doc: PdfKitDocument): void {
-
   const { width } = doc.page;
 
   doc.save();
 
   doc.lineWidth(2).strokeColor(COLORS.gold).opacity(0.85);
 
-  doc.moveTo(width * 0.2, 36).lineTo(width * 0.8, 36).stroke();
+  doc
+    .moveTo(width * 0.2, 36)
+    .lineTo(width * 0.8, 36)
+    .stroke();
 
   doc.opacity(1);
 
   doc.restore();
-
 }
-
-
 
 /** Ícone medalha (equivalente ao Award do preview) */
 
 function drawAwardIcon(doc: PdfKitDocument, cx: number, cy: number, box: number): void {
-
   const half = box / 2;
 
   doc.save();
@@ -149,19 +121,13 @@ function drawAwardIcon(doc: PdfKitDocument, cx: number, cy: number, box: number)
     .stroke();
 
   doc.restore();
-
 }
-
-
 
 /** Gera PDF A4 retrato com o mesmo visual escuro da prévia web. */
 
 export function generateCertificatePdfBuffer(input: CertificatePdfInput): Promise<Buffer> {
-
   return new Promise((resolve, reject) => {
-
     const doc = new PDFDocument({
-
       size: 'A4',
 
       layout: 'portrait',
@@ -169,16 +135,11 @@ export function generateCertificatePdfBuffer(input: CertificatePdfInput): Promis
       margin: 0,
 
       info: {
-
         Title: `Certificado Coast Academy — ${input.fullName}`,
 
         Author: input.issuerName,
-
       },
-
     });
-
-
 
     const chunks: Buffer[] = [];
 
@@ -188,21 +149,15 @@ export function generateCertificatePdfBuffer(input: CertificatePdfInput): Promis
 
     doc.on('error', reject);
 
-
-
     fillPageBackground(doc);
 
     drawGoldFrame(doc);
 
     drawTopAccent(doc);
 
-
-
     const { width } = doc.page;
 
     const centerOpts = { align: 'center' as const, width };
-
-
 
     let y = 72;
 
@@ -212,15 +167,11 @@ export function generateCertificatePdfBuffer(input: CertificatePdfInput): Promis
 
     y += iconSize + 20;
 
-
-
     doc.font('Helvetica-Bold').fontSize(9).fillColor(COLORS.gold);
 
     doc.text('COAST ACADEMY', 0, y, { ...centerOpts, characterSpacing: 2.5 });
 
     y += 14;
-
-
 
     doc.font('Helvetica').fontSize(9).fillColor(COLORS.textMuted);
 
@@ -228,15 +179,11 @@ export function generateCertificatePdfBuffer(input: CertificatePdfInput): Promis
 
     y += 36;
 
-
-
     doc.font('Helvetica').fontSize(8).fillColor(COLORS.textMuted);
 
     doc.text('CERTIFICAMOS QUE', 0, y, { ...centerOpts, characterSpacing: 1 });
 
     y += 22;
-
-
 
     doc.font('Helvetica-Bold').fontSize(28).fillColor(COLORS.textPrimary);
 
@@ -244,41 +191,34 @@ export function generateCertificatePdfBuffer(input: CertificatePdfInput): Promis
 
     y += doc.heightOfString(input.fullName, { width: width - 96 }) + 20;
 
-
-
     doc.font('Helvetica').fontSize(11).fillColor(COLORS.textSecondary);
 
     doc.text('concluiu com êxito o curso', 0, y, centerOpts);
 
     y += 20;
 
-
-
     doc.font('Helvetica-Bold').fontSize(13).fillColor(COLORS.goldSoft);
 
     doc.text(input.courseTitle, 56, y, {
-
       align: 'center',
 
       width: width - 112,
-
     });
 
     y += doc.heightOfString(input.courseTitle, { width: width - 112 }) + 24;
-
-
 
     doc.font('Helvetica').fontSize(10).fillColor(COLORS.textMuted);
 
     doc.text(`Emitido em ${formatIssuedDate(input.issuedAt)}`, 0, y, centerOpts);
 
-
-
     const footerY = doc.page.height - 130;
 
-    doc.moveTo(56, footerY).lineTo(width - 56, footerY).lineWidth(0.5).strokeColor(COLORS.borderSubtle).stroke();
-
-
+    doc
+      .moveTo(56, footerY)
+      .lineTo(width - 56, footerY)
+      .lineWidth(0.5)
+      .strokeColor(COLORS.borderSubtle)
+      .stroke();
 
     const qrSize = 72;
 
@@ -288,15 +228,11 @@ export function generateCertificatePdfBuffer(input: CertificatePdfInput): Promis
 
     doc.image(input.qrPngBuffer, qrX, qrY, { width: qrSize, height: qrSize });
 
-
-
     const leftX = 56;
 
     const leftW = qrX - leftX - 16;
 
     let footTextY = footerY + 18;
-
-
 
     doc.font('Helvetica').fontSize(7).fillColor(COLORS.textMuted);
 
@@ -304,40 +240,26 @@ export function generateCertificatePdfBuffer(input: CertificatePdfInput): Promis
 
     footTextY += 11;
 
-
-
     doc.font('Helvetica-Bold').fontSize(10).fillColor(COLORS.textSecondary);
 
     doc.text(input.issuerName, leftX, footTextY, { width: leftW });
 
     footTextY += 18;
 
-
-
     doc.font('Helvetica').fontSize(7).fillColor(COLORS.textMuted);
 
     doc.text(`${input.verificationHash.slice(0, 24)}…`, leftX, footTextY, { width: leftW });
 
-
-
     doc.font('Helvetica').fontSize(7).fillColor(COLORS.textMuted);
 
     doc.text(input.verifyUrl, 56, doc.page.height - 48, {
-
       align: 'center',
 
       width: width - 112,
 
       link: input.verifyUrl,
-
     });
 
-
-
     doc.end();
-
   });
-
 }
-
-

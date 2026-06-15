@@ -5,8 +5,8 @@ import { RouterProvider } from 'react-router-dom';
 import { useAuthListener } from '@/hooks/use-auth.js';
 import '@/i18n/index.js';
 import { queryClient } from '@/lib/query-client.js';
-import { router } from '@/router/index.js';
 import { isSentryEnabled, Sentry } from '@/lib/sentry.js';
+import { router } from '@/router/index.js';
 
 /**
  * Inicializa o listener de auth e expoe o contexto global.
@@ -47,7 +47,9 @@ function AppShell(): JSX.Element {
 export function App(): JSX.Element {
   if (isSentryEnabled()) {
     return (
-      <Sentry.ErrorBoundary fallback={<p className="p-4 text-sm text-white/70">Algo deu errado.</p>}>
+      <Sentry.ErrorBoundary
+        fallback={<p className="p-4 text-sm text-white/70">Algo deu errado.</p>}
+      >
         <AppShell />
       </Sentry.ErrorBoundary>
     );
