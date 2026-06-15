@@ -121,9 +121,11 @@ export function LiveOrderFlowTape({
     return () => window.clearTimeout(timerId);
   }, [pushTick]);
 
+  const firstRowId = rows[0]?.id;
+
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [rows[0]?.id]);
+  }, [firstRowId]);
 
   return (
     <div

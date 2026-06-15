@@ -89,7 +89,9 @@ export function LoginVideoBackground({ className }: LoginVideoBackgroundProps): 
         playsInline
         preload="auto"
         src={backgroundVideo}
-      />
+      >
+        <track kind="captions" label="Vídeo decorativo sem fala" />
+      </video>
 
       {/* Overlay escuro para legibilidade do formulário */}
       <div
