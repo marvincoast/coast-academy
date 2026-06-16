@@ -24,6 +24,23 @@ package-lock.json
 npm-shrinkwrap.json
 *.docker-build.log
 
+# Artefatos acidentais de saída Docker BuildKit na raiz (redirecionamento incorreto)
+/=
+/CACHED
+/Containers
+/exporting
+/reading
+/resolve
+/transferring
+/\[base
+/\[internal\]
+/FETCH_HEAD
+/Esta
+/Este
+/Procedimentos
+/Serve
+/Versão
+
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.recommended.json

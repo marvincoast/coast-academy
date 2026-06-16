@@ -201,6 +201,15 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────────
   # Stage 6 — Docker Compose validation
   # ──────────────────────────────────────────────────────────────────────────────
+  repo-hygiene:
+    name: Repo hygiene (no root artifacts)
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reject Docker build residue at repo root
+        run: bash infra/scripts/verify-no-root-artifacts.sh
+
   docker-compose-validate:
     name: Validate docker-compose
     runs-on: ubuntu-latest
