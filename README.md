@@ -2,7 +2,7 @@
 
 > **Projeto de Aplicação — Pós-Graduação PUCPR Digital**  
 > **Curso:** Arquitetura de Soluções: Aplicações Inteligentes e Estratégicas  
-> **Título da Entrega:** *Plataforma Inteligente e Inovadora Voltada ao Mercado Financeiro*  
+> **Título da Entrega:** _Plataforma Inteligente e Inovadora Voltada ao Mercado Financeiro_  
 > **Autor:** Marvin Andersen dos Santos Costa
 
 Plataforma de ensino interativa para **tape reading** e **análise de fluxo de ordens do Dólar Futuro (B3)** — com simulados anti-cheat, prova final, certificados verificáveis, ranking sazonal, observabilidade LGTM/OpenTelemetry e tutor inteligente com IA (RAG + `pgvector` + guardrails regulatórios).
@@ -96,13 +96,13 @@ Não commite `package-lock.json` nem `yarn.lock` — estão no `.gitignore`.
 
 ### Atalhos na raiz
 
-| Script / Comando   | Plataforma          | Destino                                |
-| ------------------ | ------------------- | -------------------------------------- |
-| `start.bat`        | Windows (via WSL 2) | `infra/scripts/setup-and-run.ps1`      |
-| `bash start.sh`    | Linux / WSL 2       | `infra/scripts/setup-and-run.sh`       |
-| `pnpm setup`       | Linux / WSL 2       | Equivalente a `bash start.sh`          |
-| `pnpm start:all`   | Linux / WSL 2       | `infra/scripts/start-all.sh`           |
-| `pnpm start:local` | Linux / WSL 2       | `infra/scripts/start-local.sh`         |
+| Script / Comando   | Plataforma          | Destino                           |
+| ------------------ | ------------------- | --------------------------------- |
+| `start.bat`        | Windows (via WSL 2) | `infra/scripts/setup-and-run.ps1` |
+| `bash start.sh`    | Linux / WSL 2       | `infra/scripts/setup-and-run.sh`  |
+| `pnpm setup`       | Linux / WSL 2       | Equivalente a `bash start.sh`     |
+| `pnpm start:all`   | Linux / WSL 2       | `infra/scripts/start-all.sh`      |
+| `pnpm start:local` | Linux / WSL 2       | `infra/scripts/start-local.sh`    |
 
 ---
 
@@ -126,19 +126,19 @@ bash start.sh
 
 ### URLs locais
 
-| Serviço                       | URL                                         | Observação                        |
-| ----------------------------- | ------------------------------------------- | --------------------------------- |
-| **Aplicação (Web)**           | http://localhost                            | Login por Magic Link              |
-| **Mailpit (Magic Link)**      | http://localhost:54324                      | Caixa de e-mails de login local   |
-| **Supabase Studio**           | http://localhost:54323                      | Banco PostgreSQL + `pgvector`     |
-| **Supabase API (Kong)**       | http://localhost:54321                      | Gateway Auth / Storage / REST     |
-| **Traefik Dashboard**         | http://localhost:8081                       | API Gateway (rotas e middlewares) |
-| **Grafana (Dashboards)**      | http://localhost:3001                       | `admin` / `admin`                 |
-| **Uptime Kuma**               | http://localhost:3002                       | Monitoramento de disponibilidade  |
-| **Prometheus**                | http://localhost:9090                       | Métricas `/metrics`               |
-| **Grafana Alloy (OTEL UI)**   | http://localhost:12345                      | Coletor OpenTelemetry / Loki      |
-| **OpenTelemetry OTLP**        | `localhost:4317` (gRPC) / `:4318` (HTTP)    | Ingestão de traces OTLP           |
-| **Loki / Tempo (readiness)**  | `:3100/ready` / `:3200/ready`               | Logs e traces distribuídos        |
+| Serviço                      | URL                                      | Observação                        |
+| ---------------------------- | ---------------------------------------- | --------------------------------- |
+| **Aplicação (Web)**          | http://localhost                         | Login por Magic Link              |
+| **Mailpit (Magic Link)**     | http://localhost:54324                   | Caixa de e-mails de login local   |
+| **Supabase Studio**          | http://localhost:54323                   | Banco PostgreSQL + `pgvector`     |
+| **Supabase API (Kong)**      | http://localhost:54321                   | Gateway Auth / Storage / REST     |
+| **Traefik Dashboard**        | http://localhost:8081                    | API Gateway (rotas e middlewares) |
+| **Grafana (Dashboards)**     | http://localhost:3001                    | `admin` / `admin`                 |
+| **Uptime Kuma**              | http://localhost:3002                    | Monitoramento de disponibilidade  |
+| **Prometheus**               | http://localhost:9090                    | Métricas `/metrics`               |
+| **Grafana Alloy (OTEL UI)**  | http://localhost:12345                   | Coletor OpenTelemetry / Loki      |
+| **OpenTelemetry OTLP**       | `localhost:4317` (gRPC) / `:4318` (HTTP) | Ingestão de traces OTLP           |
+| **Loki / Tempo (readiness)** | `:3100/ready` / `:3200/ready`            | Logs e traces distribuídos        |
 
 Fluxo de login: informe qualquer e-mail em `http://localhost` → abra o link em **Mailpit** (`http://localhost:54324`) → entre no dashboard.
 
@@ -155,15 +155,15 @@ pnpm --filter @coast-academy/web dev
 
 ## Comandos úteis
 
-| Comando                           | Descrição                                  |
-| --------------------------------- | ------------------------------------------ |
-| `bash start.sh` / `start.bat`     | Setup completo + App + Observabilidade     |
-| `pnpm start:local`                | Sobe apenas a aplicação (sem LGTM)         |
-| `pnpm build`                      | Build de todos os pacotes                  |
-| `pnpm test`                       | Testes unitários                           |
-| `pnpm test:e2e`                   | Testes E2E (Playwright em `apps/web`)      |
-| `pnpm lint` / `pnpm typecheck`    | Qualidade e checagem estática de tipos     |
-| `./infra/scripts/verify-stack.sh` | Smoke test dos serviços                    |
+| Comando                           | Descrição                              |
+| --------------------------------- | -------------------------------------- |
+| `bash start.sh` / `start.bat`     | Setup completo + App + Observabilidade |
+| `pnpm start:local`                | Sobe apenas a aplicação (sem LGTM)     |
+| `pnpm build`                      | Build de todos os pacotes              |
+| `pnpm test`                       | Testes unitários                       |
+| `pnpm test:e2e`                   | Testes E2E (Playwright em `apps/web`)  |
+| `pnpm lint` / `pnpm typecheck`    | Qualidade e checagem estática de tipos |
+| `./infra/scripts/verify-stack.sh` | Smoke test dos serviços                |
 
 ---
 
