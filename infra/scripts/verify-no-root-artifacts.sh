@@ -33,6 +33,7 @@ ALLOWED_ROOT_FILES=(
   .nvmrc
   .prettierignore
   .prettierrc
+  LICENSE
   README.md
   commitlint.config.cjs
   docker-compose.obs.yml
@@ -40,7 +41,7 @@ ALLOWED_ROOT_FILES=(
   package.json
   pnpm-lock.yaml
   pnpm-workspace.yaml
-  start-all.sh
+  start.bat
   start.sh
   tsconfig.base.json
   tsconfig.paths.json

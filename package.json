@@ -10,6 +10,7 @@
   },
   "packageManager": "pnpm@9.12.0",
   "scripts": {
+    "setup": "bash infra/scripts/setup-and-run.sh",
     "start:local": "bash infra/scripts/start-local.sh",
     "start:all": "bash infra/scripts/start-all.sh",
     "sync:env": "bash infra/scripts/sync-env-from-supabase.sh",

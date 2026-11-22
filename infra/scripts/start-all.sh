@@ -22,9 +22,9 @@ bash infra/scripts/start-local.sh "$@"
 log "Iniciando stack de observabilidade (obs-up.sh)..."
 bash infra/scripts/obs-up.sh
 
-# 3. Executa a deduplicação de monitores no Uptime Kuma
+# 3. Executa a deduplicação de monitores no Uptime Kuma (opcional/não-bloqueante)
 log "Executando deduplicação de monitores do Uptime Kuma..."
-bash infra/scripts/deduplicate-kuma.sh
+bash infra/scripts/deduplicate-kuma.sh || true
 
 echo ""
 echo "============================================================"

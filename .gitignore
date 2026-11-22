@@ -10,7 +10,7 @@ coverage
 playwright-report
 test-results
 .turbo
-.tsbuildinfo
+*.tsbuildinfo
 
 .env
 .env.*
@@ -24,7 +24,7 @@ package-lock.json
 npm-shrinkwrap.json
 *.docker-build.log
 
-# Artefatos acidentais de saída Docker BuildKit na raiz (redirecionamento incorreto)
+# Artefatos acidentais de saída Docker BuildKit (raiz e subpastas)
 /=
 /CACHED
 /Containers
@@ -40,11 +40,26 @@ npm-shrinkwrap.json
 /Procedimentos
 /Serve
 /Versão
+apps/*/=
+apps/*/CACHED
+apps/*/exporting
+apps/*/naming
+apps/*/prereqs
+apps/*/resolving
+apps/*/unpacking
 
+# IDEs e assistentes de IA locais
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.recommended.json
-.idea
+.idea/
+.cursor/
+.kiro/
+.claude/
+.antigravity/
+.specify/
+!.specify/memory/
+!.specify/specs/
 
 infra/backups/*
 !infra/backups/.gitkeep
@@ -54,9 +69,3 @@ supabase/.temp
 supabase/docker
 
 certificates/*.pdf
-
-# Cursor & Spec Kit temporaries
-.cursor/
-.specify/
-!.specify/memory/
-!.specify/specs/
