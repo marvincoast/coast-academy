@@ -141,7 +141,9 @@ jobs:
           name: web-dist
           path: apps/web/dist
       - name: Install Playwright browsers
-        run: pnpm --filter @coast-academy/web exec playwright install --with-deps chromium firefox
+        run: |
+          pnpm --filter @coast-academy/web exec playwright install chromium firefox
+          pnpm --filter @coast-academy/web exec playwright install-deps chromium firefox || true
       - name: Run E2E tests
         run: pnpm --filter @coast-academy/web test:e2e
       - uses: actions/upload-artifact@v4
@@ -203,7 +205,7 @@ jobs:
             -f infra/docker/Dockerfile.web \
             -t coast-academy-web:ci .
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: coast-academy-web:ci
           format: sarif
